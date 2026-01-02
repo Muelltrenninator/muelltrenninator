@@ -1,0 +1,279 @@
+{
+    "@@locale": "en",
+    "quote": "“{content}”",
+    "@quote": {
+        "description": "A quotation format that wraps the content in quotation marks.",
+        "context": "global",
+        "placeholders": {
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "retry": "Retry",
+    "@retry": {
+        "description": "Button text to retry accessing the camera.",
+        "context": "global"
+    },
+    "delete": "Delete",
+    "@delete": {
+        "description": "Button text to delete an item.",
+        "context": "global"
+    },
+    "invite": "Hello {username} 👋\nYou're invited to participate in a crowdsource! Log right in, an account has already been created for you:\n\n- {host}{projectCount, plural, =0{} other{\n- Member of: {projects}}}\n- Login code: `{code}` (DO NOT SHARE!)\n\nHelp us achieve our goals. See you there soon!",
+    "@invite": {
+        "description": "Invitation message sent to users to invite them to a project on Datly.",
+        "context": "global",
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "johndoe"
+            },
+            "host": {
+                "type": "String",
+                "example": "https://datly.example.com"
+            },
+            "projectCount": {
+                "type": "int",
+                "example": "3"
+            },
+            "projects": {
+                "type": "String",
+                "example": "Wildlife Survey, Urban Noise Mapping, Air Quality Monitoring"
+            },
+            "code": {
+                "type": "String",
+                "example": "A1B2C3D4"
+            }
+        }
+    },
+    "loginError": "Server unreachable. Please check your internet connection.",
+    "@loginError": {
+        "description": "Error message shown when the server cannot be reached during login.",
+        "context": "login"
+    },
+    "loginUnknown": "Unknown login code.",
+    "@loginUnknown": {
+        "description": "Error message shown when the provided login code is not recognized.",
+        "context": "login"
+    },
+    "loginCodeLabel": "Login code",
+    "@loginCodeLabel": {
+        "description": "Label for the login code input field.",
+        "context": "login"
+    },
+    "loginNewHere": "New here?",
+    "@loginNewHere": {
+        "description": "Text prompting new users to request a login code.",
+        "context": "login"
+    },
+    "loginNewHereRequest": "Request a code.",
+    "@loginNewHereRequest": {
+        "description": "Link text for new users to request a login code.",
+        "context": "login"
+    },
+    "loginPrivacyPolicy": "Privacy Policy",
+    "@loginPrivacyPolicy": {
+        "description": "Link text for the app's privacy policy. This string is formatted in MLA title case.",
+        "context": "login"
+    },
+    "loginTermsOfService": "Terms of Service",
+    "@loginTermsOfService": {
+        "description": "Link text for the app's terms of service. This string is formatted in MLA title case.",
+        "context": "login"
+    },
+    "cameraNotFound": "No camera found",
+    "@cameraNotFound": {
+        "description": "Shown when no camera device is found on the system or the permission is denied.",
+        "context": "upload:error"
+    },
+    "cameraErrorPermission": "Access to the camera was denied.",
+    "@cameraErrorPermission": {
+        "description": "Explains that access to the camera was denied by the user.",
+        "context": "upload:error"
+    },
+    "cameraErrorUnavailable": "No camera available on this device.",
+    "@cameraErrorUnavailable": {
+        "description": "Explains that no camera is available on the device.",
+        "context": "upload:error"
+    },
+    "selectCamera": "Select camera",
+    "@selectCamera": {
+        "description": "Title for the camera selection dialog.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionBack": "Back Camera",
+    "@selectCameraDescriptionBack": {
+        "description": "The word 'Back' used to describe a camera facing away from the user. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionFront": "Front Camera",
+    "@selectCameraDescriptionFront": {
+        "description": "The word 'Front' used to describe a camera facing towards the user. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionExternal": "External Camera",
+    "@selectCameraDescriptionExternal": {
+        "description": "The word 'External' used to describe an external camera. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "selectProject": "Select project",
+    "@selectProject": {
+        "description": "Title for the project selection dialog.",
+        "context": "upload:projectSelection"
+    },
+    "consentTitle": "Image submission consent",
+    "@consentTitle": {
+        "description": "Title for the image submission consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentVersion": "Version: {version}, {date}",
+    "@consentVersion": {
+        "description": "Shows the version of the consent form being presented to the user.",
+        "context": "upload:consent",
+        "placeholders": {
+            "version": {
+                "type": "String",
+                "example": "1.0"
+            },
+            "date": {
+                "type": "String",
+                "example": "June 15, 2024"
+            }
+        }
+    },
+    "consentExplanation1": "To store, process, and eventually publish your image directly or indirectly, we need your explicit consent. Your username will be associated with the image submission and may be visible in future publications. You may withdraw your consent at any time by deleting your submission via your profile; this will only not include the image in the next data export, but already publicized images may cannot be fully deleted until the next publication. If you do not agree, please do not proceed with the submission.",
+    "@consentExplanation1": {
+        "description": "Explanation text for the image submission consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentExplanation2": "By providing your consent, you confirm that you have the necessary rights to submit this image and that it does not infringe upon the rights of any third parties. You may not submit images depicting other people, topics unrelated to the project, or content that violates legal rights in your jurisdiction or Germany. You also agree that the image may be used for research, analysis, and publication purposes related to the project you are contributing to.",
+    "@consentExplanation2": {
+        "description": "Additional explanation text for the image submission consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentCheckbox": "I confirm that the image complies with these conditions",
+    "@consentCheckbox": {
+        "description": "Label for the consent confirmation checkbox in the consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentPolicy": "I have read and agree to the {privacyPolicy} and {termsOfService}",
+    "@consentPolicy": {
+        "description": "Text for the consent checkbox including links to the privacy policy and terms of service.",
+        "context": "upload:consent",
+        "placeholders": {
+            "privacyPolicy": {
+                "type": "String",
+                "description": "See key `loginPrivacyPolicy`",
+                "example": "Privacy Policy"
+            },
+            "termsOfService": {
+                "type": "String",
+                "description": "See key `loginTermsOfService`",
+                "example": "Terms of Service"
+            }
+        }
+    },
+    "consentSignature": "Electronic signature",
+    "@consentSignature": {
+        "description": "Label for the signature input field in the consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentSignatureName": "John Doe",
+    "@consentSignatureName": {
+        "description": "Example name shown as placeholder in the signature input field.",
+        "context": "upload:consent"
+    },
+    "consentSignatureLegal": "This signature is legally binding. Entering an incorrect name makes the submission invalid and may lead to suspension of the account '{username}'.",
+    "@consentSignatureLegal": {
+        "description": "Legal disclaimer for the electronic signature input field in the consent dialog.",
+        "context": "upload:consent",
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "johndoe"
+            }
+        }
+    },
+    "consentAge": "I am at least 16 years old",
+    "@consentAge": {
+        "description": "Label for the age confirmation checkbox in the consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentSignatureParental": "Electronic signature of guardian",
+    "@consentSignatureParental": {
+        "description": "Label for the signature input field for guardian in the consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentParental": "I am the guardian of the minor, have read the above conditions and agree them",
+    "@consentParental": {
+        "description": "Label for the guardian consent checkbox in the consent dialog.",
+        "context": "upload:consent"
+    },
+    "consentButton": "Give consent and submit",
+    "@consentButton": {
+        "description": "Button text to give consent and submit the image.",
+        "context": "upload:consent"
+    },
+    "noSubmissions": "No submissions yet.",
+    "@noSubmissions": {
+        "description": "Shown when there are no submissions available for the selected project.",
+        "context": "submissions"
+    },
+    "submissionStatusPending": "Pending",
+    "@submissionStatusPending": {
+        "description": "The status 'Pending' for a submission. This string is formatted in MLA title case.",
+        "context": "submissions:status"
+    },
+    "submissionStatusAccepted": "Accepted",
+    "@submissionStatusAccepted": {
+        "description": "The status 'Accepted' for a submission. This string is formatted in MLA title case.",
+        "context": "submissions:status"
+    },
+    "submissionStatusRejected": "Rejected",
+    "@submissionStatusRejected": {
+        "description": "The status 'Rejected' for a submission. This string is formatted in MLA title case.",
+        "context": "submissions:status"
+    },
+    "submissionStatusCensored": "Censored",
+    "@submissionStatusCensored": {
+        "description": "The status 'Censored' for a submission. This string is formatted in MLA title case.",
+        "context": "submissions:status"
+    },
+    "submissionDeleteTitle": "Delete submission?",
+    "@submissionDeleteTitle": {
+        "description": "Title for the dialog to confirm deletion of a submission.",
+        "context": "submissions:delete"
+    },
+    "submissionDeleteMessage": "Deleting a submission will remove the image from the next export and revoke consent. This action cannot be undone.",
+    "@submissionDeleteMessage": {
+        "description": "Message asking the user to confirm deletion of a submission.",
+        "context": "submissions:delete"
+    },
+    "accountOverview": "Account overview",
+    "@accountOverview": {
+        "description": "Accessibility label for the account overview section.",
+        "context": "about"
+    },
+    "accountOverviewFor": "for {username}",
+    "@accountOverviewFor": {
+        "description": "Accessibility label for the account overview section including the username. This must match the `accountOverview` string.",
+        "context": "about",
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "johndoe"
+            }
+        }
+    },
+    "aboutAppLearnMore": "Learn more",
+    "@aboutAppLearnMore": {
+        "description": "Label for a button that leads to more information about the app.",
+        "context": "about"
+    },
+    "aboutAppLogout": "Logout",
+    "@aboutAppLogout": {
+        "description": "Label for a button that logs the user out of the app.",
+        "context": "about"
+    }
+}

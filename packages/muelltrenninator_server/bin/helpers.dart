@@ -16,15 +16,19 @@ String? identifierFromRequest(Request request) {
       ?.split(",")
       .first
       .trim();
+  if (xForwarded != null && xForwarded.isNotEmpty) return xForwarded;
+
   final forwarded = request.headers["Forwarded"]
       ?.split(";")
       .where((e) => e.trim().startsWith("for"))
       .firstOrNull
       ?.split("=")
       .last;
+  if (forwarded != null && forwarded.isNotEmpty) return forwarded;
+
   final ip =
       (request.context["shelf.io.connection_info"] as HttpConnectionInfo?)
           ?.remoteAddress
           .address;
-  return xForwarded ?? forwarded ?? ip;
+  return ip;
 }

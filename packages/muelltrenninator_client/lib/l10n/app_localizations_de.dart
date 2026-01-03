@@ -158,5 +158,5 @@ class AppLocalizationsDe extends AppLocalizations {
       'recycelbare Materialien, Bioabfall, Sondermüll';
 
   @override
-  String get predictionExampleSearchSuffix => 'recycling';
+  String get predictionExampleSearchSuffix => 'korrekte Entsorgung';
 }

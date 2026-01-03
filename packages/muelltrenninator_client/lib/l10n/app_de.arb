@@ -42,5 +42,5 @@
     "predictionTypeResidualWasteDescription": "Nicht recycelbarer Abfall, der nicht kompostiert oder wiederverwertet werden kann.",
     "predictionTypeResidualWasteExamples": "verunreinigte Verpackungen, Keramik, Windeln",
     "predictionTypeResidualWasteNegativeExamples": "recycelbare Materialien, Bioabfall, Sondermüll",
-    "predictionExampleSearchSuffix": "recycling"
+    "predictionExampleSearchSuffix": "korrekte Entsorgung"
 }

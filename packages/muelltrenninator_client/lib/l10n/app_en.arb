@@ -221,7 +221,7 @@
         "description": "Negative examples for the residual waste prediction type.",
         "context": "upload:result"
     },
-    "predictionExampleSearchSuffix": "recycling",
+    "predictionExampleSearchSuffix": "correct disposal",
     "@predictionExampleSearchSuffix": {
         "description": "Suffix appended to example search queries to find recycling information.",
         "context": "upload:result"

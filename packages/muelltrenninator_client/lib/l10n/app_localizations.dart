@@ -353,7 +353,7 @@ abstract class AppLocalizations {
   /// Suffix appended to example search queries to find recycling information.
   ///
   /// In en, this message translates to:
-  /// **'recycling'**
+  /// **'correct disposal'**
   String get predictionExampleSearchSuffix;
 }
 

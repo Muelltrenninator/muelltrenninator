@@ -156,5 +156,5 @@ class AppLocalizationsEn extends AppLocalizations {
       'recyclable materials, organic waste, hazardous waste';
 
   @override
-  String get predictionExampleSearchSuffix => 'recycling';
+  String get predictionExampleSearchSuffix => 'correct disposal';
 }

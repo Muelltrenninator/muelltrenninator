@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:mime/mime.dart';
 import 'package:shelf/shelf.dart';

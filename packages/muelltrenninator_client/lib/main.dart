@@ -22,9 +22,7 @@ class AppRouter extends RootStackRouter {
       page: MainRoute.page,
       path: "/",
       guards: [AuthenticationGuard()],
-      children: [
-        AutoRoute(page: UploadRoute.page, path: ""),
-      ],
+      children: [AutoRoute(page: UploadRoute.page, path: "")],
     ),
     AutoRoute(
       page: LoginRoute.page,

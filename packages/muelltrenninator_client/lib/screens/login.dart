@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Transform.scale(scale: 2, child: TitleBarTitle()),
+              Transform.scale(scale: 1.6, child: TitleBarTitle()),
               SizedBox(height: 24),
               Card.filled(
                 child: SizeTransition(

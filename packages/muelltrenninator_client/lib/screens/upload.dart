@@ -185,7 +185,9 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
       isScrollControlled: true,
       useRootNavigator: true,
       builder: (_) => UploadResultModal(
-        prediction: jsonDecode(response!.body)["prediction"],
+        prediction: Map<String, double>.from(
+          jsonDecode(response!.body)["prediction"],
+        ),
       ),
     );
   }
@@ -314,7 +316,7 @@ class UploadTriggerAction extends Action<UploadTriggerIntent> {
 }
 
 class UploadResultModal extends StatefulWidget {
-  final String prediction;
+  final Map<String, double> prediction;
   const UploadResultModal({super.key, required this.prediction});
 
   @override
@@ -325,37 +327,49 @@ class _UploadResultModalState extends State<UploadResultModal> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    // Widget divider = Padding(padding: EdgeInsets.all(8), child: Divider());
+    Widget divider = Padding(padding: EdgeInsets.all(8), child: Divider());
+
+    var entriesRaw = widget.prediction.entries
+        .where((e) => e.value > 0.05)
+        .toList();
+    if (entriesRaw.isEmpty) entriesRaw = widget.prediction.entries.toList();
+    final entries = (entriesRaw..sort((a, b) => b.value.compareTo(a.value)))
+        .take(50); // TODO: adjust max entries if needed
+
     return DraggableScrollableSheet(
       minChildSize: 0.4,
-      maxChildSize: 0.9,
+      maxChildSize: 0.8,
       initialChildSize: 0.65,
       expand: false,
-      builder: (_, controller) => Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: ListView(
-          controller: controller,
-          shrinkWrap: true,
-          children: [
-            SizedBox(height: 16),
-            ListTile(
-              title: Text(
-                appLocalizations.resultTitle,
-                style: TextTheme.of(context).headlineSmall,
-              ),
+      builder: (_, controller) => ListView(
+        controller: controller,
+        shrinkWrap: true,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        children: [
+          SizedBox(height: 16),
+          ListTile(
+            title: Text(
+              appLocalizations.resultTitle,
+              style: TextTheme.of(context).headlineSmall,
             ),
-            SizedBox(height: 4),
-            UploadResultWidget(prediction: widget.prediction, isTop: true),
-            // Padding(padding: EdgeInsets.only(top: 16), child: divider),
-            // UploadResultWidget(prediction: widget.prediction, isTop: false),
-            // UploadResultWidget(prediction: widget.prediction, isTop: false),
-            SizedBox(height: 16),
-          ],
-        ),
+          ),
+          SizedBox(height: 4),
+          ...entries
+              .map((e) {
+                final isTop = e == entries.first && e.value > 0.35;
+                return [
+                  UploadResultWidget(
+                    prediction: e.key,
+                    probability: e.value,
+                    isTop: isTop,
+                  ),
+                  if (isTop)
+                    Padding(padding: EdgeInsets.only(top: 20), child: divider),
+                ];
+              })
+              .expand((e) => e),
+          SizedBox(height: 16),
+        ],
       ),
     );
   }
@@ -363,10 +377,12 @@ class _UploadResultModalState extends State<UploadResultModal> {
 
 class UploadResultWidget extends StatefulWidget {
   final String prediction;
+  final double probability;
   final bool isTop;
   const UploadResultWidget({
     super.key,
     required this.prediction,
+    required this.probability,
     required this.isTop,
   });
 
@@ -456,52 +472,51 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
           children: [
             if (!widget.isTop)
               Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 1,
-                    ),
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 1,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(8),
-                  ),
-                ),
                 width: 16,
                 height: 16,
                 margin: EdgeInsets.only(right: 8, top: 2),
+                child: CustomPaint(
+                  painter: _UploadResultWidgetHierarchy(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: positiveExamples
-                      .map(
-                        (example) => Theme(
-                          data: positiveColorScheme,
-                          child: chip(example),
-                        ),
-                      )
-                      .toList(),
-                ),
-                SizedBox(height: 4),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: negativeExamples
-                      .map(
-                        (e) => Theme(data: negativeColorScheme, child: chip(e)),
-                      )
-                      .toList(),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: positiveExamples
+                          .map(
+                            (example) => Theme(
+                              data: positiveColorScheme,
+                              child: chip(example),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Flexible(
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: negativeExamples
+                          .map(
+                            (e) => Theme(
+                              data: negativeColorScheme,
+                              child: chip(e),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -516,13 +531,15 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(widget.isTop ? 8 : 12),
-        onTap: () {
-          if (_expandController.isCompleted) {
-            _expandController.reverse();
-          } else {
-            _expandController.forward();
-          }
-        },
+        onTap: !widget.isTop
+            ? () {
+                if (_expandController.isCompleted) {
+                  _expandController.reverse();
+                } else {
+                  _expandController.forward();
+                }
+              }
+            : null,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -540,11 +557,11 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 builder: (context) => Stack(
                   alignment: Alignment.center,
                   children: [
-                    CircularProgressIndicator(value: 0.69),
+                    CircularProgressIndicator(value: widget.probability),
                     Text(
-                      NumberFormat.percentPattern(
-                        appLocalizations.localeName,
-                      ).format(0.69).replaceAll(RegExp(r"\s+"), ""),
+                      NumberFormat.percentPattern(appLocalizations.localeName)
+                          .format(widget.probability)
+                          .replaceAll(RegExp(r"\s+"), ""),
                       style: DefaultTextStyle.of(
                         context,
                       ).style.copyWith(color: ColorScheme.of(context).primary),
@@ -563,4 +580,37 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
       ),
     );
   }
+}
+
+class _UploadResultWidgetHierarchy extends CustomPainter {
+  final Color color;
+  _UploadResultWidgetHierarchy({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke;
+
+    const double offset = 0.5;
+    const double radius = 8.0;
+
+    final path = Path()
+      ..moveTo(offset, 0)
+      ..lineTo(offset, size.height - radius)
+      ..quadraticBezierTo(
+        offset,
+        size.height - offset,
+        radius,
+        size.height - offset,
+      )
+      ..lineTo(size.width, size.height - offset);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(_UploadResultWidgetHierarchy oldDelegate) =>
+      color != oldDelegate.color;
 }

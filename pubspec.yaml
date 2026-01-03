@@ -1,7 +1,7 @@
-name: datly
-description: A lightweight, self-hosted data collection tool intended for training data.
+name: muelltrenninator
+description: System for interacting with the “Mülltrenninator” project and a proxy for the AI worker.
 publish_to: none
-repository: https://github.com/JHubi1/datly
+repository: https://github.com/Muelltrenninator/muelltrenninator
 
 environment:
   sdk: ^3.9.2
@@ -12,5 +12,5 @@ dev_dependencies:
   gitbaker: ^0.1.2
 
 workspace:
-  - packages/datly_server
-  - packages/datly_client
+  - packages/muelltrenninator_server
+  - packages/muelltrenninator_client

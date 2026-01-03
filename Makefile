@@ -4,8 +4,8 @@
 
 IS_WINDOWS := $(findstring Windows_NT,$(OS))
 
-CLIENT_DIR := packages/datly_client
-SERVER_DIR := packages/datly_server
+CLIENT_DIR := packages/muelltrenninator_client
+SERVER_DIR := packages/muelltrenninator_server
 SERVER_PUBLIC := $(SERVER_DIR)/bin/public
 CLIENT_BUILD := $(CLIENT_DIR)/build/web
 
@@ -56,5 +56,5 @@ endif
 DOCKER_PLATFORMS ?= linux/amd64,linux/arm64
 image:
 	$(DOCKER) buildx build --pull --platform $(DOCKER_PLATFORMS) \
-		-t jhubi/datly:latest \
+		-t jhubi/muelltrenninator:latest \
 		-f Dockerfile .

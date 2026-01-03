@@ -1,0 +1,229 @@
+{
+    "@@locale": "en",
+    "quote": "“{content}”",
+    "@quote": {
+        "description": "A quotation format that wraps the content in quotation marks.",
+        "context": "global",
+        "placeholders": {
+            "content": {
+                "type": "String"
+            }
+        }
+    },
+    "retry": "Retry",
+    "@retry": {
+        "description": "Button text to retry accessing the camera.",
+        "context": "global"
+    },
+    "loginError": "Server unreachable. Please check your internet connection.",
+    "@loginError": {
+        "description": "Error message shown when the server cannot be reached during login.",
+        "context": "login"
+    },
+    "loginUnknown": "Unknown login code.",
+    "@loginUnknown": {
+        "description": "Error message shown when the provided login code is not recognized.",
+        "context": "login"
+    },
+    "loginCodeLabel": "Login code",
+    "@loginCodeLabel": {
+        "description": "Label for the login code input field.",
+        "context": "login"
+    },
+    "loginNewHere": "New here?",
+    "@loginNewHere": {
+        "description": "Text prompting new users to request a login code.",
+        "context": "login"
+    },
+    "loginNewHereRequest": "Request a code.",
+    "@loginNewHereRequest": {
+        "description": "Link text for new users to request a login code.",
+        "context": "login"
+    },
+    "loginPrivacyPolicy": "Privacy Policy",
+    "@loginPrivacyPolicy": {
+        "description": "Link text for the app's privacy policy. This string is formatted in MLA title case.",
+        "context": "login"
+    },
+    "loginTermsOfService": "Terms of Service",
+    "@loginTermsOfService": {
+        "description": "Link text for the app's terms of service. This string is formatted in MLA title case.",
+        "context": "login"
+    },
+    "cameraNotFound": "No camera found",
+    "@cameraNotFound": {
+        "description": "Shown when no camera device is found on the system or the permission is denied.",
+        "context": "upload:error"
+    },
+    "cameraErrorPermission": "Access to the camera was denied.",
+    "@cameraErrorPermission": {
+        "description": "Explains that access to the camera was denied by the user.",
+        "context": "upload:error"
+    },
+    "cameraErrorUnavailable": "No camera available on this device.",
+    "@cameraErrorUnavailable": {
+        "description": "Explains that no camera is available on the device.",
+        "context": "upload:error"
+    },
+    "selectCamera": "Select camera",
+    "@selectCamera": {
+        "description": "Title for the camera selection dialog.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionBack": "Back Camera",
+    "@selectCameraDescriptionBack": {
+        "description": "The word 'Back' used to describe a camera facing away from the user. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionFront": "Front Camera",
+    "@selectCameraDescriptionFront": {
+        "description": "The word 'Front' used to describe a camera facing towards the user. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "selectCameraDescriptionExternal": "External Camera",
+    "@selectCameraDescriptionExternal": {
+        "description": "The word 'External' used to describe an external camera. This string is formatted in MLA title case.",
+        "context": "upload:cameraSelection"
+    },
+    "resultTitle": "Image Analysis",
+    "@resultTitle": {
+        "description": "Title for the image analysis result screen.",
+        "context": "upload:result"
+    },
+    "accountOverview": "Account overview",
+    "@accountOverview": {
+        "description": "Accessibility label for the account overview section.",
+        "context": "about"
+    },
+    "accountOverviewFor": "for {username}",
+    "@accountOverviewFor": {
+        "description": "Accessibility label for the account overview section including the username. This must match the `accountOverview` string.",
+        "context": "about",
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "johndoe"
+            }
+        }
+    },
+    "aboutAppLearnMore": "Learn more",
+    "@aboutAppLearnMore": {
+        "description": "Label for a button that leads to more information about the app.",
+        "context": "about"
+    },
+    "aboutAppLogout": "Logout",
+    "@aboutAppLogout": {
+        "description": "Label for a button that logs the user out of the app.",
+        "context": "about"
+    },
+    "aboutThankYou": "Many thanks to Kitan for helping design the app icon!",
+    "@aboutThankYou": {
+        "description": "A thank you note in the about section of the app.",
+        "context": "about"
+    },
+    "predictionTypeOrganicTitle": "Organic",
+    "@predictionTypeOrganicTitle": {
+        "description": "Title for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeOrganicDescription": "Waste that is biodegradable and comes from plants or animals.",
+    "@predictionTypeOrganicDescription": {
+        "description": "Description for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeOrganicExamples": "vegetable scraps, garden waste, coffee grounds",
+    "@predictionTypeOrganicExamples": {
+        "description": "Examples for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeOrganicNegativeExamples": "other food, plastic wrapped items, metals",
+    "@predictionTypeOrganicNegativeExamples": {
+        "description": "Negative examples for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeElectronicWasteTitle": "Electronic Waste",
+    "@predictionTypeElectronicWasteTitle": {
+        "description": "Title for the electronic waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeElectronicWasteDescription": "Discarded electronic devices or components.",
+    "@predictionTypeElectronicWasteDescription": {
+        "description": "Description for the electronic waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeElectronicWasteExamples": "old phones, broken appliances, toasters",
+    "@predictionTypeElectronicWasteExamples": {
+        "description": "Examples for the electronic waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeElectronicWasteNegativeExamples": "batteries, cables, led light bulbs",
+    "@predictionTypeElectronicWasteNegativeExamples": {
+        "description": "Negative examples for the electronic waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticTitle": "Plastic",
+    "@predictionTypePlasticTitle": {
+        "description": "Title for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticDescription": "Packaging materials made from plastic polymers.",
+    "@predictionTypePlasticDescription": {
+        "description": "Description for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticExamples": "plastic bottles, wrappers, containers",
+    "@predictionTypePlasticExamples": {
+        "description": "Examples for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticNegativeExamples": "glass items, metal cans, paper products",
+    "@predictionTypePlasticNegativeExamples": {
+        "description": "Negative examples for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperTitle": "Paper",
+    "@predictionTypePaperTitle": {
+        "description": "Title for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperDescription": "Materials made from wood pulp, such as newspapers and cardboard.",
+    "@predictionTypePaperDescription": {
+        "description": "Description for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperExamples": "newspapers, cardboard boxes, magazines",
+    "@predictionTypePaperExamples": {
+        "description": "Examples for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperNegativeExamples": "plastic-coated items, contaminated paper, tissues",
+    "@predictionTypePaperNegativeExamples": {
+        "description": "Negative examples for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeResidualWasteTitle": "Residual Waste",
+    "@predictionTypeResidualWasteTitle": {
+        "description": "Title for the residual waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeResidualWasteDescription": "Non-recyclable waste that cannot be composted or recycled.",
+    "@predictionTypeResidualWasteDescription": {
+        "description": "Description for the residual waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeResidualWasteExamples": "contaminated packaging, ceramics, diapers",
+    "@predictionTypeResidualWasteExamples": {
+        "description": "Examples for the residual waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeResidualWasteNegativeExamples": "recyclable materials, organic waste, hazardous waste",
+    "@predictionTypeResidualWasteNegativeExamples": {
+        "description": "Negative examples for the residual waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionExampleSearchSuffix": "recycling",
+    "@predictionExampleSearchSuffix": {
+        "description": "Suffix appended to example search queries to find recycling information.",
+        "context": "upload:result"
+    }
+}

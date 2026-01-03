@@ -1,3 +1,3 @@
-# Datly
+# Mülltrenninator
 
-A lightweight, self-hosted data collection tool intended for training data.
+System for interacting with the “Mülltrenninator” project and a proxy for the AI worker.

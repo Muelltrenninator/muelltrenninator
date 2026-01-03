@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2025-12-31T18:20:47
+/// Last generated: 2026-01-03T02:20:48
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -347,7 +347,7 @@ final class GitBaker {
   // possibility of null if no description is set
   // ignore: unnecessary_nullable_for_final_variable_declarations
   static const String? description =
-      "A lightweight, self-hosted data collection tool intended for training data.";
+      "System for interacting with the “Mülltrenninator” project and a proxy for the AI worker.";
 
   /// The most likely remote to be used for fetching and pushing.
   ///
@@ -375,12 +375,12 @@ final class GitBaker {
     Remote._(
       name: "origin",
       type: RemoteType.fetch,
-      uri: Uri.parse("https://github.com/Mulltrenninator/datly.git"),
+      uri: Uri.parse("https://github.com/Mulltrenninator/muelltrenninator.git"),
     ),
     Remote._(
       name: "origin",
       type: RemoteType.push,
-      uri: Uri.parse("https://github.com/Mulltrenninator/datly.git"),
+      uri: Uri.parse("https://github.com/Mulltrenninator/muelltrenninator.git"),
     ),
   ]);
 
@@ -405,6 +405,51 @@ final class GitBaker {
   /// List of uncommitted changes in the working tree of the repository.
   static final List<WorkspaceEntry> workspace = List.unmodifiable([
     WorkspaceEntryChange._(
+      ".deploy.txt",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      ".vscode/settings.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "Dockerfile",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "Makefile",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "README.md",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
       "lib/generated/gitbaker.g.dart",
       status: WorkspaceEntryStatus._fromLetters(".", "M"),
       submoduleState: WorkspaceEntrySubmoduleState._(
@@ -413,6 +458,620 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/.gitignore",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/.metadata",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/.vscode/launch.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/.vscode/settings.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/README.md",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/analysis_options.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/assets/OFL.txt",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/assets/banner.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/assets/fonts/GoogleSansCode-Bold.ttf",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/assets/fonts/Poppins-SemiBold.ttf",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/assets/icon.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/l10n.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/api.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/l10n/app_de.arb",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/l10n/app_en.arb",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/l10n/app_localizations.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/l10n/app_localizations_de.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/l10n/app_localizations_en.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/main.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/main.gr.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/registry.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/error.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/list.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/login.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/submissions.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/terms.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/screens/upload.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/confirmation_dialog.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/hero_text_flight_shuttle_builder.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/multi_prompt_dialog.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/multiple_choice_dialog.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/prompt_dialog.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/radio_dialog.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/status_modal.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/lib/widgets/title_bar.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/pubspec.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/untranslated.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/favicon.ico",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/favicon.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/icons/Icon-192.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/icons/Icon-512.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/icons/Icon-maskable-192.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/icons/Icon-maskable-512.png",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/index.html",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/manifest.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_client/web/robots.txt",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/.gitignore",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/.vscode/launch.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/.vscode/settings.json",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/README.md",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/analysis_options.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/database/converters.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/database/database.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/database/database.g.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/database/tables.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/helpers.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/legal/privacy.md",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/legal/terms.md",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/routes/api.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/routes/api_assets.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/routes/api_projects.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/routes/api_users.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/server.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/sqlite/sqlite3.dll",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/sqlite/sqlite3.so",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/bin/sqlite/sqlite3_arm64.so",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/datly_server/pubspec.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "pubspec.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryUntracked._("packages/muelltrenninator_client/"),
+    WorkspaceEntryUntracked._("packages/muelltrenninator_server/"),
   ]);
 
   /// All branches in the repository.
@@ -423,41 +1082,10 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 30,
+      revision: 1,
       ahead: 0,
       behind: 0,
-      commits: [
-        "d3fc80a5a531432f9c0cd5a65eb25d80edafe792",
-        "fb6ec8688784ded2a3004e5dd6a6ef9803586a88",
-        "fb70d43e9828bec90402da217381172ed4ab8c15",
-        "947a8a4800c91224567a8d58b43c97e7ec8d75ab",
-        "abdb24f78f0c236c0ffd3956a87597166f480780",
-        "1fb0fc9ef5c23d317426f6e4d387fa05949e74fc",
-        "8c4454beb4675beb5c6c390b9cbca22c8047bb98",
-        "dc68c8f00f219bb20a3db6defb66c78680e23894",
-        "44f525cf55a430cd396244d47d71190d82af1b41",
-        "ec22e94098d9964630481e59571b7599081aa601",
-        "c82b991b8637cc87981827e679eeafa0a3796c32",
-        "d378e841509795a30205fb89aeec3772a7f39340",
-        "519ba074b0da7bb7e62bf218d8252cd0cd68022a",
-        "fa9ea7d48b3854eb49c3e86e2049cdaae3a0fc35",
-        "f6f02f7973e4a18a516460ba4caa0f355767bbd8",
-        "857e68953c978aa70a5f98d287a8e057dd887986",
-        "f4132a09099d641f2477a7945d6836c15614dad9",
-        "d5b8d1f211a92195be536fbe69a4ebae92e83f3f",
-        "ce103ce71cca83f6918b061517c45e26467064e3",
-        "b80463dc1d94a4c12147e79a21f03db33149a3c5",
-        "ca08c2130f30729532369962559b2dd021cd308c",
-        "f99ae8a663113e3f833beafc22aa1780f8ece59b",
-        "41864659a438224a20f15e460d05564d2d0e3f63",
-        "cb4789cc47fceb60b134465fd13f16d50a18600d",
-        "fe96cc66755677fbec0e20a91b55e7071ec1a344",
-        "09e4ec2eeadc6a1ea048170bcdc09b12350b0289",
-        "d16adcb5c53e86203fa38b3f699fc4711c37034c",
-        "398c6eb92bb063627b82380da5e96b941ae5c63b",
-        "d1209019210e4b02e9cc443818a08f27e9f75790",
-        "0d18024683d5ceddd2f981ce6dbbf60187b5230b",
-      ],
+      commits: ["22f43fc620924e6cef9c6a214251d942e6f0747d"],
     ),
   ];
 
@@ -472,280 +1100,10 @@ final class GitBaker {
   /// All commits in the repository, ordered from oldest to newest.
   static final List<Commit> commits = List.unmodifiable([
     Commit._(
-      "ca471770895f5748bcce112176c8dfb94f4d022e",
-      hashAbbreviated: "ca47177",
+      "22f43fc620924e6cef9c6a214251d942e6f0747d",
+      hashAbbreviated: "22f43fc",
       message: "Initial commit",
-      date: DateTime.parse("2025-12-12T21:12:52.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "d3fc80a5a531432f9c0cd5a65eb25d80edafe792",
-      hashAbbreviated: "d3fc80a",
-      message: "Initial commit",
-      date: DateTime.parse("2025-12-12T21:13:09.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "fb6ec8688784ded2a3004e5dd6a6ef9803586a88",
-      hashAbbreviated: "fb6ec86",
-      message: "Various functions and features",
-      date: DateTime.parse("2025-12-19T19:19:39.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "fb70d43e9828bec90402da217381172ed4ab8c15",
-      hashAbbreviated: "fb70d43",
-      message: "Improved UI, various changes",
-      date: DateTime.parse("2025-12-19T22:59:51.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "947a8a4800c91224567a8d58b43c97e7ec8d75ab",
-      hashAbbreviated: "947a8a4",
-      message: "Removed `file_picker`, fixed upload behind proxy",
-      date: DateTime.parse("2025-12-20T12:22:39.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "abdb24f78f0c236c0ffd3956a87597166f480780",
-      hashAbbreviated: "abdb24f",
-      message: "Fixed theme",
-      date: DateTime.parse("2025-12-20T12:26:36.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "1fb0fc9ef5c23d317426f6e4d387fa05949e74fc",
-      hashAbbreviated: "1fb0fc9",
-      message: "Fixed router, improved registry, more improvements",
-      date: DateTime.parse("2025-12-22T18:45:57.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "8c4454beb4675beb5c6c390b9cbca22c8047bb98",
-      hashAbbreviated: "8c4454b",
-      message: "Fixed DB & HTTP types, updated rate limits, asyncs",
-      date: DateTime.parse("2025-12-22T23:57:58.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "dc68c8f00f219bb20a3db6defb66c78680e23894",
-      hashAbbreviated: "dc68c8f",
-      message: "Fixed WASM asset dump",
-      date: DateTime.parse("2025-12-23T01:03:29.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "44f525cf55a430cd396244d47d71190d82af1b41",
-      hashAbbreviated: "44f525c",
-      message: "Mobile UI improvements",
-      date: DateTime.parse("2025-12-23T14:36:03.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "ec22e94098d9964630481e59571b7599081aa601",
-      hashAbbreviated: "ec22e94",
-      message: "Updated theme color",
-      date: DateTime.parse("2025-12-23T19:20:25.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "c82b991b8637cc87981827e679eeafa0a3796c32",
-      hashAbbreviated: "c82b991",
-      message: "Fixed login code dialog spacing on mobile",
-      date: DateTime.parse("2025-12-23T19:40:03.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "d378e841509795a30205fb89aeec3772a7f39340",
-      hashAbbreviated: "d378e84",
-      message: "Fixed login code dialog spacing on mobile 2",
-      date: DateTime.parse("2025-12-23T20:03:15.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "519ba074b0da7bb7e62bf218d8252cd0cd68022a",
-      hashAbbreviated: "519ba07",
-      message: "Localization, invite message, no indexing, OGP",
-      date: DateTime.parse("2025-12-25T14:36:00.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "fa9ea7d48b3854eb49c3e86e2049cdaae3a0fc35",
-      hashAbbreviated: "fa9ea7d",
-      message: "Fixed user creation",
-      date: DateTime.parse("2025-12-25T14:54:40.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "f6f02f7973e4a18a516460ba4caa0f355767bbd8",
-      hashAbbreviated: "f6f02f7",
-      message: "Added consent collection",
-      date: DateTime.parse("2025-12-29T01:53:44.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "857e68953c978aa70a5f98d287a8e057dd887986",
-      hashAbbreviated: "857e689",
-      message: "Consent dialog improvements",
-      date: DateTime.parse("2025-12-29T10:34:29.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "f4132a09099d641f2477a7945d6836c15614dad9",
-      hashAbbreviated: "f4132a0",
-      message: "Small fixes",
-      date: DateTime.parse("2025-12-29T10:47:23.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "d5b8d1f211a92195be536fbe69a4ebae92e83f3f",
-      hashAbbreviated: "d5b8d1f",
-      message: "Small fixes 2",
-      date: DateTime.parse("2025-12-29T10:57:33.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "ce103ce71cca83f6918b061517c45e26467064e3",
-      hashAbbreviated: "ce103ce",
-      message: "Mobile improvements",
-      date: DateTime.parse("2025-12-29T11:00:38.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "b80463dc1d94a4c12147e79a21f03db33149a3c5",
-      hashAbbreviated: "b80463d",
-      message: "Mobile improvements 2",
-      date: DateTime.parse("2025-12-29T11:11:00.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "ca08c2130f30729532369962559b2dd021cd308c",
-      hashAbbreviated: "ca08c21",
-      message: "Fixed privacy policy, signup link",
-      date: DateTime.parse("2025-12-30T09:47:38.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "f99ae8a663113e3f833beafc22aa1780f8ece59b",
-      hashAbbreviated: "f99ae8a",
-      message: "Mobile improvements 3, localization improvements",
-      date: DateTime.parse("2025-12-31T13:11:14.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "41864659a438224a20f15e460d05564d2d0e3f63",
-      hashAbbreviated: "4186465",
-      message: "Reverted breaking from f99aae8a on UploadPage",
-      date: DateTime.parse("2025-12-31T13:58:03.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "cb4789cc47fceb60b134465fd13f16d50a18600d",
-      hashAbbreviated: "cb4789c",
-      message: "Mobile improvements 4, other changes",
-      date: DateTime.parse("2025-12-31T14:31:53.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "fe96cc66755677fbec0e20a91b55e7071ec1a344",
-      hashAbbreviated: "fe96cc6",
-      message: "Minor localization change",
-      date: DateTime.parse("2025-12-31T14:37:28.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "09e4ec2eeadc6a1ea048170bcdc09b12350b0289",
-      hashAbbreviated: "09e4ec2",
-      message: "Mobile improvements 5",
-      date: DateTime.parse("2025-12-31T15:00:24.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "d16adcb5c53e86203fa38b3f699fc4711c37034c",
-      hashAbbreviated: "d16adcb",
-      message: "Mobile improvements 6",
-      date: DateTime.parse("2025-12-31T15:20:06.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "398c6eb92bb063627b82380da5e96b941ae5c63b",
-      hashAbbreviated: "398c6eb",
-      message: "Mobile improvements 7",
-      date: DateTime.parse("2025-12-31T15:35:16.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "d1209019210e4b02e9cc443818a08f27e9f75790",
-      hashAbbreviated: "d120901",
-      message: "Mobile improvements 8",
-      date: DateTime.parse("2025-12-31T15:48:38.000Z"),
-      signed: true,
-      author: "me@jhubi1.com",
-      committer: "me@jhubi1.com",
-    ),
-    Commit._(
-      "0d18024683d5ceddd2f981ce6dbbf60187b5230b",
-      hashAbbreviated: "0d18024",
-      message: "Mobile improvements 9",
-      date: DateTime.parse("2025-12-31T17:14:52.000Z"),
+      date: DateTime.parse("2026-01-02T20:23:32.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

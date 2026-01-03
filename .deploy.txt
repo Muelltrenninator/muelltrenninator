@@ -1,1 +1,1 @@
-make all && docker push jhubi/datly && ssh s001 "cd /srv/datly && docker pull jhubi/datly && docker compose up --force-recreate -d"
+make all && docker push jhubi/muelltrenninator && ssh s001 "cd /srv/muelltrenninator && docker pull jhubi/muelltrenninator && docker compose up --force-recreate -d"

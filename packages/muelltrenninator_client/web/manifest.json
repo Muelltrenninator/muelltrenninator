@@ -1,0 +1,35 @@
+{
+    "name": "Mülltrenninator",
+    "short_name": "Mülltrenninator",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff7fa",
+    "theme_color": "#fff7fa",
+    "description": "System for interacting with the “Mülltrenninator” project and a proxy for the AI worker.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

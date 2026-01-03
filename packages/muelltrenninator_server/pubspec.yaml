@@ -1,0 +1,19 @@
+name: muelltrenninator_server
+description: Server for the Mülltrenninator project.
+publish_to: none
+
+environment:
+  sdk: ^3.9.2
+resolution: workspace
+
+dependencies:
+  shelf: ^1.4.2
+  shelf_router: ^1.1.2
+  shelf_multipart: ^2.0.1
+  shelf_limiter: ^2.0.1
+  tracer: ^0.4.2
+  mime: ^2.0.0
+  http: ^1.6.0
+
+dev_dependencies:
+  lints: ^6.0.0

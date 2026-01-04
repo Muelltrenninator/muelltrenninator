@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-01-03T20:58:36
+/// Last generated: 2026-01-04T23:53:40
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -417,6 +417,54 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/lib/api.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/lib/main.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/lib/screens/upload.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/pubspec.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_server/bin/routes/api_predict.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryUntracked._(
+      "packages/muelltrenninator_client/assets/images/",
+    ),
   ]);
 
   /// All branches in the repository.
@@ -427,13 +475,14 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 3,
+      revision: 4,
       ahead: 0,
       behind: 0,
       commits: [
         "22f43fc620924e6cef9c6a214251d942e6f0747d",
         "744a69cbc94f3258dfb8bf167efeb0a508292913",
         "d4880ee4fc7604b8cf51a2036c7a05d1b6eee561",
+        "da068533943dae2ca4facfa838edf7fda6dcdff4",
       ],
     ),
   ];
@@ -471,6 +520,15 @@ final class GitBaker {
       hashAbbreviated: "d4880ee",
       message: "Update localization, UI, and server helpers",
       date: DateTime.parse("2026-01-03T19:57:52.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "da068533943dae2ca4facfa838edf7fda6dcdff4",
+      hashAbbreviated: "da06853",
+      message: "Adapted to new model server output",
+      date: DateTime.parse("2026-01-03T22:38:44.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'l10n/app_localizations.dart';
@@ -87,22 +88,22 @@ class AuthManager extends ChangeNotifier {
 
 enum PredictionType {
   organic,
-  electronicWaste,
+  electronic,
   plastic,
   paper,
-  residualWaste;
+  residual;
 
   String title(AppLocalizations appLocalizations) {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicTitle;
-      case PredictionType.electronicWaste:
+      case PredictionType.electronic:
         return appLocalizations.predictionTypeElectronicWasteTitle;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticTitle;
       case PredictionType.paper:
         return appLocalizations.predictionTypePaperTitle;
-      case PredictionType.residualWaste:
+      case PredictionType.residual:
         return appLocalizations.predictionTypeResidualWasteTitle;
     }
   }
@@ -111,13 +112,13 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicDescription;
-      case PredictionType.electronicWaste:
+      case PredictionType.electronic:
         return appLocalizations.predictionTypeElectronicWasteDescription;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticDescription;
       case PredictionType.paper:
         return appLocalizations.predictionTypePaperDescription;
-      case PredictionType.residualWaste:
+      case PredictionType.residual:
         return appLocalizations.predictionTypeResidualWasteDescription;
     }
   }
@@ -126,13 +127,13 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicExamples;
-      case PredictionType.electronicWaste:
+      case PredictionType.electronic:
         return appLocalizations.predictionTypeElectronicWasteExamples;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticExamples;
       case PredictionType.paper:
         return appLocalizations.predictionTypePaperExamples;
-      case PredictionType.residualWaste:
+      case PredictionType.residual:
         return appLocalizations.predictionTypeResidualWasteExamples;
     }
   }
@@ -141,28 +142,30 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicNegativeExamples;
-      case PredictionType.electronicWaste:
+      case PredictionType.electronic:
         return appLocalizations.predictionTypeElectronicWasteNegativeExamples;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticNegativeExamples;
       case PredictionType.paper:
         return appLocalizations.predictionTypePaperNegativeExamples;
-      case PredictionType.residualWaste:
+      case PredictionType.residual:
         return appLocalizations.predictionTypeResidualWasteNegativeExamples;
     }
   }
+
+  Image image() => Image.asset("assets/images/$name.jpg", isAntiAlias: true);
 
   String get apiString {
     switch (this) {
       case PredictionType.organic:
         return "bio";
-      case PredictionType.electronicWaste:
+      case PredictionType.electronic:
         return "elektroschrott";
       case PredictionType.plastic:
         return "gelber_sack";
       case PredictionType.paper:
         return "papier";
-      case PredictionType.residualWaste:
+      case PredictionType.residual:
         return "restmuell";
     }
   }

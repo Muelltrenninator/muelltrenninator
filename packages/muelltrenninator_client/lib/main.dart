@@ -113,6 +113,12 @@ class _MainAppState extends State<MainApp> {
       ], await DefaultAssetBundle.of(context).loadString("assets/OFL.txt"));
     });
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      for (var p in PredictionType.values) {
+        await precacheImage(p.image().image, context);
+      }
+    });
+
     if (kIsWeb) web.document.getElementById("loaderContainer")?.remove();
   }
 
@@ -223,7 +229,7 @@ extension TitleCase on String {
   }
 }
 
-extension on ThemeData {
+extension ThemeModifier on ThemeData {
   ThemeData modified() => copyWith(
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   ).withYear2024();

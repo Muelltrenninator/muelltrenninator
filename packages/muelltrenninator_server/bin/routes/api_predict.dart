@@ -112,8 +112,8 @@ void define(Router router) {
         }
         return Response.ok(
           jsonEncode({
-            "prediction": jsonDecode(
-              jsonDecode(prediction.body.split("data: ").last)[0],
+            "prediction": Map<String, double>.from(
+              jsonDecode(jsonDecode(prediction.body.split("data: ").last)[0]),
             ),
           }),
           headers: {"Content-Type": "application/json"},

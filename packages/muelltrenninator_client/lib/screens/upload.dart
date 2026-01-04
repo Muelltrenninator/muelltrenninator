@@ -327,49 +327,65 @@ class _UploadResultModalState extends State<UploadResultModal> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    Widget divider = Padding(padding: EdgeInsets.all(8), child: Divider());
+    Widget divider = Center(
+      child: SizedBox(
+        width: 128,
+        child: Padding(
+          padding: EdgeInsets.only(top: 24, bottom: 4),
+          child: Divider(),
+        ),
+      ),
+    );
 
     var entriesRaw = widget.prediction.entries
-        .where((e) => e.value > 0.05)
+        .where((e) => e.value >= 0.01)
         .toList();
     if (entriesRaw.isEmpty) entriesRaw = widget.prediction.entries.toList();
-    final entries = (entriesRaw..sort((a, b) => b.value.compareTo(a.value)))
-        .take(50); // TODO: adjust max entries if needed
+    final entries = (entriesRaw..sort((a, b) => b.value.compareTo(a.value)));
 
-    return DraggableScrollableSheet(
-      minChildSize: 0.4,
-      maxChildSize: 0.8,
-      initialChildSize: 0.65,
-      expand: false,
-      builder: (_, controller) => ListView(
-        controller: controller,
-        shrinkWrap: true,
-        padding: EdgeInsets.only(left: 16, right: 16),
-        children: [
-          SizedBox(height: 16),
-          ListTile(
-            title: Text(
-              appLocalizations.resultTitle,
-              style: TextTheme.of(context).headlineSmall,
+    return ClipRRect(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      child: DraggableScrollableSheet(
+        minChildSize: 0.575,
+        maxChildSize: 0.94,
+        initialChildSize: 0.575,
+        expand: false,
+        builder: (_, controller) => ListView(
+          controller: controller,
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 16, right: 16),
+          children: [
+            SizedBox(height: 16),
+            ListTile(
+              title: Text(
+                appLocalizations.resultTitle,
+                style: TextTheme.of(context).headlineSmall,
+              ),
             ),
-          ),
-          SizedBox(height: 4),
-          ...entries
-              .map((e) {
-                final isTop = e == entries.first && e.value > 0.35;
-                return [
-                  UploadResultWidget(
-                    prediction: e.key,
-                    probability: e.value,
-                    isTop: isTop,
-                  ),
-                  if (isTop)
-                    Padding(padding: EdgeInsets.only(top: 20), child: divider),
-                ];
-              })
-              .expand((e) => e),
-          SizedBox(height: 16),
-        ],
+            SizedBox(height: 4),
+            ...entries
+                .map((e) {
+                  final isTop =
+                      e == entries.first &&
+                      e.value > 0.4 &&
+                      (entries.length > 1
+                          ? entries[1].value / e.value < 0.5
+                          : true);
+                  final isUnlikely = !isTop && e.value < 0.1;
+                  return [
+                    UploadResultWidget(
+                      prediction: e.key,
+                      probability: e.value,
+                      isTop: isTop,
+                      isUnlikely: isUnlikely,
+                    ),
+                    if (isTop && entries.length > 1) divider,
+                  ];
+                })
+                .expand((e) => e),
+            SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
@@ -378,12 +394,16 @@ class _UploadResultModalState extends State<UploadResultModal> {
 class UploadResultWidget extends StatefulWidget {
   final String prediction;
   final double probability;
+
   final bool isTop;
+  final bool isUnlikely;
+
   const UploadResultWidget({
     super.key,
     required this.prediction,
     required this.probability,
     required this.isTop,
+    required this.isUnlikely,
   });
 
   @override
@@ -400,18 +420,28 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
     super.initState();
     _predictionType = PredictionType.values.firstWhere(
       (type) => type.apiString == widget.prediction,
-      orElse: () => PredictionType.residualWaste,
+      orElse: () => PredictionType.residual,
     );
     _expandController = AnimationController(
       vsync: this,
       duration: Durations.medium1,
       value: widget.isTop ? 1.0 : 0.0,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!widget.isUnlikely &&
+          WindowSizeClass.of(context) >= WindowSizeClass.expanded) {
+        _expandController.forward();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final appLocalizations = AppLocalizations.of(context);
+
     final animation = CurvedAnimation(
       parent: _expandController,
       curve: Curves.easeInOutCubicEmphasized,
@@ -430,19 +460,18 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
         .toList();
 
     final details = () {
-      final brightness = Theme.brightnessOf(context);
       final positiveColorScheme = ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.green,
-          brightness: brightness,
+          brightness: theme.brightness,
         ),
-      );
+      ).modified();
       final negativeColorScheme = ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.red,
-          brightness: brightness,
+          brightness: theme.brightness,
         ),
-      );
+      ).modified();
       Widget chip(String example) => Builder(
         builder: (context) {
           final colorScheme = ColorScheme.of(context);
@@ -488,8 +517,8 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 children: [
                   Flexible(
                     child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
+                      spacing: 2,
+                      runSpacing: 2,
                       children: positiveExamples
                           .map(
                             (example) => Theme(
@@ -503,8 +532,8 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                   SizedBox(height: 4),
                   Flexible(
                     child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
+                      spacing: 2,
+                      runSpacing: 2,
                       children: negativeExamples
                           .map(
                             (e) => Theme(
@@ -530,8 +559,9 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(widget.isTop ? 8 : 12),
-        onTap: !widget.isTop
+        borderRadius: BorderRadius.circular(12),
+        splashFactory: NoSplash.splashFactory,
+        onTap: !widget.isTop && !widget.isUnlikely
             ? () {
                 if (_expandController.isCompleted) {
                   _expandController.reverse();
@@ -545,6 +575,8 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
           children: [
             ListTile(
               selected: widget.isTop,
+              dense: widget.isUnlikely,
+              textColor: widget.isUnlikely ? theme.disabledColor : null,
               contentPadding: EdgeInsets.only(
                 left: 16,
                 right: 16,
@@ -557,14 +589,18 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 builder: (context) => Stack(
                   alignment: Alignment.center,
                   children: [
-                    CircularProgressIndicator(value: widget.probability),
+                    widget.isUnlikely
+                        ? SizedBox(width: 48)
+                        : CircularProgressIndicator(value: widget.probability),
                     Text(
                       NumberFormat.percentPattern(appLocalizations.localeName)
                           .format(widget.probability)
                           .replaceAll(RegExp(r"\s+"), ""),
-                      style: DefaultTextStyle.of(
-                        context,
-                      ).style.copyWith(color: ColorScheme.of(context).primary),
+                      style: DefaultTextStyle.of(context).style.copyWith(
+                        color: widget.isUnlikely
+                            ? theme.disabledColor
+                            : colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),
@@ -575,6 +611,20 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
               axisAlignment: -1,
               child: details,
             ),
+            if (widget.isTop)
+              Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Card.outlined(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: SizedBox(
+                      height: 199.8,
+                      width: 300,
+                      child: _predictionType.image(),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

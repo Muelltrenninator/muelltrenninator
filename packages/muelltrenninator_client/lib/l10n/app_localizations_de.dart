@@ -113,11 +113,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Batterien, Kabel, LED-Glühbirnen';
 
   @override
-  String get predictionTypePlasticTitle => 'Plastik';
+  String get predictionTypePlasticTitle => 'Gelber Sack';
 
   @override
   String get predictionTypePlasticDescription =>
-      'Verpackungsmaterialien aus Kunststoffpolymeren.';
+      'Verpackungsmaterialien aus Plastik.';
 
   @override
   String get predictionTypePlasticExamples =>

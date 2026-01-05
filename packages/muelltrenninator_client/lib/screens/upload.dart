@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
@@ -365,13 +366,32 @@ class _UploadResultModalState extends State<UploadResultModal> {
             SizedBox(height: 4),
             ...entries
                 .map((e) {
+                  // https://en.wikipedia.org/wiki/Likelihood_ratio
+                  // https://en.wikipedia.org/wiki/Entropy_(information_theory)
+                  
+                  final n = entries.length;
+                  final p1 = entries.first.value;
+                  final p2 = n > 1 ? entries[1].value : 0.0;
+                  final entropy =
+                      -entries.fold(
+                        0.0,
+                        (sum, x) =>
+                            sum +
+                            (x.value > 0 ? x.value * math.log(x.value) : 0.0),
+                      ) /
+                      math.log(n);
+                  final likelihoodRatio = p2 > 0
+                      ? (p1 / p2) * (1 / 1)
+                      : double.infinity;
+
                   final isTop =
                       e == entries.first &&
-                      e.value > 0.4 &&
-                      (entries.length > 1
-                          ? entries[1].value / e.value < 0.5
-                          : true);
-                  final isUnlikely = !isTop && e.value < 0.1;
+                      p1 >= 0.4 &&
+                      likelihoodRatio >= 2.0 &&
+                      entropy <= 0.85;
+                  final isUnlikely =
+                      !isTop && (e.value <= 0.06 || e.value <= p1 * 0.33);
+
                   return [
                     UploadResultWidget(
                       prediction: e.key,
@@ -517,8 +537,8 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 children: [
                   Flexible(
                     child: Wrap(
-                      spacing: 2,
-                      runSpacing: 2,
+                      spacing: 4,
+                      runSpacing: 4,
                       children: positiveExamples
                           .map(
                             (example) => Theme(
@@ -532,8 +552,8 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                   SizedBox(height: 4),
                   Flexible(
                     child: Wrap(
-                      spacing: 2,
-                      runSpacing: 2,
+                      spacing: 4,
+                      runSpacing: 4,
                       children: negativeExamples
                           .map(
                             (e) => Theme(

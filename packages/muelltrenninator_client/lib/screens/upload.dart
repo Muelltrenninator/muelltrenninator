@@ -338,11 +338,20 @@ class _UploadResultModalState extends State<UploadResultModal> {
       ),
     );
 
-    var entriesRaw = widget.prediction.entries
-        .where((e) => e.value >= 0.01)
-        .toList();
-    if (entriesRaw.isEmpty) entriesRaw = widget.prediction.entries.toList();
-    final entries = (entriesRaw..sort((a, b) => b.value.compareTo(a.value)));
+    var entries = widget.prediction.entries.toList();
+    if (entries.isEmpty) entries = widget.prediction.entries.toList();
+    entries.sort((a, b) => b.value.compareTo(a.value));
+
+    // https://en.wikipedia.org/wiki/Entropy_(information_theory)
+    final n = entries.length;
+    final entropy =
+        -entries.fold(0.0, (sum, x) {
+          final val = x.value > 0 ? (x.value * math.log(x.value)) : 0.0;
+          return sum + val;
+        }) /
+        math.log(n);
+
+    entries.removeWhere((e) => e.value < 0.01);
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -366,28 +375,13 @@ class _UploadResultModalState extends State<UploadResultModal> {
             SizedBox(height: 4),
             ...entries
                 .map((e) {
-                  // https://en.wikipedia.org/wiki/Likelihood_ratio
-                  // https://en.wikipedia.org/wiki/Entropy_(information_theory)
-                  
-                  final n = entries.length;
                   final p1 = entries.first.value;
                   final p2 = n > 1 ? entries[1].value : 0.0;
-                  final entropy =
-                      -entries.fold(
-                        0.0,
-                        (sum, x) =>
-                            sum +
-                            (x.value > 0 ? x.value * math.log(x.value) : 0.0),
-                      ) /
-                      math.log(n);
-                  final likelihoodRatio = p2 > 0
-                      ? (p1 / p2) * (1 / 1)
-                      : double.infinity;
+                  final confidenceRatio = p2 > 0 ? (p1 / p2) : double.infinity;
 
                   final isTop =
                       e == entries.first &&
-                      p1 >= 0.4 &&
-                      likelihoodRatio >= 2.0 &&
+                      confidenceRatio >= 2.0 &&
                       entropy <= 0.85;
                   final isUnlikely =
                       !isTop && (e.value <= 0.06 || e.value <= p1 * 0.33);

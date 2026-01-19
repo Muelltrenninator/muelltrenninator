@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-01-10T23:34:42
+/// Last generated: 2026-01-19T16:03:33
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -409,7 +409,43 @@ final class GitBaker {
   /// List of uncommitted changes in the working tree of the repository.
   static final List<WorkspaceEntry> workspace = List.unmodifiable([
     WorkspaceEntryChange._(
+      "assets/IconKitchen.url",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "assets/banner.xcf",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
       "lib/generated/gitbaker.g.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/assets/IconKitchen.url",
+      status: WorkspaceEntryStatus._fromLetters(".", "D"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/lib/widgets/title_bar.dart",
       status: WorkspaceEntryStatus._fromLetters(".", "M"),
       submoduleState: WorkspaceEntrySubmoduleState._(
         commitChanged: false,
@@ -427,7 +463,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 7,
+      revision: 8,
       ahead: 0,
       behind: 0,
       commits: [
@@ -438,6 +474,7 @@ final class GitBaker {
         "0d61b0116e643df07590223fbe65eb9316bad498",
         "df4a70ca37c8b6923eb8fa2d8230760f1e6dc1c5",
         "535f37c9ebdd5e961c23c0b43c577b95c5a71339",
+        "18a27f223e5ece3d5dedaedc259e914cc3baf0b7",
       ],
     ),
   ];
@@ -511,6 +548,15 @@ final class GitBaker {
       hashAbbreviated: "535f37c",
       message: "Various algorithm changes",
       date: DateTime.parse("2026-01-10T22:33:36.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "18a27f223e5ece3d5dedaedc259e914cc3baf0b7",
+      hashAbbreviated: "18a27f2",
+      message: "Branding",
+      date: DateTime.parse("2026-01-19T14:42:32.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

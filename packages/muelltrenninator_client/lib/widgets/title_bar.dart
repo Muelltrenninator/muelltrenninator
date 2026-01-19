@@ -15,6 +15,7 @@ class TitleBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
     return InkWell(
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
@@ -28,6 +29,7 @@ class TitleBarTitle extends StatelessWidget {
             children: [
               Image.asset(
                 "assets/icon.png",
+                scale: devicePixelRatio,
                 width: theme.iconTheme.size ?? 24,
                 height: theme.iconTheme.size ?? 24,
                 isAntiAlias: true,

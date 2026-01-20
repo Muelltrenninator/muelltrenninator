@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-01-19T16:24:56
+/// Last generated: 2026-01-19T16:28:28
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -417,15 +417,6 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/assets/icon.png",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
   ]);
 
   /// All branches in the repository.
@@ -436,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 9,
+      revision: 10,
       ahead: 0,
       behind: 0,
       commits: [
@@ -449,6 +440,7 @@ final class GitBaker {
         "535f37c9ebdd5e961c23c0b43c577b95c5a71339",
         "18a27f223e5ece3d5dedaedc259e914cc3baf0b7",
         "b4b36f8d02a62eb587c48b7b116b9b31e9233170",
+        "0c8c4a545571e17b41a4261f5d1512c7967df6a5",
       ],
     ),
   ];
@@ -540,6 +532,15 @@ final class GitBaker {
       hashAbbreviated: "b4b36f8",
       message: "Icon adjustments",
       date: DateTime.parse("2026-01-19T15:09:44.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "0c8c4a545571e17b41a4261f5d1512c7967df6a5",
+      hashAbbreviated: "0c8c4a5",
+      message: "Bigger logo in UI",
+      date: DateTime.parse("2026-01-19T15:28:04.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

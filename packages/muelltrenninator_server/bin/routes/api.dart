@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+// possibility of reenabling of authentication in the future
+// ignore: unused_import
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_limiter/shelf_limiter.dart';
@@ -69,28 +71,28 @@ void defineApiRouter() {
 // MARK: Authentication
 
 Future<Object?> _apiAuthInternal(Request req) async {
-  var token = req.headers["authorization"];
-  if ((!(token?.startsWith("Token ") ?? false) || token!.length != (6 + 8))) {
-    return Response.unauthorized(
-      jsonEncode({"error": "Invalid or missing authorization token"}),
-      headers: {"Content-Type": "application/json"},
-    );
-  }
-  token = token.substring(6);
+  // var token = req.headers["authorization"];
+  // if ((!(token?.startsWith("Token ") ?? false) || token!.length != (6 + 8))) {
+  //   return Response.unauthorized(
+  //     jsonEncode({"error": "Invalid or missing authorization token"}),
+  //     headers: {"Content-Type": "application/json"},
+  //   );
+  // }
+  // token = token.substring(6);
 
-  final authVerify = await http.get(
-    Uri.parse("https://datly.con.bz/api/users/whoami"),
-    headers: {"Authorization": "Token $token"},
-  );
-  if (authVerify.statusCode != 200) {
-    return Response.unauthorized(
-      jsonEncode({"error": "Unknown authorization token"}),
-      headers: {"Content-Type": "application/json"},
-    );
-  }
+  // final authVerify = await http.get(
+  //   Uri.parse("https://datly.con.bz/api/users/whoami"),
+  //   headers: {"Authorization": "Token $token"},
+  // );
+  // if (authVerify.statusCode != 200) {
+  //   return Response.unauthorized(
+  //     jsonEncode({"error": "Unknown authorization token"}),
+  //     headers: {"Content-Type": "application/json"},
+  //   );
+  // }
 
-  return jsonDecode(authVerify.body)["username"];
-  // return null;
+  // return jsonDecode(authVerify.body)["username"];
+  return null;
 }
 
 Future<Response?> apiAuth(Request req) async {

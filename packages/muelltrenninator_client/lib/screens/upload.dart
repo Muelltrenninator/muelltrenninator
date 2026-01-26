@@ -376,7 +376,7 @@ class _UploadResultModalState extends State<UploadResultModal> {
             ...entries
                 .map((e) {
                   final p1 = entries.first.value;
-                  final p2 = n > 1 ? entries[1].value : 0.0;
+                  final p2 = entries.length > 1 ? entries[1].value : 0.0;
                   final confidenceRatio = p2 > 0 ? (p1 / p2) : double.infinity;
 
                   final isTop =

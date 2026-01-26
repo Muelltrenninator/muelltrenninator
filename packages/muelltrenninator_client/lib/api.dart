@@ -10,11 +10,13 @@ import 'main.dart';
 
 class ApiManager {
   ApiManager._();
-  static final ApiManager _instance = ApiManager._();
-  static ApiManager get instance => _instance;
 
-  static Uri get baseUri =>
-      kDebugMode ? Uri.parse("http://localhost:33553/api") : Uri.parse("/api");
+  static final forceProduction = false;
+  static Uri get baseUri => Uri.parse(
+    forceProduction
+        ? "https://muelltrenninator.con.bz/api"
+        : (kDebugMode ? "http://localhost:33553/api" : "/api"),
+  );
 }
 
 class AuthManager extends ChangeNotifier {

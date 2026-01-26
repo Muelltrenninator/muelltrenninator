@@ -100,21 +100,26 @@ void define(Router router) {
             }),
           )).body,
         )["event_id"];
-        final prediction = await http.get(
+        final request = await http.get(
           Uri.parse("$modelBaseUri/gradio_api/call/predict/$eventId"),
         );
 
-        if (prediction.body.split("event: ").last.startsWith("error")) {
+        if (request.body.split("event: ").last.startsWith("error")) {
           return Response(
             422,
             body: jsonEncode({"error": "Prediction failed by model backend."}),
           );
         }
+
+        final prediction = Map<String, Object>.from(
+          jsonDecode(jsonDecode(request.body.split("data: ").last)[0]),
+        );
+        final isTrash = prediction.remove("is_trash") ?? true;
+
         return Response.ok(
           jsonEncode({
-            "prediction": Map<String, double>.from(
-              jsonDecode(jsonDecode(prediction.body.split("data: ").last)[0]),
-            ),
+            "isTrash": isTrash,
+            "prediction": Map<String, double>.from(prediction),
           }),
           headers: {"Content-Type": "application/json"},
         );

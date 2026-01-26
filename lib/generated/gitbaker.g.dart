@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-01-19T16:28:28
+/// Last generated: 2026-01-26T08:34:33
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -427,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 10,
+      revision: 12,
       ahead: 0,
       behind: 0,
       commits: [
@@ -441,6 +441,8 @@ final class GitBaker {
         "18a27f223e5ece3d5dedaedc259e914cc3baf0b7",
         "b4b36f8d02a62eb587c48b7b116b9b31e9233170",
         "0c8c4a545571e17b41a4261f5d1512c7967df6a5",
+        "b03844282f1a2722211a263bb852475e550a0ddd",
+        "e4670bec7252dd44f0199bc396f173c04393e63b",
       ],
     ),
   ];
@@ -541,6 +543,24 @@ final class GitBaker {
       hashAbbreviated: "0c8c4a5",
       message: "Bigger logo in UI",
       date: DateTime.parse("2026-01-19T15:28:04.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "b03844282f1a2722211a263bb852475e550a0ddd",
+      hashAbbreviated: "b038442",
+      message: "Disable auth",
+      date: DateTime.parse("2026-01-20T06:27:00.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "e4670bec7252dd44f0199bc396f173c04393e63b",
+      hashAbbreviated: "e4670be",
+      message: "`isTrash` flag, updated predictions, issues fixed",
+      date: DateTime.parse("2026-01-26T07:33:33.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

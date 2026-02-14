@@ -126,7 +126,7 @@
         "description": "Title for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeOrganicDescription": "Waste that is biodegradable and comes from plants or animals.",
+    "predictionTypeOrganicDescription": "Biodegradable waste that comes from plants or animals.",
     "@predictionTypeOrganicDescription": {
         "description": "Description for the organic prediction type.",
         "context": "upload:result"
@@ -141,24 +141,24 @@
         "description": "Negative examples for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeElectronicWasteTitle": "Electronic Waste",
-    "@predictionTypeElectronicWasteTitle": {
-        "description": "Title for the electronic waste prediction type.",
+    "predictionTypeHazardousWasteTitle": "Hazardous Waste",
+    "@predictionTypeHazardousWasteTitle": {
+        "description": "Title for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeElectronicWasteDescription": "Discarded electronic devices or components.",
-    "@predictionTypeElectronicWasteDescription": {
-        "description": "Description for the electronic waste prediction type.",
+    "predictionTypeHazardousWasteDescription": "Waste that contains hazardous materials that require special handling and disposal.",
+    "@predictionTypeHazardousWasteDescription": {
+        "description": "Description for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeElectronicWasteExamples": "old phones, broken appliances, toasters",
-    "@predictionTypeElectronicWasteExamples": {
-        "description": "Examples for the electronic waste prediction type.",
+    "predictionTypeHazardousWasteExamples": "used batteries, paint cans, fluorescent tubes",
+    "@predictionTypeHazardousWasteExamples": {
+        "description": "Examples for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeElectronicWasteNegativeExamples": "batteries, cables, led light bulbs",
-    "@predictionTypeElectronicWasteNegativeExamples": {
-        "description": "Negative examples for the electronic waste prediction type.",
+    "predictionTypeHazardousWasteNegativeExamples": "food scraps, paper products, plastic containers",
+    "@predictionTypeHazardousWasteNegativeExamples": {
+        "description": "Negative examples for the hazardous waste prediction type.",
         "context": "upload:result"
     },
     "predictionTypePlasticTitle": "Plastic",

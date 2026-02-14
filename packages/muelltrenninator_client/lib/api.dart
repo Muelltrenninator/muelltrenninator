@@ -90,17 +90,42 @@ class AuthManager extends ChangeNotifier {
 
 enum PredictionType {
   organic,
-  electronic,
+  hazardous,
   plastic,
   paper,
   residual;
+
+  Color color(Brightness brightness) {
+    switch (this) {
+      case PredictionType.organic:
+        return brightness == Brightness.light
+            ? Colors.brown
+            : Colors.brown[400]!;
+      case PredictionType.hazardous:
+        return brightness == Brightness.light
+            ? Colors.redAccent
+            : Colors.deepOrange[400]!;
+      case PredictionType.plastic:
+        return brightness == Brightness.light
+            ? Colors.amber[600]!
+            : Colors.amber[400]!;
+      case PredictionType.paper:
+        return brightness == Brightness.light
+            ? Colors.lightBlue
+            : Colors.lightBlue[400]!;
+      case PredictionType.residual:
+        return brightness == Brightness.light
+            ? Colors.grey[800]!
+            : Colors.blueGrey[600]!;
+    }
+  }
 
   String title(AppLocalizations appLocalizations) {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicTitle;
-      case PredictionType.electronic:
-        return appLocalizations.predictionTypeElectronicWasteTitle;
+      case PredictionType.hazardous:
+        return appLocalizations.predictionTypeHazardousWasteTitle;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticTitle;
       case PredictionType.paper:
@@ -114,8 +139,8 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicDescription;
-      case PredictionType.electronic:
-        return appLocalizations.predictionTypeElectronicWasteDescription;
+      case PredictionType.hazardous:
+        return appLocalizations.predictionTypeHazardousWasteDescription;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticDescription;
       case PredictionType.paper:
@@ -129,8 +154,8 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicExamples;
-      case PredictionType.electronic:
-        return appLocalizations.predictionTypeElectronicWasteExamples;
+      case PredictionType.hazardous:
+        return appLocalizations.predictionTypeHazardousWasteExamples;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticExamples;
       case PredictionType.paper:
@@ -144,8 +169,8 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return appLocalizations.predictionTypeOrganicNegativeExamples;
-      case PredictionType.electronic:
-        return appLocalizations.predictionTypeElectronicWasteNegativeExamples;
+      case PredictionType.hazardous:
+        return appLocalizations.predictionTypeHazardousWasteNegativeExamples;
       case PredictionType.plastic:
         return appLocalizations.predictionTypePlasticNegativeExamples;
       case PredictionType.paper:
@@ -161,7 +186,7 @@ enum PredictionType {
     switch (this) {
       case PredictionType.organic:
         return "bio";
-      case PredictionType.electronic:
+      case PredictionType.hazardous:
         return "elektroschrott";
       case PredictionType.plastic:
         return "gelber_sack";

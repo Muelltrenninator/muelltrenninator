@@ -87,7 +87,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get predictionTypeOrganicDescription =>
-      'Abfall, der biologisch abbaubar ist und von Pflanzen oder Tieren stammt.';
+      'Biologisch abbaubarer Abfall, der von Pflanzen oder Tieren stammt.';
 
   @override
   String get predictionTypeOrganicExamples =>
@@ -98,19 +98,19 @@ class AppLocalizationsDe extends AppLocalizations {
       'andere Lebensmittel, in Plastik verpackte Gegenstände, Metalle';
 
   @override
-  String get predictionTypeElectronicWasteTitle => 'Elektroschrott';
+  String get predictionTypeHazardousWasteTitle => 'Sondermüll';
 
   @override
-  String get predictionTypeElectronicWasteDescription =>
-      'Ausrangierte elektronische Geräte oder Komponenten.';
+  String get predictionTypeHazardousWasteDescription =>
+      'Abfall, der gefährliche Materialien enthält, die eine spezielle Handhabung und Entsorgung erfordern.';
 
   @override
-  String get predictionTypeElectronicWasteExamples =>
-      'alte Telefone, kaputte Geräte, Toaster';
+  String get predictionTypeHazardousWasteExamples =>
+      'gebrauchte Batterien, Farbdosen, Leuchtstoffröhren';
 
   @override
-  String get predictionTypeElectronicWasteNegativeExamples =>
-      'Batterien, Kabel, LED-Glühbirnen';
+  String get predictionTypeHazardousWasteNegativeExamples =>
+      'Lebensmittelreste, Papierprodukte, Plastikbehälter';
 
   @override
   String get predictionTypePlasticTitle => 'Gelber Sack';

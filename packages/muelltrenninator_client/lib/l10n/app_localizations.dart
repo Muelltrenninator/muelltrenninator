@@ -239,7 +239,7 @@ abstract class AppLocalizations {
   /// Description for the organic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Waste that is biodegradable and comes from plants or animals.'**
+  /// **'Biodegradable waste that comes from plants or animals.'**
   String get predictionTypeOrganicDescription;
 
   /// Examples for the organic prediction type.
@@ -254,29 +254,29 @@ abstract class AppLocalizations {
   /// **'other food, plastic wrapped items, metals'**
   String get predictionTypeOrganicNegativeExamples;
 
-  /// Title for the electronic waste prediction type.
+  /// Title for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Electronic Waste'**
-  String get predictionTypeElectronicWasteTitle;
+  /// **'Hazardous Waste'**
+  String get predictionTypeHazardousWasteTitle;
 
-  /// Description for the electronic waste prediction type.
+  /// Description for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Discarded electronic devices or components.'**
-  String get predictionTypeElectronicWasteDescription;
+  /// **'Waste that contains hazardous materials that require special handling and disposal.'**
+  String get predictionTypeHazardousWasteDescription;
 
-  /// Examples for the electronic waste prediction type.
+  /// Examples for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'old phones, broken appliances, toasters'**
-  String get predictionTypeElectronicWasteExamples;
+  /// **'used batteries, paint cans, fluorescent tubes'**
+  String get predictionTypeHazardousWasteExamples;
 
-  /// Negative examples for the electronic waste prediction type.
+  /// Negative examples for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'batteries, cables, led light bulbs'**
-  String get predictionTypeElectronicWasteNegativeExamples;
+  /// **'food scraps, paper products, plastic containers'**
+  String get predictionTypeHazardousWasteNegativeExamples;
 
   /// Title for the plastic prediction type.
   ///

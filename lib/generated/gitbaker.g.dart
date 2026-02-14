@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-01-26T08:34:33
+/// Last generated: 2026-01-26T08:54:13
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -427,8 +427,8 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 12,
-      ahead: 0,
+      revision: 13,
+      ahead: 1,
       behind: 0,
       commits: [
         "22f43fc620924e6cef9c6a214251d942e6f0747d",
@@ -443,6 +443,7 @@ final class GitBaker {
         "0c8c4a545571e17b41a4261f5d1512c7967df6a5",
         "b03844282f1a2722211a263bb852475e550a0ddd",
         "e4670bec7252dd44f0199bc396f173c04393e63b",
+        "c8e6274b331381a18d8c290686b044cf7a7a3104",
       ],
     ),
   ];
@@ -561,6 +562,15 @@ final class GitBaker {
       hashAbbreviated: "e4670be",
       message: "`isTrash` flag, updated predictions, issues fixed",
       date: DateTime.parse("2026-01-26T07:33:33.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "c8e6274b331381a18d8c290686b044cf7a7a3104",
+      hashAbbreviated: "c8e6274",
+      message: "Immersive mode fullscreen",
+      date: DateTime.parse("2026-01-26T07:53:41.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

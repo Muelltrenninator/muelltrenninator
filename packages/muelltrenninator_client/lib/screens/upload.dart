@@ -377,7 +377,9 @@ class _UploadResultModalState extends State<UploadResultModal> {
                 .map((e) {
                   final p1 = entries.first.value;
                   final p2 = entries.length > 1 ? entries[1].value : 0.0;
-                  final confidenceRatio = p2 > 0 ? (p1 / p2) : double.infinity;
+                  final confidenceRatio = p2 > 0
+                      ? ((p1 * 100) / (p2 * 100))
+                      : double.infinity;
 
                   final isTop =
                       e == entries.first &&
@@ -489,20 +491,26 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
       Widget chip(String example) => Builder(
         builder: (context) {
           final colorScheme = ColorScheme.of(context);
-          return ActionChip(
-            onPressed: () => launchUrl(
-              Uri.parse(
-                "https://google.com/search?q=${Uri.encodeComponent("$example ${appLocalizations.predictionExampleSearchSuffix}")}",
-              ),
-            ),
-            label: Text(
-              example,
-              style: DefaultTextStyle.of(
-                context,
-              ).style.copyWith(color: colorScheme.onSecondaryContainer),
-            ),
-            backgroundColor: colorScheme.secondaryContainer,
+          final label = Text(
+            example,
+            style: DefaultTextStyle.of(
+              context,
+            ).style.copyWith(color: colorScheme.onSecondaryContainer),
           );
+          return widget.isTop
+              ? ActionChip(
+                  onPressed: () => launchUrl(
+                    Uri.parse(
+                      "https://google.com/search?q=${Uri.encodeComponent("$example ${appLocalizations.predictionExampleSearchSuffix}")}",
+                    ),
+                  ),
+                  label: label,
+                  backgroundColor: colorScheme.secondaryContainer,
+                )
+              : Chip(
+                  label: label,
+                  backgroundColor: colorScheme.secondaryContainer,
+                );
         },
       );
       return ListTile(
@@ -597,7 +605,21 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 bottom: 2,
                 top: 2,
               ),
-              title: Text(_predictionType.title(appLocalizations)),
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!widget.isUnlikely) ...[
+                    Icon(
+                      Icons.delete,
+                      color: _predictionType.color(theme.brightness),
+                    ),
+                    SizedBox(width: 4),
+                  ],
+                  Expanded(
+                    child: Text(_predictionType.title(appLocalizations)),
+                  ),
+                ],
+              ),
               subtitle: Text(_predictionType.description(appLocalizations)),
               trailing: Builder(
                 builder: (context) => Stack(

@@ -85,7 +85,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get predictionTypeOrganicDescription =>
-      'Waste that is biodegradable and comes from plants or animals.';
+      'Biodegradable waste that comes from plants or animals.';
 
   @override
   String get predictionTypeOrganicExamples =>
@@ -96,19 +96,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'other food, plastic wrapped items, metals';
 
   @override
-  String get predictionTypeElectronicWasteTitle => 'Electronic Waste';
+  String get predictionTypeHazardousWasteTitle => 'Hazardous Waste';
 
   @override
-  String get predictionTypeElectronicWasteDescription =>
-      'Discarded electronic devices or components.';
+  String get predictionTypeHazardousWasteDescription =>
+      'Waste that contains hazardous materials that require special handling and disposal.';
 
   @override
-  String get predictionTypeElectronicWasteExamples =>
-      'old phones, broken appliances, toasters';
+  String get predictionTypeHazardousWasteExamples =>
+      'used batteries, paint cans, fluorescent tubes';
 
   @override
-  String get predictionTypeElectronicWasteNegativeExamples =>
-      'batteries, cables, led light bulbs';
+  String get predictionTypeHazardousWasteNegativeExamples =>
+      'food scraps, paper products, plastic containers';
 
   @override
   String get predictionTypePlasticTitle => 'Plastic';

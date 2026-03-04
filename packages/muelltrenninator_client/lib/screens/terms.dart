@@ -1,10 +1,61 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:markdown_widget/markdown_widget.dart';
 
-class MarkdownDialog extends StatefulWidget {
+import '../api.dart';
+
+abstract class MarkdownDialogSource {
+  MarkdownDialogSource();
+  FutureOr<String> getMarkdown();
+  MarkdownDialogSource copyWith();
+
+  factory MarkdownDialogSource.termsOfService() => MarkdownDialogHttpSource(
+    Uri.parse("${ApiManager.baseUri.replace(path: "")}/legal/terms"),
+  );
+  factory MarkdownDialogSource.privacyPolicy() => MarkdownDialogHttpSource(
+    Uri.parse("${ApiManager.baseUri.replace(path: "")}/legal/privacy"),
+  );
+  factory MarkdownDialogSource.imprint() => MarkdownDialogHttpSource(
+    Uri.parse("${ApiManager.baseUri.replace(path: "")}/legal/imprint"),
+  );
+}
+
+class MarkdownDialogStringSource extends MarkdownDialogSource {
+  final String data;
+  MarkdownDialogStringSource(this.data);
+
+  @override
+  String getMarkdown() => data;
+
+  @override
+  MarkdownDialogStringSource copyWith({String? data}) =>
+      MarkdownDialogStringSource(data ?? this.data);
+}
+
+class MarkdownDialogHttpSource extends MarkdownDialogSource {
   final Uri origin;
-  const MarkdownDialog({super.key, required this.origin});
+  MarkdownDialogHttpSource(this.origin);
+
+  @override
+  Future<String> getMarkdown() async {
+    final response = await http.get(origin);
+    if (response.statusCode == 200 && response.body.isNotEmpty) {
+      return response.body;
+    } else {
+      throw Exception("Failed to load document.");
+    }
+  }
+
+  @override
+  MarkdownDialogHttpSource copyWith({Uri? origin}) =>
+      MarkdownDialogHttpSource(origin ?? this.origin);
+}
+
+class MarkdownDialog extends StatefulWidget {
+  final MarkdownDialogSource source;
+  const MarkdownDialog({super.key, required this.source});
 
   @override
   State<MarkdownDialog> createState() => _MarkdownDialogState();
@@ -17,18 +68,32 @@ class _MarkdownDialogState extends State<MarkdownDialog> {
   @override
   void initState() {
     super.initState();
-    http.get(widget.origin).then((response) {
-      if (response.statusCode == 200 && response.body.isNotEmpty) {
-        data = response.body;
-      } else {
-        error = true;
-      }
-      if (mounted) setState(() {});
-    });
+    Future<String?>.value(widget.source.getMarkdown())
+        .catchError((_) {
+          error = true;
+          return null;
+        })
+        .then((markdown) {
+          data = markdown;
+          if (mounted) setState(() {});
+        });
   }
 
   @override
   Widget build(BuildContext context) {
+    var markdownConfig = Theme.brightnessOf(context) == Brightness.dark
+        ? MarkdownConfig.darkConfig
+        : MarkdownConfig.defaultConfig;
+    markdownConfig = markdownConfig.copy(
+      configs: [
+        TableConfig(
+          wrapper: (child) => SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: child,
+          ),
+        ),
+      ],
+    );
     return AlertDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16),
       constraints: BoxConstraints(minWidth: 280, maxWidth: 560),
@@ -44,10 +109,7 @@ class _MarkdownDialogState extends State<MarkdownDialog> {
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: MarkdownBlock(
                             data: data!,
-                            config:
-                                Theme.brightnessOf(context) == Brightness.dark
-                                ? MarkdownConfig.darkConfig
-                                : MarkdownConfig.defaultConfig,
+                            config: markdownConfig,
                           ),
                         ),
                       ),
@@ -81,9 +143,9 @@ class _MarkdownDialogState extends State<MarkdownDialog> {
 
 Future<void> showMarkdownDialog({
   required BuildContext context,
-  required Uri origin,
+  required MarkdownDialogSource source,
 }) async => showDialog<void>(
   context: context,
   fullscreenDialog: true,
-  builder: (_) => MarkdownDialog(origin: origin),
+  builder: (_) => MarkdownDialog(source: source),
 );

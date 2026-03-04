@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
+import 'package:muelltrenninator/generated/gitbaker.g.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:tracer/tracer.dart';
 
+import 'helpers.dart';
 import 'routes/api.dart';
 
 final t = Tracer(
@@ -20,6 +23,7 @@ const devEnv = !bool.fromEnvironment("dart.vm.product");
 late final HttpServer server;
 final _router = Router()
   ..mount("/api", apiPipeline)
+  ..get("/legal/imprint", legalHandler)
   ..get("/legal/privacy", legalHandler)
   ..get("/legal/terms", legalHandler)
   ..mount("/", fileHandler);
@@ -43,8 +47,7 @@ Future<Response> fileHandler(Request req) async {
   }
 
   final headers = {
-    HttpHeaders.contentTypeHeader:
-        lookupMimeType(file.path) ?? "application/octet-stream",
+    "Content-Type": lookupMimeType(file.path) ?? "application/octet-stream",
 
     // https://docs.flutter.dev/platform-integration/web/wasm#serve-the-built-output-with-an-http-server
     "Cross-Origin-Embedder-Policy": "require-corp",
@@ -55,14 +58,35 @@ Future<Response> fileHandler(Request req) async {
 }
 
 Future<Response> legalHandler(Request req) async {
+  final locale = localeFromRequest(req);
   final path = req.url.path.replaceAll("..", "").split("/").last;
-  final file = File("legal/$path.md");
-  if (!(await file.exists())) return Response.notFound("Document not found");
+
+  if (path == "imprint") {
+    final request = await http.get(
+      Uri.parse("https://datly.con.bz/legal/imprint"),
+      headers: {"Accept-Language": locale ?? "en"},
+    );
+    if (request.statusCode != 200) {
+      return Response.notFound("Document not found");
+    }
+
+    final response = Response.ok(
+      request.body.replaceAll("Datly", "Mülltrenninator"),
+      headers: {"Content-Type": "text/markdown; charset=utf-8"},
+    );
+    return req.method == "HEAD" ? response.change(body: null) : response;
+  }
+
+  final file = await (File("legal/$path.$locale.md").exists())
+      ? File("legal/$path.$locale.md")
+      : File("legal/$path.md");
+  if (!(await file.exists())) {
+    t.error("Legal document not found: ${file.path}");
+    return Response.notFound("Document not found");
+  }
 
   final contents = await file.readAsString();
-  final headers = {
-    HttpHeaders.contentTypeHeader: "text/markdown; charset=utf-8",
-  };
+  final headers = {"Content-Type": "text/markdown; charset=utf-8"};
   final response = Response.ok(contents, headers: headers);
   return req.method == "HEAD" ? response.change(body: null) : response;
 }
@@ -88,6 +112,10 @@ void main(List<String> args) async {
   for (var i in [ProcessSignal.sigint, ProcessSignal.sigterm]) {
     i.watch().listen((e) => shutdown(e.name), onError: (_) {});
   }
+
+  t.info(
+    "Mülltrenninator Server [${GitBaker.currentBranch.name}@${GitBaker.currentBranch.commits.last.hashAbbreviated} (${gitBakerWorkspaceFormat(GitBaker.workspace)})]",
+  );
 
   Directory.current = Platform.script.resolve(".").toFilePath();
   defineApiRouter();

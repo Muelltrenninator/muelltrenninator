@@ -1,95 +1,139 @@
 # Mülltrenninator — Privacy Policy
 
-**Effective date:** 2025-12-14
-**Maintainer / Controller:** JHubi1  
-**Contact:** <me@jhubi1.com>  
+**Effective date:** 2026-03-01
+**Maintainer / Controller:** JHubi1
+**Contact:** <me@jhubi1.com>
 **Location:** Germany
 
 ## Quick summary
 
-- Mülltrenninator lets approved users take photos and upload them to our servers. Uploaded photos are used **only** to train, evaluate, and improve AI/ML models.  
-- Accounts are created and approved manually by administrators. Usernames are assigned by admins and are **not changeable** by users.  
-- We currently collect **no other personal data by default**. An email address may be collected in the future for optional notifications, but email addresses and usernames will **not** be included in any training datasets.  
-- All uploaded images have embedded metadata (EXIF) removed before they are stored (data minimisation).  
-- Access to the service is **free**.
+- Mülltrenninator is a free web service for classifying waste images using AI. You upload a photo and receive a prediction — no account required.
+- **No user accounts** exist. There is no registration, login, or authentication.
+- Uploaded images are forwarded to an AI model backend for classification and are **not stored** by the server.
+- We do **not** collect or store any personal data persistently. No cookies, no tracking, no analytics.
+- Your **IP address** is used transiently (in-memory only) for rate limiting and is **not stored** on disk.
+- Your **Accept-Language** HTTP header is used to serve legal documents in your preferred language and is **not stored**.
+- **Server logs** (HTTP method, status code, URL path) are written to stderr and are not persisted beyond the server process lifetime unless captured by the hosting environment.
+
+---
 
 ## 1. Controller & contact
 
-The data controller for processing carried out via Mülltrenninator is the maintainer listed above (JHubi1). For questions, privacy requests, or to exercise your rights contact: **<me@jhubi1.com>**.
+The data controller for all processing carried out via Mülltrenninator is:
 
-## 2. What we collect
+**JHubi1**
+Email: **<me@jhubi1.com>**
+Location: Germany
 
-- **Images you upload.** This includes the image file content; however, embedded metadata (EXIF, GPS, camera model, etc.) is removed before the file is stored.  
-- **Account identifiers.** A username (admin-assigned). Optionally an email address only if you voluntarily provide it for notifications; emails are not used in training datasets.  
-- **Minimal administrative data.** Status/approval timestamps and basic logs required to manage accounts and moderate uploads.
+No Data Protection Officer (DPO) has been formally appointed. For all questions, privacy requests, or to exercise your rights, contact the address above.
 
-We do **not** collect unrelated personal data (contact lists, device address books, payment data, health or sensitive category data as a matter of design). Do not upload photos that contain sensitive personal data about others unless you have lawful consent.
+## 2. Categories of personal data we process
 
-## 3. Purpose & legal bases for processing
+### 2.1 Images you upload
 
-**Primary purpose:** to store and process images for the development, training, evaluation and improvement of AI/ML models and related research/benchmarks.
+- When you upload an image for classification, it is forwarded to an AI model backend (Gradio-based) for prediction.
+- The image is **not stored** by the Mülltrenninator server. The server acts solely as a proxy.
+- The model backend may temporarily hold the image in memory or on disk during processing; it is not retained after the prediction is complete.
+- No images are used for model training through this service.
 
-**Legal bases (Article 6 GDPR):**
+### 2.2 Network metadata (transient)
 
-- **Consent (Art. 6(1)(a))** — for processing images you actively upload for training purposes we rely on your explicit informed consent at the time of upload. Consent is freely given, specific and can be withdrawn.  
-- **Legitimate interests / contract (Art. 6(1)(f)/(b))** — for account management, fraud prevention, security and maintaining the service we rely on legitimate interests and contract where applicable (e.g., if you opt into optional notifications). We will document any legitimate-interests assessment where required.
+| Data                       | Where used                                       | Retained                                                                                                                                  |
+| -------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **IP address**             | Rate limiting (5 requests per 10 seconds per IP) | **Transiently in memory only** — not written to disk, not persisted; cleared when the rate-limiting window expires or the server restarts |
+| **Accept-Language header** | Language detection for legal documents           | **Not stored** — read from the HTTP request at the time of serving and discarded                                                          |
 
-If the legal basis for a particular processing step differs, we will make that clear at the point of collection.
+### 2.3 Server logs
 
-## 4. What you grant us (license & model use)
+HTTP request method, status code, and URL path are logged to stderr for operational monitoring. These logs do **not** contain IP addresses, request bodies, or other personal data. Logs are not persisted beyond the server process lifetime unless captured by the hosting environment's log management.
 
-By uploading an image you grant Mülltrenninator a **non-exclusive, worldwide, royalty-free, transferable and sublicensable** license to store, reproduce, analyse, transform (including anonymisation/feature extraction), and use the image and any derived data for training, validating, evaluating and improving AI/ML models and for associated research and development. This includes use in internal or external publications or benchmarks in de-identified or aggregated form.
+### 2.4 Data we do **not** collect
 
-**Important:** We will remove EXIF/embedded metadata before storage. If you request deletion we will delete original files and take steps to exclude them from future training; however, information that has already been irreversibly incorporated into a trained model may not be fully removable. We will make reasonable efforts to prevent further use of deleted images in subsequent training. The legal limits to erasing information already learned by models are described in the GDPR (right to erasure and practical limitations).
+We do not collect or store: usernames, email addresses, passwords, cookies, device identifiers, contact lists, address books, payment data, location data, health data, biometric data, tracking cookies, or any data from analytics or advertising SDKs. **No cookies or similar tracking technologies are used.**
 
-## 5. Retention
+## 3. Purposes and legal bases for processing
 
-- Default retention for original uploaded images: **up to 24 months** from upload, unless you request earlier deletion.  
-- If you request account deletion we will remove original image files and account data (except logs necessary for security, legal compliance, or backup retention) within **30 days** where technically feasible. We will exclude your images from future training and datasets after deletion.  
-- Backup copies or limited logs may be retained longer only for legal, security or backup-restoration purposes; such data will be minimised and access restricted.
+| Purpose                                                                                                                     | Data involved              | Legal basis (Art. 6 GDPR)                                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Image classification** — forwarding your uploaded image to the AI model backend and returning the prediction result       | Uploaded image (transient) | **Legitimate interests (Art. 6(1)(f))** — our interest in providing the core service; the image is processed only transiently and not stored |
+| **Security & abuse prevention** — rate limiting to prevent excessive use and ensure service availability                    | IP address (transient)     | **Legitimate interests (Art. 6(1)(f))** — our interest in protecting the service and ensuring fair access for all users                      |
+| **Operational monitoring** — logging HTTP request metadata (method, status, path) for debugging and availability monitoring | Server log entries         | **Legitimate interests (Art. 6(1)(f))** — our interest in maintaining and troubleshooting the service                                        |
+| **Language detection** — serving legal documents in your preferred language                                                 | Accept-Language header     | **Legitimate interests (Art. 6(1)(f))** — our interest in providing an accessible service                                                    |
 
-These retention periods are chosen to balance model development needs and data minimisation/storage limitation obligations under the GDPR.
+Where we rely on **legitimate interests**, we have conducted a balancing test and determined that the processing is proportionate and does not override your rights, given that all data is processed transiently and no personal data is stored persistently. You may request details of this assessment.
 
-## 6. Data subject rights & exercising them
+## 4. Data retention
 
-Under the GDPR you have rights including (where applicable):  
+| Data category       | Retention period                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Uploaded images** | **Not retained** — forwarded to the model backend and discarded; not stored on the server                                       |
+| **IP addresses**    | **Transient only** — held in memory for the rate-limiting window (10 seconds) and discarded; not written to disk                |
+| **Server logs**     | Written to stderr; not persisted beyond the server process lifetime unless captured by the hosting environment's log management |
 
-- Right to be informed (this notice), access, rectification, erasure (right to be forgotten), restriction of processing, objection, data portability, and rights related to automated decision-making. We will assist you to exercise these rights and respond within GDPR timeframes.
+## 5. Recipients and subprocessors
 
-To exercise any right, contact **<me@jhubi1.com>**. We may require reasonable proof of identity before fulfilling requests.
+| Recipient               | Data shared                                      | Purpose                                                  | Location                 |
+| ----------------------- | ------------------------------------------------ | -------------------------------------------------------- | ------------------------ |
+| **AI model backend**    | Uploaded image (transient)                       | Image classification / prediction (Gradio-based service) | Same hosting environment |
 
-You may also withdraw any consent you gave for image use at any time; withdrawal will not affect processing already lawfully completed prior to withdrawal.
+We do **not** sell personal data. No data is shared with advertising, analytics, or other third-party services.
 
-## 7. Data Protection Impact Assessment (DPIA)
+## 6. Your rights under the GDPR
 
-Processing personal images to train AI can be a high-risk activity. Where required by the GDPR, Mülltrenninator will carry out a Data Protection Impact Assessment (DPIA) before or when launching processing operations that are likely to result in a high risk to data subjects (for example large-scale profiling or certain AI uses). You may request summary information about any DPIA we have carried out.
+Under the GDPR you have the following rights, which you can exercise at any time by contacting **<me@jhubi1.com>**:
 
-## 8. Security
+| Right                          | Description                                                                                                                      |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Access** (Art. 15)           | Obtain confirmation of whether we process your data and receive a copy of it                                                     |
+| **Rectification** (Art. 16)    | Have inaccurate data corrected                                                                                                   |
+| **Erasure** (Art. 17)          | Request deletion of your data ("right to be forgotten")                                                                          |
+| **Restriction** (Art. 18)      | Request that we restrict processing of your data in certain circumstances                                                        |
+| **Data portability** (Art. 20) | Receive your data in a structured, commonly used, machine-readable format                                                        |
+| **Objection** (Art. 21)        | Object to processing based on legitimate interests; we will cease processing unless we demonstrate compelling legitimate grounds |
 
-We use appropriate technical and organisational measures (access controls, encryption in transit, minimal admin access, secure hosting practices) to protect stored images and account data. While we aim to protect your data, no system is absolutely secure. In the unlikely event of a personal data breach requiring notification, we will follow GDPR notification obligations.
+**Note:** Since Mülltrenninator does not store any personal data persistently, most of these rights are effectively satisfied by design — there is no stored data to access, rectify, erase, or port.
 
-## 9. International transfers
+We will respond to your request within **one month** (extendable by two further months for complex requests, with notification). Exercising your rights is free of charge.
 
-Data may be processed or stored outside the EU/EEA (e.g., by hosting or ML service providers). Where we transfer personal data outside the EEA we will apply appropriate safeguards (e.g., EU Standard Contractual Clauses or other lawful transfer mechanisms) as required by GDPR.
+## 7. International data transfers
 
-## 10. Sharing & subprocessors
+Our data processing takes place exclusively within the EU (Hetzner, Germany). No personal data is transferred outside the European Economic Area (EEA).
 
-We use trusted subprocessors to store and process data. Specifically, our primary hosting provider is **Hetzner Online GmbH**, located in **Nuremberg, Germany (eu-central)**, where we utilize a private shared server environment. Subprocessors are contractually required to process data only on our instructions and to implement appropriate safeguards. We may share de-identified or aggregated research outputs or models; usernames and email addresses will **not** be included in training datasets or shared model artifacts.
+## 8. Security measures
 
-## 11. Minors
+We implement appropriate technical and organisational measures (Art. 32 GDPR) to protect the service:
 
-Mülltrenninator is **not intended** for children. By using the service you represent that you meet the minimum age in your jurisdiction to give consent for image uploads. Do not upload images of minors unless you have lawful permission.
+- **Rate limiting:** Maximum 5 requests per 10 seconds per IP address to prevent abuse
+- **No persistent data storage:** No personal data is stored on disk — images are forwarded transiently, IP addresses are held only in memory
+- **Encryption in transit:** HTTPS (TLS) for all connections
+- **CORS policy:** `Cross-Origin-Embedder-Policy: require-corp`, `Cross-Origin-Opener-Policy: same-origin`
+- **Secure randomness:** `Random.secure()` used for all security-sensitive operations
+- **Path traversal prevention:** Input validation on all file paths
+- **Log hygiene:** Server logs contain only HTTP method, status code, and URL path — no personal data
 
-## 12. Complaints & supervisory authority
+No system is absolutely secure. In the unlikely event of a personal data breach, we will comply with the notification obligations under Arts. 33–34 GDPR.
 
-If you have an unresolved complaint about our processing you may contact your national data protection authority. In Germany you may contact the relevant state supervisory authority or the Federal Commissioner for Data Protection and Freedom of Information (BfDI) for federal matters. Filing a complaint with a supervisory authority is free of charge.
+## 9. Automated decision-making
 
-## 13. Changes to this Privacy Policy
+The AI classification constitutes automated processing, but it does **not** produce legal effects or similarly significantly affect you (Art. 22 GDPR). The prediction is purely informational — it suggests a waste category but does not make any binding decision about you.
 
-We may update this policy; material changes will be communicated via the app or by email if you have provided one. The latest effective date will be displayed at the top.
+## 10. Children and minors
 
-## 14. Misc / legal
+Mülltrenninator does not collect personal data and does not require registration. As such, there are no specific age restrictions for using the service. However, parents and guardians should supervise minors' internet use in general.
 
-This notice is intended to describe core practices and is not a substitute for legal advice. For legal questions about obligations under GDPR or other national laws please consult a qualified attorney.
+## 11. Complaints and supervisory authority
 
-**Contact:** <me@jhubi1.com> (maintainer: JHubi1)
+If you believe our processing of your personal data infringes the GDPR, you have the right to lodge a complaint with a supervisory authority (Art. 77 GDPR), in particular in the EU Member State of your habitual residence, place of work, or place of the alleged infringement.
+
+In Germany, you may contact the relevant state data protection authority (Landesdatenschutzbeauftragte) or the Federal Commissioner for Data Protection and Freedom of Information (**BfDI**) for federal matters. Filing a complaint is free of charge.
+
+## 12. Changes to this Privacy Policy
+
+We may update this policy from time to time. Material changes will be communicated on the website. The effective date at the top of this document will always reflect the latest version. Continued use of the service after changes constitutes acknowledgement of the updated policy.
+
+## 13. Contact
+
+For questions, privacy requests, data subject rights, or any other matters:
+
+**JHubi1**
+Email: **<me@jhubi1.com>**

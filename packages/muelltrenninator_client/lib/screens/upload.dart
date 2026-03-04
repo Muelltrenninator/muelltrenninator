@@ -605,20 +605,23 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
                 bottom: 2,
                 top: 2,
               ),
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (!widget.isUnlikely) ...[
-                    Icon(
-                      Icons.delete,
-                      color: _predictionType.color(theme.brightness),
+              title: Transform.translate(
+                offset: widget.isUnlikely ? Offset(0, 0) : Offset(-4, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!widget.isUnlikely) ...[
+                      Icon(
+                        Icons.delete,
+                        color: _predictionType.color(theme.brightness),
+                      ),
+                      SizedBox(width: 4),
+                    ],
+                    Expanded(
+                      child: Text(_predictionType.title(appLocalizations)),
                     ),
-                    SizedBox(width: 4),
                   ],
-                  Expanded(
-                    child: Text(_predictionType.title(appLocalizations)),
-                  ),
-                ],
+                ),
               ),
               subtitle: Text(_predictionType.description(appLocalizations)),
               trailing: Builder(

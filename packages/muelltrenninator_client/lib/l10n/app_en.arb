@@ -40,14 +40,19 @@
         "description": "Link text for new users to request a login code.",
         "context": "login"
     },
-    "loginPrivacyPolicy": "Privacy Policy",
-    "@loginPrivacyPolicy": {
+    "termsOfService": "Terms of Service",
+    "@termsOfService": {
+        "description": "Link text for the app's terms of service. This string is formatted in MLA title case.",
+        "context": "login"
+    },
+    "privacyPolicy": "Privacy Policy",
+    "@privacyPolicy": {
         "description": "Link text for the app's privacy policy. This string is formatted in MLA title case.",
         "context": "login"
     },
-    "loginTermsOfService": "Terms of Service",
-    "@loginTermsOfService": {
-        "description": "Link text for the app's terms of service. This string is formatted in MLA title case.",
+    "imprint": "Imprint",
+    "@imprint": {
+        "description": "Link text for the app's imprint. This string is formatted in MLA title case.",
         "context": "login"
     },
     "cameraNotFound": "No camera found",

@@ -107,12 +107,12 @@ enum PredictionType {
             : Colors.deepOrange[400]!;
       case PredictionType.plastic:
         return brightness == Brightness.light
-            ? Colors.amber[600]!
+            ? Colors.amber
             : Colors.amber[400]!;
       case PredictionType.paper:
         return brightness == Brightness.light
-            ? Colors.lightBlue
-            : Colors.lightBlue[400]!;
+            ? Colors.blueAccent
+            : Colors.blue[600]!;
       case PredictionType.residual:
         return brightness == Brightness.light
             ? Colors.grey[800]!

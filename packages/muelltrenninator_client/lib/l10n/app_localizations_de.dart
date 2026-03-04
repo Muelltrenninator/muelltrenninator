@@ -33,10 +33,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loginNewHereRequest => 'Einen Code anfordern.';
 
   @override
-  String get loginPrivacyPolicy => 'Datenschutzerklärung';
+  String get termsOfService => 'Nutzungsbedingungen';
 
   @override
-  String get loginTermsOfService => 'Nutzungsbedingungen';
+  String get privacyPolicy => 'Datenschutzerklärung';
+
+  @override
+  String get imprint => 'Impressum';
 
   @override
   String get cameraNotFound => 'Keine Kamera gefunden';

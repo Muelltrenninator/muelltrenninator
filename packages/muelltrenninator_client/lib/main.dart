@@ -21,14 +21,14 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       page: MainRoute.page,
       path: "/",
-      guards: [AuthenticationGuard()],
+      // guards: [AuthenticationGuard()],
       children: [AutoRoute(page: UploadRoute.page, path: "")],
     ),
-    AutoRoute(
-      page: LoginRoute.page,
-      path: "/login",
-      guards: [ReverseAuthenticationGuard()],
-    ),
+    // AutoRoute(
+    //   page: LoginRoute.page,
+    //   path: "/login",
+    //   guards: [ReverseAuthenticationGuard()],
+    // ),
     AutoRoute(page: ErrorRoute.page, path: "*"),
   ];
 }
@@ -82,7 +82,7 @@ Future<void> camerasInitialize() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
-  // await BrowserContextMenu.disableContextMenu();
+  await BrowserContextMenu.disableContextMenu();
 
   prefs = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),

@@ -140,17 +140,23 @@ abstract class AppLocalizations {
   /// **'Request a code.'**
   String get loginNewHereRequest;
 
-  /// Link text for the app's privacy policy. This string is formatted in MLA title case.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy Policy'**
-  String get loginPrivacyPolicy;
-
   /// Link text for the app's terms of service. This string is formatted in MLA title case.
   ///
   /// In en, this message translates to:
   /// **'Terms of Service'**
-  String get loginTermsOfService;
+  String get termsOfService;
+
+  /// Link text for the app's privacy policy. This string is formatted in MLA title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// Link text for the app's imprint. This string is formatted in MLA title case.
+  ///
+  /// In en, this message translates to:
+  /// **'Imprint'**
+  String get imprint;
 
   /// Shown when no camera device is found on the system or the permission is denied.
   ///

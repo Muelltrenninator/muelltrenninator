@@ -137,40 +137,31 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                 leading: Icon(Icons.open_in_new),
                 title: Text(AppLocalizations.of(context).aboutAppLearnMore),
               ),
-              ListTile(
-                onTap: () async {
-                  await context.navigateTo(MainRoute());
-                  await AuthManager.instance.logout();
-                },
-                leading: Icon(Icons.logout),
-                title: Text(AppLocalizations.of(context).aboutAppLogout),
-              ),
               SizedBox(height: 12),
               ListTile(
                 onTap: () => showMarkdownDialog(
                   context: context,
-                  origin: Uri.parse(
-                    "${ApiManager.baseUri.replace(path: "")}/legal/privacy",
-                  ),
+                  source: MarkdownDialogSource.termsOfService(),
                 ),
-                leading: Icon(Icons.privacy_tip_outlined),
-                title: Text(AppLocalizations.of(context).loginPrivacyPolicy),
+                leading: Icon(Icons.description_outlined),
+                title: Text(AppLocalizations.of(context).termsOfService),
               ),
               ListTile(
                 onTap: () => showMarkdownDialog(
                   context: context,
-                  origin: Uri.parse(
-                    "${ApiManager.baseUri.replace(path: "")}/legal/terms",
-                  ),
+                  source: MarkdownDialogSource.privacyPolicy(),
                 ),
-                leading: Icon(Icons.description_outlined),
-                title: Text(AppLocalizations.of(context).loginTermsOfService),
+                leading: Icon(Icons.privacy_tip_outlined),
+                title: Text(AppLocalizations.of(context).privacyPolicy),
               ),
-              // SizedBox(height: 12),
-              // ListTile(
-              //   leading: Icon(Icons.favorite_outline),
-              //   title: Text(AppLocalizations.of(context).aboutThankYou),
-              // ),
+              ListTile(
+                onTap: () => showMarkdownDialog(
+                  context: context,
+                  source: MarkdownDialogSource.imprint(),
+                ),
+                leading: Icon(Icons.gavel_outlined),
+                title: Text(AppLocalizations.of(context).imprint),
+              ),
             ],
           ),
           icon: Icon(Icons.info_outline),

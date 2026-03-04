@@ -33,10 +33,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginNewHereRequest => 'Request a code.';
 
   @override
-  String get loginPrivacyPolicy => 'Privacy Policy';
+  String get termsOfService => 'Terms of Service';
 
   @override
-  String get loginTermsOfService => 'Terms of Service';
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get imprint => 'Imprint';
 
   @override
   String get cameraNotFound => 'No camera found';

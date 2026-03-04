@@ -174,26 +174,22 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       TextSpan(text: "\n"),
                       TextSpan(
-                        text: AppLocalizations.of(context).loginPrivacyPolicy,
+                        text: AppLocalizations.of(context).termsOfService,
                         style: TextStyle(fontWeight: FontWeight.w600),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => showMarkdownDialog(
                             context: context,
-                            origin: Uri.parse(
-                              "${ApiManager.baseUri.replace(path: "")}/legal/privacy",
-                            ),
+                            source: MarkdownDialogSource.termsOfService(),
                           ),
                       ),
                       TextSpan(text: " • "),
                       TextSpan(
-                        text: AppLocalizations.of(context).loginTermsOfService,
+                        text: AppLocalizations.of(context).privacyPolicy,
                         style: TextStyle(fontWeight: FontWeight.w600),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => showMarkdownDialog(
                             context: context,
-                            origin: Uri.parse(
-                              "${ApiManager.baseUri.replace(path: "")}/legal/terms",
-                            ),
+                            source: MarkdownDialogSource.privacyPolicy(),
                           ),
                       ),
                     ],

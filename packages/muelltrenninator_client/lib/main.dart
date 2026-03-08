@@ -14,6 +14,18 @@ import 'l10n/app_localizations.dart';
 import 'main.gr.dart';
 import 'widgets/title_bar.dart';
 
+export 'main.gr.dart';
+
+Route<T> _dialogRoute<T>(
+  BuildContext context,
+  Widget child,
+  AutoRoutePage<T> page,
+) => DialogRoute<T>(
+  context: context,
+  settings: page,
+  builder: (context) => child,
+);
+
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
   @override
@@ -23,6 +35,21 @@ class AppRouter extends RootStackRouter {
       path: "/",
       // guards: [AuthenticationGuard()],
       children: [AutoRoute(page: UploadRoute.page, path: "")],
+    ),
+    CustomRoute(
+      page: MarkdownDialogTermsOfServiceRoute.page,
+      path: "/termsOfService",
+      customRouteBuilder: _dialogRoute,
+    ),
+    CustomRoute(
+      page: MarkdownDialogPrivacyPolicyRoute.page,
+      path: "/privacyPolicy",
+      customRouteBuilder: _dialogRoute,
+    ),
+    CustomRoute(
+      page: MarkdownDialogImprintRoute.page,
+      path: "/imprint",
+      customRouteBuilder: _dialogRoute,
     ),
     // AutoRoute(
     //   page: LoginRoute.page,

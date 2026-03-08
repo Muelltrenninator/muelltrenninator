@@ -6,8 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../api.dart';
 import '../l10n/app_localizations.dart';
+import '../main.gr.dart';
 import '../widgets/title_bar.dart';
-import 'terms.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -177,9 +177,8 @@ class _LoginScreenState extends State<LoginScreen>
                         text: AppLocalizations.of(context).termsOfService,
                         style: TextStyle(fontWeight: FontWeight.w600),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => showMarkdownDialog(
-                            context: context,
-                            source: MarkdownDialogSource.termsOfService(),
+                          ..onTap = () => context.pushRoute(
+                            MarkdownDialogTermsOfServiceRoute(),
                           ),
                       ),
                       TextSpan(text: " • "),
@@ -187,9 +186,8 @@ class _LoginScreenState extends State<LoginScreen>
                         text: AppLocalizations.of(context).privacyPolicy,
                         style: TextStyle(fontWeight: FontWeight.w600),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => showMarkdownDialog(
-                            context: context,
-                            source: MarkdownDialogSource.privacyPolicy(),
+                          ..onTap = () => context.pushRoute(
+                            MarkdownDialogPrivacyPolicyRoute(),
                           ),
                       ),
                     ],

@@ -16,6 +16,7 @@ import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../widgets/radio_dialog.dart';
 import '../widgets/status_modal.dart';
+import 'terms.dart';
 
 @RoutePage()
 class UploadPage extends StatefulWidget {
@@ -226,6 +227,21 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
             maxLines: 3,
           ),
           SizedBox(height: 16),
+          if (!camerasPermissionDenied) ...[
+            OutlinedButton.icon(
+              onPressed: () => showMarkdownDialog(
+                context: context,
+                source: MarkdownDialogStringSource(
+                  AppLocalizations.of(
+                    context,
+                  ).cameraErrorUnavailableDescription,
+                ),
+              ),
+              icon: Icon(Icons.troubleshoot_outlined),
+              label: Text(AppLocalizations.of(context).cameraErrorTroubleshoot),
+            ),
+            SizedBox(height: 4),
+          ],
           (camerasPermissionDenied ? FilledButton.icon : OutlinedButton.icon)
               .call(
                 onPressed: () async {

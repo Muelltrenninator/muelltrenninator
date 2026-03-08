@@ -17,6 +17,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get retry => 'Erneut Versuchen';
 
   @override
+  String get failedToLoadDocument => 'Fehler beim Laden des Dokuments.';
+
+  @override
   String get loginError =>
       'Server nicht erreichbar. Bitte überprüfe deine Internetverbindung.';
 
@@ -51,6 +54,13 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get cameraErrorUnavailable =>
       'Keine Kamera auf diesem Gerät verfügbar.';
+
+  @override
+  String get cameraErrorUnavailableDescription =>
+      '# „Keine Kamera auf diesem Gerät verfügbar“ Fehlerbehebung\n\nDatly kann derzeit nicht auf deine Kamera zugreifen. Dies kann verschiedene Ursachen haben. Die häufigsten sind unten aufgeführt.\n\n- Eine andere Anwendung verwendet die Kamera\n\n  - Bitte schließe alle anderen Anwendungen, die die Kamera verwenden könnten, und versuche es erneut.\n\n  - Manchmal können auch andere Browser-Tabs die Kamera blockieren, also versuche bitte auch, andere Tabs zu schließen, die die Kamera verwenden könnten.\n\n- Hardwareproblem oder vorübergehender Fehler\n\n  - Bitte überprüfe deine Kameraeinstellungen, um sicherzustellen, dass sie ordnungsgemäß konfiguriert und von deinem Gerät erkannt wird.\n  - Versuche, dein Gerät neu zu starten, da dies oft vorübergehende Hardwarefehler beheben kann.\n  - Wenn das Problem weiterhin besteht, konsultiere bitte die Dokumentation deines Geräts oder den Support für weitere Schritte zur Fehlerbehebung.';
+
+  @override
+  String get cameraErrorTroubleshoot => 'Fehlerbehebung';
 
   @override
   String get selectCamera => 'Kamera auswählen';

@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get retry;
 
+  /// Error message shown when a legal document fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load document.'**
+  String get failedToLoadDocument;
+
   /// Error message shown when the server cannot be reached during login.
   ///
   /// In en, this message translates to:
@@ -170,11 +176,23 @@ abstract class AppLocalizations {
   /// **'Access to the camera was denied.'**
   String get cameraErrorPermission;
 
-  /// Explains that no camera is available on the device.
+  /// Shown when the camera is unavailable on the device, for example because it is being used by another application or there is a hardware issue.
   ///
   /// In en, this message translates to:
   /// **'No camera available on this device.'**
   String get cameraErrorUnavailable;
+
+  /// Additional explanation for the camera unavailable error, providing possible causes and troubleshooting steps.
+  ///
+  /// In en, this message translates to:
+  /// **'# “No camera available on this device” Troubleshoot\n\nDatly right now is unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.'**
+  String get cameraErrorUnavailableDescription;
+
+  /// Button text to open the troubleshooting information for camera errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Troubleshoot'**
+  String get cameraErrorTroubleshoot;
 
   /// Title for the camera selection dialog.
   ///

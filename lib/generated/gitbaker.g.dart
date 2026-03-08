@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-03-01T14:59:43
+/// Last generated: 2026-03-04T22:27:41
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -417,180 +417,6 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/assets/images/electronic.jpg",
-      status: WorkspaceEntryStatus._fromLetters(".", "D"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/api.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/l10n/app_de.arb",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/l10n/app_en.arb",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/l10n/app_localizations.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/l10n/app_localizations_de.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/l10n/app_localizations_en.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/screens/login.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/screens/terms.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/screens/upload.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/widgets/title_bar.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/pubspec.yaml",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_server/bin/helpers.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_server/bin/legal/privacy.md",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_server/bin/legal/terms.md",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_server/bin/server.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_server/pubspec.yaml",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_client/assets/images/hazardous.jpg",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_client/web/robots.txt",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_client/web/sitemap.xml",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_server/bin/legal/imprint.de.md",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_server/bin/legal/imprint.md",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_server/bin/legal/privacy.de.md",
-    ),
-    WorkspaceEntryUntracked._(
-      "packages/muelltrenninator_server/bin/legal/terms.de.md",
-    ),
   ]);
 
   /// All branches in the repository.
@@ -601,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 14,
+      revision: 15,
       ahead: 0,
       behind: 0,
       commits: [
@@ -619,6 +445,7 @@ final class GitBaker {
         "e4670bec7252dd44f0199bc396f173c04393e63b",
         "c8e6274b331381a18d8c290686b044cf7a7a3104",
         "35a3322143f5e0ed185d577b93e42e6f6b7ee7f1",
+        "0adf67f0012c2173cff6f26ec9392730584f8afc",
       ],
     ),
   ];
@@ -755,6 +582,15 @@ final class GitBaker {
       hashAbbreviated: "35a3322",
       message: "\"Electronic\"->\"Hazardous\" waste, bin colors",
       date: DateTime.parse("2026-02-14T16:42:32.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "0adf67f0012c2173cff6f26ec9392730584f8afc",
+      hashAbbreviated: "0adf67f",
+      message: "Imprint, small improvements",
+      date: DateTime.parse("2026-03-04T21:27:11.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

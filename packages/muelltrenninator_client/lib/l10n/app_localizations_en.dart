@@ -17,6 +17,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Retry';
 
   @override
+  String get failedToLoadDocument => 'Failed to load document.';
+
+  @override
   String get loginError =>
       'Server unreachable. Please check your internet connection.';
 
@@ -49,6 +52,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cameraErrorUnavailable => 'No camera available on this device.';
+
+  @override
+  String get cameraErrorUnavailableDescription =>
+      '# “No camera available on this device” Troubleshoot\n\nDatly right now is unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.';
+
+  @override
+  String get cameraErrorTroubleshoot => 'Troubleshoot';
 
   @override
   String get selectCamera => 'Select camera';

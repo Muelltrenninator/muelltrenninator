@@ -6,7 +6,11 @@
   <meta charset="UTF-8">
   <meta name=viewport content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="System for interacting with the “Mülltrenninator” project and a proxy for the AI worker.">
+
+  <meta name="description" lang="en" content="Award winning, intelligent waste separation system that can determine the correct waste bin for a given item from a picture.">
+  <meta name="description" lang="de" content="Preisgekröntes, intelligentes Mülltrennsystem, das die richtige Mülltonne für einen gegebenen Gegenstand durch ein einzelnes Bild bestimmen kann.">
+
+  <meta name="keywords" content="Mülltrenninator, waste, disposal, waste disposal, Müll, Abfall, Mülltrennung">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -18,6 +22,7 @@
   <title>Mülltrenninator</title>
   <link rel="manifest" href="manifest.json">
 
+  <meta property="og:type" content="website">
   <meta property="og:title" content="Mülltrenninator">
   <meta property="og:image" content="/assets/assets/banner.png">
   <meta property="og:url" content="{{CANONICAL}}">
@@ -92,7 +97,7 @@
   </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script src='flutter_bootstrap.js?v={{flutter_service_worker_version}}' async></script>
   <div id="loaderContainer"><div id="loader"></div></div>
 </body>
 </html>

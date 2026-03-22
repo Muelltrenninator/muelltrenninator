@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-03-17T21:04:37
+/// Last generated: 2026-03-17T21:20:00
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -417,15 +417,6 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/web/index.html",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
   ]);
 
   /// All branches in the repository.
@@ -436,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 16,
+      revision: 17,
       ahead: 0,
       behind: 0,
       commits: [
@@ -456,6 +447,7 @@ final class GitBaker {
         "35a3322143f5e0ed185d577b93e42e6f6b7ee7f1",
         "0adf67f0012c2173cff6f26ec9392730584f8afc",
         "3a2c815a16660f64e2706947c6fc23f5438eb0db",
+        "15d01c539f7908d3fd4409f37ba9185dd5e80bcd",
       ],
     ),
   ];
@@ -610,6 +602,15 @@ final class GitBaker {
       hashAbbreviated: "3a2c815",
       message: "Troubleshooting on camera issue, legal hotlinks",
       date: DateTime.parse("2026-03-08T14:16:21.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "15d01c539f7908d3fd4409f37ba9185dd5e80bcd",
+      hashAbbreviated: "15d01c5",
+      message: "Web improvements",
+      date: DateTime.parse("2026-03-17T20:19:41.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

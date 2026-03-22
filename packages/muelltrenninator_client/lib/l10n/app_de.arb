@@ -28,7 +28,7 @@
     "aboutThankYou": "Vielen Dank an Kitan für die Hilfe bei der Gestaltung des App-Icons!",
     "predictionTypeOrganicTitle": "Biomüll",
     "predictionTypeOrganicDescription": "Biologisch abbaubarer Abfall, der von Pflanzen oder Tieren stammt.",
-    "predictionTypeOrganicExamples": "Gemüsereste, Gartenabfälle, Kaffeesatz",
+    "predictionTypeOrganicExamples": "Essensreste, Gartenabfälle, Kaffeesatz",
     "predictionTypeOrganicNegativeExamples": "andere Lebensmittel, in Plastik verpackte Gegenstände, Metalle",
     "predictionTypeHazardousWasteTitle": "Sondermüll",
     "predictionTypeHazardousWasteDescription": "Abfall, der gefährliche Materialien enthält, die eine spezielle Handhabung und Entsorgung erfordern.",

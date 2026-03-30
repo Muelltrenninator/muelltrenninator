@@ -110,18 +110,34 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
       title: AppLocalizations.of(context).selectCamera,
       initialValue: availableCameras[cameraIndex],
       items: availableCameras,
-      titleGenerator: (item) => item.name,
-      subtitleGenerator: (item) =>
-          "${switch (item.lensDirection) {
-            CameraLensDirection.back => AppLocalizations.of(context).selectCameraDescriptionBack,
-            CameraLensDirection.front => AppLocalizations.of(context).selectCameraDescriptionFront,
-            CameraLensDirection.external => AppLocalizations.of(context).selectCameraDescriptionExternal,
-          }} (${item.sensorOrientation}°)",
+      titleGenerator: (item) => switch (item.lensDirection) {
+        CameraLensDirection.back => AppLocalizations.of(
+          context,
+        ).selectCameraDescriptionBack,
+        CameraLensDirection.front => AppLocalizations.of(
+          context,
+        ).selectCameraDescriptionFront,
+        CameraLensDirection.external => AppLocalizations.of(
+          context,
+        ).selectCameraDescriptionExternal,
+      },
+      subtitleGenerator: (item) => item.name,
       iconGenerator: (item) => Icon(switch (item.lensDirection) {
         CameraLensDirection.back => Icons.camera_rear,
         CameraLensDirection.front => Icons.camera_front,
         CameraLensDirection.external => Icons.outbond_outlined,
       }),
+      extraButtonLabel: AppLocalizations.of(context).selectCameraMissing,
+      onExtraButtonPressed: () async {
+        await showMarkdownDialog(
+          context: context,
+          source: MarkdownDialogStringSource(
+            AppLocalizations.of(context).cameraErrorUnavailableDescription,
+          ),
+        );
+        await Future.delayed(Durations.short1);
+        switchCamera();
+      },
     );
     if (selection == null) return;
 
@@ -262,13 +278,28 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
 
     final widget = Scaffold(
       resizeToAvoidBottomInset: false,
-      body: !error
-          ? controller != null && controller!.value.isInitialized
-                ? Center(heightFactor: 1.2, child: previewWidget())
-                : Center(child: CircularProgressIndicator())
-          : noCamera
-          ? Center(child: errorWidget())
-          : Center(child: Icon(Icons.error_outline, size: 48)),
+      body: AnimatedSwitcher(
+        duration: Durations.medium1,
+        switchInCurve: Curves.easeInOutCubicEmphasized,
+        switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
+        child: !error
+            ? controller != null && controller!.value.isInitialized
+                  ? Center(
+                      key: ValueKey("preview"),
+                      heightFactor: 1.2,
+                      child: previewWidget(),
+                    )
+                  : Center(
+                      key: ValueKey("loading"),
+                      child: CircularProgressIndicator(),
+                    )
+            : noCamera
+            ? Center(key: ValueKey("errorCamera"), child: errorWidget())
+            : Center(
+                key: ValueKey("errorUnspecified"),
+                child: Icon(Icons.error_outline, size: 48),
+              ),
+      ),
       floatingActionButton: AnimatedSwitcher(
         duration: Durations.medium1,
         switchInCurve: Curves.easeInOutCubicEmphasized,

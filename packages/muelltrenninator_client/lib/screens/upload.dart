@@ -278,27 +278,32 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
 
     final widget = Scaffold(
       resizeToAvoidBottomInset: false,
-      body: AnimatedSwitcher(
-        duration: Durations.medium1,
-        switchInCurve: Curves.easeInOutCubicEmphasized,
-        switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
-        child: !error
-            ? controller != null && controller!.value.isInitialized
-                  ? Center(
-                      key: ValueKey("preview"),
-                      heightFactor: 1.2,
-                      child: previewWidget(),
-                    )
-                  : Center(
-                      key: ValueKey("loading"),
-                      child: CircularProgressIndicator(),
-                    )
-            : noCamera
-            ? Center(key: ValueKey("errorCamera"), child: errorWidget())
-            : Center(
-                key: ValueKey("errorUnspecified"),
-                child: Icon(Icons.error_outline, size: 48),
-              ),
+      body: SizedBox.expand(
+        child: AnimatedSwitcher(
+          duration: Durations.medium1,
+          switchInCurve: Curves.easeInOutCubicEmphasized,
+          switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
+          child: !error
+              ? controller != null && controller!.value.isInitialized
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: Center(
+                          key: ValueKey("preview"),
+                          heightFactor: 1.2,
+                          child: previewWidget(),
+                        ),
+                      )
+                    : Center(
+                        key: ValueKey("loading"),
+                        child: CircularProgressIndicator(),
+                      )
+              : noCamera
+              ? Center(key: ValueKey("errorCamera"), child: errorWidget())
+              : Center(
+                  key: ValueKey("errorUnspecified"),
+                  child: Icon(Icons.error_outline, size: 48),
+                ),
+        ),
       ),
       floatingActionButton: AnimatedSwitcher(
         duration: Durations.medium1,
@@ -482,7 +487,7 @@ class _UploadResultWidgetState extends State<UploadResultWidget>
   void initState() {
     super.initState();
     _predictionType = PredictionType.values.firstWhere(
-      (type) => type.apiString == widget.prediction,
+      (type) => type.name == widget.prediction,
       orElse: () => PredictionType.residual,
     );
     _expandController = AnimationController(

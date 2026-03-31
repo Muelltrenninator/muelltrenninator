@@ -114,12 +114,18 @@ void define(Router router) {
         final prediction = Map<String, Object>.from(
           jsonDecode(jsonDecode(request.body.split("data: ").last)[0]),
         );
-        final isTrash = prediction.remove("is_trash") ?? true;
 
         return Response.ok(
           jsonEncode({
-            "isTrash": isTrash,
-            "prediction": Map<String, double>.from(prediction),
+            "isTrash": prediction["is_trash"] ?? true,
+            "prediction": {
+              "organic": prediction["organic"] ?? prediction["bio"]!,
+              "hazardous":
+                  prediction["hazardous"] ?? prediction["elektroschrott"]!,
+              "plastic": prediction["plastic"] ?? prediction["gelber_sack"]!,
+              "paper": prediction["paper"] ?? prediction["papier"]!,
+              "residual": prediction["residual"] ?? prediction["restmuell"]!,
+            },
           }),
           headers: {"Content-Type": "application/json"},
         );

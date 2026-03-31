@@ -181,19 +181,4 @@ enum PredictionType {
   }
 
   Image image() => Image.asset("assets/images/$name.jpg", isAntiAlias: true);
-
-  String get apiString {
-    switch (this) {
-      case PredictionType.organic:
-        return "bio";
-      case PredictionType.hazardous:
-        return "elektroschrott";
-      case PredictionType.plastic:
-        return "gelber_sack";
-      case PredictionType.paper:
-        return "papier";
-      case PredictionType.residual:
-        return "restmuell";
-    }
-  }
 }

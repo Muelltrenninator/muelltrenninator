@@ -81,7 +81,7 @@ class _StatusModalState extends State<StatusModal> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: (widget.barrierDismissible ?? true) && _isCompleted,
+      canPop: (widget.barrierDismissible ?? true) || _isCompleted,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -29,6 +29,7 @@ class _StatusModalState extends State<StatusModal> {
     );
   }
 
+  bool _isCompleted = false;
   bool _isSuccess = false;
   String? _failureDetails;
   void _onComplete(bool success) async {
@@ -46,11 +47,13 @@ class _StatusModalState extends State<StatusModal> {
     if (!success && tmpDetails != null) {
       Future.delayed(Durations.medium3, () {
         if (!mounted) return;
+        _isCompleted = true;
         _failureDetails = tmpDetails;
         setState(() {});
       });
     } else {
       Future.delayed(Durations.long4, () {
+        _isCompleted = true;
         if (mounted) Navigator.of(context).pop();
       });
     }
@@ -78,8 +81,7 @@ class _StatusModalState extends State<StatusModal> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop:
-          (widget.barrierDismissible ?? true) && widget.completer.isCompleted,
+      canPop: (widget.barrierDismissible ?? true) && _isCompleted,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

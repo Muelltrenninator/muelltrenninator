@@ -68,67 +68,100 @@ void define(Router router) {
         }
 
         final uploadId = generateCode(11);
-        final upload = await http.Response.fromStream(
-          await (http.MultipartRequest(
-                  "POST",
-                  Uri.parse(
-                    "$modelBaseUri/gradio_api/upload?upload_id=$uploadId",
-                  ),
-                )
-                ..files.add(
-                  http.MultipartFile.fromBytes(
-                    "files",
-                    await part.readBytes(),
-                    filename: name,
-                    contentType: mime,
-                  ),
-                ))
-              .send(),
-        );
-
-        final eventId = jsonDecode(
-          (await http.post(
-            Uri.parse("$modelBaseUri/gradio_api/call/predict"),
-            headers: {"Content-Type": "application/json"},
+        late final http.Response upload;
+        try {
+          upload = await http.Response.fromStream(
+            await (http.MultipartRequest(
+                    "POST",
+                    Uri.parse(
+                      "$modelBaseUri/gradio_api/upload?upload_id=$uploadId",
+                    ),
+                  )
+                  ..files.add(
+                    http.MultipartFile.fromBytes(
+                      "files",
+                      await part.readBytes(),
+                      filename: name,
+                      contentType: mime,
+                    ),
+                  ))
+                .send(),
+          );
+        } catch (_) {
+          return Response(
+            502,
             body: jsonEncode({
-              "data": [
-                {
-                  "path": jsonDecode(upload.body)[0],
-                  "meta": {"_type": "gradio.FileData"},
-                },
-              ],
+              "error": "Failed to upload file to model backend.",
             }),
-          )).body,
-        )["event_id"];
-        final request = await http.get(
-          Uri.parse("$modelBaseUri/gradio_api/call/predict/$eventId"),
-        );
+            headers: {"Content-Type": "application/json"},
+          );
+        }
+
+        late final String eventId;
+        late final http.Response request;
+        try {
+          eventId = jsonDecode(
+            (await http.post(
+              Uri.parse("$modelBaseUri/gradio_api/call/predict"),
+              headers: {"Content-Type": "application/json"},
+              body: jsonEncode({
+                "data": [
+                  {
+                    "path": jsonDecode(upload.body)[0],
+                    "meta": {"_type": "gradio.FileData"},
+                  },
+                ],
+              }),
+            )).body,
+          )["event_id"];
+          request = await http.get(
+            Uri.parse("$modelBaseUri/gradio_api/call/predict/$eventId"),
+          );
+        } catch (_) {
+          return Response(
+            502,
+            body: jsonEncode({
+              "error": "Failed to create prediction from model backend.",
+            }),
+            headers: {"Content-Type": "application/json"},
+          );
+        }
 
         if (request.body.split("event: ").last.startsWith("error")) {
           return Response(
             422,
             body: jsonEncode({"error": "Prediction failed by model backend."}),
+            headers: {"Content-Type": "application/json"},
           );
         }
 
-        final prediction = Map<String, Object>.from(
-          jsonDecode(jsonDecode(request.body.split("data: ").last)[0]),
-        );
-
-        return Response.ok(
-          jsonEncode({
-            "isTrash": prediction["is_trash"] ?? true,
-            "prediction": {
-              "organic": prediction["organic"] ?? prediction["bio"]!,
-              "hazardous":
-                  prediction["hazardous"] ?? prediction["elektroschrott"]!,
-              "plastic": prediction["plastic"] ?? prediction["gelber_sack"]!,
-              "paper": prediction["paper"] ?? prediction["papier"]!,
-              "residual": prediction["residual"] ?? prediction["restmuell"]!,
-            },
-          }),
-          headers: {"Content-Type": "application/json"},
-        );
+        try {
+          final content = Map<String, Object>.from(
+            jsonDecode(jsonDecode(request.body.split("data: ").last)[0]),
+          );
+          final prediction = {
+            "organic": content["organic"] ?? content["bio"]!,
+            "hazardous": content["hazardous"] ?? content["elektroschrott"]!,
+            "plastic": content["plastic"] ?? content["gelber_sack"]!,
+            "paper": content["paper"] ?? content["papier"]!,
+            "residual": content["residual"] ?? content["restmuell"]!,
+          };
+          return Response.ok(
+            jsonEncode({
+              "isTrash": content["is_trash"] ?? true,
+              "prediction": prediction,
+            }),
+            headers: {"Content-Type": "application/json"},
+          );
+        } catch (_) {
+          return Response(
+            502,
+            body: jsonEncode({
+              "error": "Failed to parse prediction from model backend.",
+            }),
+            headers: {"Content-Type": "application/json"},
+          );
+        }
       }),
     );
 }

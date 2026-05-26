@@ -36,6 +36,7 @@ class AppRouter extends RootStackRouter {
       // guards: [AuthenticationGuard()],
       children: [AutoRoute(page: UploadRoute.page, path: "")],
     ),
+    AutoRoute(page: PredictionRoute.page, path: "/prediction"),
     CustomRoute(
       page: MarkdownDialogTermsOfServiceRoute.page,
       path: "/termsOfService",
@@ -51,35 +52,8 @@ class AppRouter extends RootStackRouter {
       path: "/imprint",
       customRouteBuilder: _dialogRoute,
     ),
-    // AutoRoute(
-    //   page: LoginRoute.page,
-    //   path: "/login",
-    //   guards: [ReverseAuthenticationGuard()],
-    // ),
     AutoRoute(page: ErrorRoute.page, path: "*"),
   ];
-}
-
-class AuthenticationGuard extends AutoRouteGuard {
-  @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (AuthManager.instance.authToken != null) {
-      resolver.next(true);
-    } else {
-      resolver.redirectUntil(LoginRoute());
-    }
-  }
-}
-
-class ReverseAuthenticationGuard extends AutoRouteGuard {
-  @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (AuthManager.instance.authToken == null) {
-      resolver.next(true);
-    } else {
-      resolver.redirectUntil(MainRoute());
-    }
-  }
 }
 
 final Color themeColor = Color(0xffe04912);
@@ -109,7 +83,7 @@ Future<void> camerasInitialize() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
-  // await BrowserContextMenu.disableContextMenu();
+  await BrowserContextMenu.disableContextMenu();
 
   prefs = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
@@ -135,8 +109,8 @@ class _MainAppState extends State<MainApp> {
 
     LicenseRegistry.addLicense(() async* {
       yield LicenseEntryWithLineBreaks([
-        "Google Sans Code",
-        "Poppins",
+        "Google Sans Flex",
+        "Strichpunkt Sans",
       ], await DefaultAssetBundle.of(context).loadString("assets/OFL.txt"));
     });
 
@@ -258,9 +232,30 @@ extension TitleCase on String {
   }
 }
 
+extension TypeFont on TextStyle {
+  TextStyle get stylizedInterface => copyWith(
+    fontFamily: "GoogleSansFlex",
+    fontWeight: FontWeight(450),
+    fontVariations: [
+      FontVariation("GRAD", 20),
+      FontVariation("ROND", 100),
+      FontVariation("wdth", 97),
+    ],
+  );
+
+  TextStyle get stylizedDialog =>
+      copyWith(fontFamily: "StrichpunktSans", fontWeight: FontWeight.w600);
+}
+
 extension ThemeModifier on ThemeData {
   ThemeData modified() => copyWith(
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        for (var p in TargetPlatform.values)
+          p: FadeForwardsPageTransitionsBuilder(),
+      },
+    ),
   ).withYear2024();
   ThemeData withYear2024() => copyWith(
     sliderTheme: sliderTheme.copyWith(year2023: false),
@@ -292,10 +287,40 @@ enum WindowSizeClass {
 
   factory WindowSizeClass.of(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    assert(width >= 0, "Width must be non-negative");
     return WindowSizeClass.values.firstWhere(
       (sizeClass) =>
           (sizeClass.from == null || width >= sizeClass.from!) &&
           (sizeClass.to == null || width <= sizeClass.to!),
+    );
+  }
+
+  EdgeInsetsGeometry contentPadding(
+    BuildContext context, {
+    bool includeVertical = true,
+    bool includeHorizontal = true,
+    bool verticalExcludeTop = false,
+  }) {
+    final padding = switch (this) {
+      WindowSizeClass.compact => 16.0,
+      _ => 24.0,
+    };
+
+    double verticalPadding = padding;
+    if (!includeVertical) verticalPadding = 0;
+
+    double horizontalPadding = padding;
+    if (this >= WindowSizeClass.medium) {
+      final size = MediaQuery.sizeOf(context);
+      horizontalPadding = (size.width - WindowSizeClass.medium.from!) / 2 + 24;
+    }
+    if (!includeHorizontal) horizontalPadding = 0;
+
+    return EdgeInsetsGeometry.only(
+      top: verticalExcludeTop ? 0 : verticalPadding,
+      bottom: verticalPadding,
+      left: horizontalPadding,
+      right: horizontalPadding,
     );
   }
 

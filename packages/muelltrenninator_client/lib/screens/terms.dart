@@ -7,7 +7,7 @@ import 'package:markdown_widget/markdown_widget.dart';
 
 import '../api.dart';
 import '../l10n/app_localizations.dart';
-import '../main.gr.dart';
+import '../main.dart';
 
 abstract class MarkdownDialogSource {
   MarkdownDialogSource();
@@ -89,6 +89,14 @@ class _MarkdownDialogState extends State<MarkdownDialog> {
         : MarkdownConfig.defaultConfig;
     markdownConfig = markdownConfig.copy(
       configs: [
+        H1Config(
+          style: TextStyle(
+            fontSize: 24,
+            height: 40 / 32,
+            fontWeight: FontWeight.bold,
+          ).stylizedInterface,
+        ),
+        PConfig(textStyle: TextStyle(fontSize: 16).stylizedDialog),
         TableConfig(
           wrapper: (child) => SingleChildScrollView(
             scrollDirection: Axis.horizontal,

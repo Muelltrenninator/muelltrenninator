@@ -185,7 +185,7 @@ abstract class AppLocalizations {
   /// Additional explanation for the camera unavailable error, providing possible causes and troubleshooting steps.
   ///
   /// In en, this message translates to:
-  /// **'# Camera Troubleshoot\n\nDatly right now is unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.'**
+  /// **'# Camera Troubleshoot\n\nDatly is currently unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.'**
   String get cameraErrorUnavailableDescription;
 
   /// Button text to open the troubleshooting information for camera errors.
@@ -194,65 +194,11 @@ abstract class AppLocalizations {
   /// **'Troubleshoot'**
   String get cameraErrorTroubleshoot;
 
-  /// Title for the camera selection dialog.
-  ///
-  /// In en, this message translates to:
-  /// **'Select camera'**
-  String get selectCamera;
-
-  /// The word 'Back' used to describe a camera facing away from the user. This string is formatted in MLA title case.
-  ///
-  /// In en, this message translates to:
-  /// **'Back Camera'**
-  String get selectCameraDescriptionBack;
-
-  /// The word 'Front' used to describe a camera facing towards the user. This string is formatted in MLA title case.
-  ///
-  /// In en, this message translates to:
-  /// **'Front Camera'**
-  String get selectCameraDescriptionFront;
-
-  /// The word 'External' used to describe an external camera. This string is formatted in MLA title case.
-  ///
-  /// In en, this message translates to:
-  /// **'External Camera'**
-  String get selectCameraDescriptionExternal;
-
-  /// Text shown when the expected camera is not listed in the camera selection dialog.
-  ///
-  /// In en, this message translates to:
-  /// **'One missing?'**
-  String get selectCameraMissing;
-
-  /// Title for the image analysis result screen.
-  ///
-  /// In en, this message translates to:
-  /// **'Image Analysis'**
-  String get resultTitle;
-
-  /// Accessibility label for the account overview section.
-  ///
-  /// In en, this message translates to:
-  /// **'Account overview'**
-  String get accountOverview;
-
-  /// Accessibility label for the account overview section including the username. This must match the `accountOverview` string.
-  ///
-  /// In en, this message translates to:
-  /// **'for {username}'**
-  String accountOverviewFor(String username);
-
   /// Label for a button that leads to more information about the app.
   ///
   /// In en, this message translates to:
   /// **'Learn more'**
   String get aboutAppLearnMore;
-
-  /// Label for a button that logs the user out of the app.
-  ///
-  /// In en, this message translates to:
-  /// **'Logout'**
-  String get aboutAppLogout;
 
   /// A thank you note in the about section of the app.
   ///
@@ -260,101 +206,335 @@ abstract class AppLocalizations {
   /// **'Many thanks to Kitan for helping design the app icon!'**
   String get aboutThankYou;
 
+  /// Title for the waste category prediction result screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting Result'**
+  String get predictionTitle;
+
+  /// Prefix for the predicted waste category.
+  ///
+  /// In en, this message translates to:
+  /// **'I think this is'**
+  String get predictionCategoryPrefix;
+
+  /// Prefix shown when the prediction result is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'I’m afraid I’m'**
+  String get predictionUnknownPrefix;
+
+  /// Suffix shown when the prediction result is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure'**
+  String get predictionUnknownSuffix;
+
+  /// Prefix for the list of other possible waste categories that are not the top prediction.
+  ///
+  /// In en, this message translates to:
+  /// **'Other categories that might fit'**
+  String get predictionOthersPrefix;
+
+  /// Prefix for the list of possible waste categories when no top prediction was found.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories that might fit'**
+  String get predictionOthersNoTopPrefix;
+
+  /// Explanation shown when no top prediction exists because the probability scores are distributed too evenly (high entropy). Follows the unknown prefix/suffix.
+  ///
+  /// In en, this message translates to:
+  /// **'The scores are spread too evenly across categories to pick a clear winner.'**
+  String get predictionNoTopReasonSpread;
+
+  /// Explanation shown when no top prediction exists because the first result is not significantly more confident than the second (confidence ratio below 2×). Follows the unknown prefix/suffix.
+  ///
+  /// In en, this message translates to:
+  /// **'A few results are too close to call.'**
+  String get predictionNoTopReasonTied;
+
+  /// Explanation shown when no top prediction exists because both the entropy is too high and the confidence ratio is too low simultaneously. Follows the unknown prefix/suffix.
+  ///
+  /// In en, this message translates to:
+  /// **'The scores are too spread out, and a few results are nearly tied.'**
+  String get predictionNoTopReasonBoth;
+
+  /// Hint shown when no top prediction is found, suggesting the user try again with a clearer photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Try taking another photo for a better result.'**
+  String get predictionNoTopTryAgainHint;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (1 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Hmm, let me take a good look at that…'**
+  String get predictionLoadingHint1;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (2 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Cross-referencing all the bins…'**
+  String get predictionLoadingHint2;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (3 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Taking this one very seriously…'**
+  String get predictionLoadingHint3;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (4 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Weighing up the options…'**
+  String get predictionLoadingHint4;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (5 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there, just double-checking…'**
+  String get predictionLoadingHint5;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (6 of 7).
+  ///
+  /// In en, this message translates to:
+  /// **'This might be a tricky one…'**
+  String get predictionLoadingHint6;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (7 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Ooh, interesting one…'**
+  String get predictionLoadingHint7;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (8 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the fine print…'**
+  String get predictionLoadingHint8;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (9 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Putting on my sorting hat…'**
+  String get predictionLoadingHint9;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (10 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Getting a second opinion…'**
+  String get predictionLoadingHint10;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (11 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Squinting just to make sure…'**
+  String get predictionLoadingHint11;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (12 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Hmm, which bin though…'**
+  String get predictionLoadingHint12;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (13 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Let me ask the recycling committee…'**
+  String get predictionLoadingHint13;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (14 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking out loud…'**
+  String get predictionLoadingHint14;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (15 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Giving this my full attention…'**
+  String get predictionLoadingHint15;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (16 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Algorithm is deep in thought…'**
+  String get predictionLoadingHint16;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (17 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Running the numbers…'**
+  String get predictionLoadingHint17;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (18 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Almost convinced, just one more look…'**
+  String get predictionLoadingHint18;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (19 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'The bins are counting on me…'**
+  String get predictionLoadingHint19;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (20 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Finding its forever home…'**
+  String get predictionLoadingHint20;
+
+  /// Cheerful loading hint shown while the AI prediction is being processed (21 of 21).
+  ///
+  /// In en, this message translates to:
+  /// **'Making the planet proud…'**
+  String get predictionLoadingHint21;
+
   /// Title for the organic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Organic'**
+  /// **'Organic Waste'**
   String get predictionTypeOrganicTitle;
 
   /// Description for the organic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Biodegradable waste that comes from plants or animals.'**
+  /// **'Biodegradable kitchen and garden waste collected separately for composting or biogas production.'**
   String get predictionTypeOrganicDescription;
+
+  /// Short tagline (max 10 words) for the organic prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Food and garden waste that decomposes naturally.'**
+  String get predictionTypeOrganicShortDescription;
 
   /// Examples for the organic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'vegetable scraps, garden waste, coffee grounds'**
-  String get predictionTypeOrganicExamples;
+  /// **'fruit and vegetable peels, coffee grounds, tea leaves, eggshells, wilted flowers, grass clippings'**
+  String get predictionTypeOrganicPositiveExamples;
 
   /// Negative examples for the organic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'other food, plastic wrapped items, metals'**
+  /// **'packaging, plastic bags, liquids, diapers, cat litter, glass'**
   String get predictionTypeOrganicNegativeExamples;
+
+  /// Important caveats for the organic prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules for cooked food, meat, bones, and compostable bags vary locally.'**
+  String get predictionTypeOrganicNote;
 
   /// Title for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Hazardous Waste'**
+  /// **'Special Waste'**
   String get predictionTypeHazardousWasteTitle;
 
   /// Description for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Waste that contains hazardous materials that require special handling and disposal.'**
+  /// **'Items that don’t fit standard household bins and require separate drop-off or special handling.'**
   String get predictionTypeHazardousWasteDescription;
+
+  /// Short tagline (max 10 words) for the hazardous waste prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Harmful items needing special disposal or drop-off.'**
+  String get predictionTypeHazardousWasteShortDescription;
 
   /// Examples for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'used batteries, paint cans, fluorescent tubes'**
-  String get predictionTypeHazardousWasteExamples;
+  /// **'batteries, re­charge­able batteries, leftover paint, solvents, pes­ti­cides, flu­o­res­cent tubes'**
+  String get predictionTypeHazardousWastePositiveExamples;
 
   /// Negative examples for the hazardous waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'food scraps, paper products, plastic containers'**
+  /// **'plastic toys, tooth­brush­es, buckets, banana peels, news­pa­pers, yogurt cups'**
   String get predictionTypeHazardousWasteNegativeExamples;
+
+  /// Important caveats for the hazardous waste prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get predictionTypeHazardousWasteNote;
 
   /// Title for the plastic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Plastic'**
+  /// **'Yellow Bin Packaging'**
   String get predictionTypePlasticTitle;
 
   /// Description for the plastic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Packaging materials made from plastic polymers.'**
+  /// **'Everyday sales packaging made of plastic, metal, or composite materials, sorted through Germany’s yellow bin system.'**
   String get predictionTypePlasticDescription;
+
+  /// Short tagline (max 10 words) for the plastic prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging made of plastic, metal, or composites.'**
+  String get predictionTypePlasticShortDescription;
 
   /// Examples for the plastic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'plastic bottles, wrappers, containers'**
-  String get predictionTypePlasticExamples;
+  /// **'yogurt cups, plastic tubs, drink cartons, aluminum lids, tin cans, plastic wrappers'**
+  String get predictionTypePlasticPositiveExamples;
 
   /// Negative examples for the plastic prediction type.
   ///
   /// In en, this message translates to:
-  /// **'glass items, metal cans, paper products'**
+  /// **'plastic toys, tooth­brush­es, elec­tron­ic devices, paper, glass bottles, bulky plastic items'**
   String get predictionTypePlasticNegativeExamples;
+
+  /// Important caveats for the plastic prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Only packaging belongs here; it should be emptied, not washed spotless.'**
+  String get predictionTypePlasticNote;
 
   /// Title for the paper prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Paper'**
+  /// **'Paper & Cardboard'**
   String get predictionTypePaperTitle;
 
   /// Description for the paper prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Materials made from wood pulp, such as newspapers and cardboard.'**
+  /// **'Clean, dry paper and cardboard that can be recycled into new paper products.'**
   String get predictionTypePaperDescription;
+
+  /// Short tagline (max 10 words) for the paper prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean, dry paper and cardboard for recycling.'**
+  String get predictionTypePaperShortDescription;
 
   /// Examples for the paper prediction type.
   ///
   /// In en, this message translates to:
-  /// **'newspapers, cardboard boxes, magazines'**
-  String get predictionTypePaperExamples;
+  /// **'news­pa­pers, flyers, shipping boxes, paper bags, notebooks, egg cartons'**
+  String get predictionTypePaperPositiveExamples;
 
   /// Negative examples for the paper prediction type.
   ///
   /// In en, this message translates to:
-  /// **'plastic-coated items, contaminated paper, tissues'**
+  /// **'tissues, greasy pizza boxes, coated paper cups, drink cartons, wallpaper, receipts'**
   String get predictionTypePaperNegativeExamples;
+
+  /// Important caveats for the paper prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Wet or greasy paper goes to residual waste.'**
+  String get predictionTypePaperNote;
 
   /// Title for the residual waste prediction type.
   ///
@@ -365,26 +545,32 @@ abstract class AppLocalizations {
   /// Description for the residual waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'Non-recyclable waste that cannot be composted or recycled.'**
+  /// **'Mixed household waste that cannot be recycled or composted, including everyday non-packaging plastic items.'**
   String get predictionTypeResidualWasteDescription;
+
+  /// Short tagline (max 10 words) for the residual waste prediction type.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed waste that doesn’t fit any other bin.'**
+  String get predictionTypeResidualWasteShortDescription;
 
   /// Examples for the residual waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'contaminated packaging, ceramics, diapers'**
-  String get predictionTypeResidualWasteExamples;
+  /// **'diapers, cat litter, sanitary products, broken ceramics, plastic toys, tooth­brush­es'**
+  String get predictionTypeResidualWastePositiveExamples;
 
   /// Negative examples for the residual waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'recyclable materials, organic waste, hazardous waste'**
+  /// **'batteries, elec­tron­ic devices, glass bottles, paper, packaging, food scraps'**
   String get predictionTypeResidualWasteNegativeExamples;
 
-  /// Suffix appended to example search queries to find recycling information.
+  /// Important caveats for the residual waste prediction type.
   ///
   /// In en, this message translates to:
-  /// **'correct disposal'**
-  String get predictionExampleSearchSuffix;
+  /// **''**
+  String get predictionTypeResidualWasteNote;
 }
 
 class _AppLocalizationsDelegate

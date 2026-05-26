@@ -63,116 +63,222 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cameraErrorTroubleshoot => 'Fehlerbehebung';
 
   @override
-  String get selectCamera => 'Kamera auswählen';
-
-  @override
-  String get selectCameraDescriptionBack => 'Rückkamera';
-
-  @override
-  String get selectCameraDescriptionFront => 'Frontkamera';
-
-  @override
-  String get selectCameraDescriptionExternal => 'Externe Kamera';
-
-  @override
-  String get selectCameraMissing => 'Eine fehlt?';
-
-  @override
-  String get resultTitle => 'Bildanalyse';
-
-  @override
-  String get accountOverview => 'Account-Übersicht';
-
-  @override
-  String accountOverviewFor(String username) {
-    return 'für $username';
-  }
-
-  @override
   String get aboutAppLearnMore => 'Mehr erfahren';
-
-  @override
-  String get aboutAppLogout => 'Abmelden';
 
   @override
   String get aboutThankYou =>
       'Vielen Dank an Kitan für die Hilfe bei der Gestaltung des App-Icons!';
 
   @override
-  String get predictionTypeOrganicTitle => 'Biomüll';
+  String get predictionTitle => 'Sortierergebnis';
+
+  @override
+  String get predictionCategoryPrefix => 'Ich denke, das ist';
+
+  @override
+  String get predictionUnknownPrefix => 'Ich fürchte, ich bin mir';
+
+  @override
+  String get predictionUnknownSuffix => 'Unsicher';
+
+  @override
+  String get predictionOthersPrefix => 'Weitere mögliche Kategorien';
+
+  @override
+  String get predictionOthersNoTopPrefix => 'Mögliche Kategorien';
+
+  @override
+  String get predictionNoTopReasonSpread =>
+      'Die Werte sind zu gleichmäßig verteilt, um eine eindeutige Kategorie zu bestimmen.';
+
+  @override
+  String get predictionNoTopReasonTied =>
+      'Einige Ergebnisse liegen zu nah beieinander.';
+
+  @override
+  String get predictionNoTopReasonBoth =>
+      'Die Werte sind zu gleichmäßig verteilt und einige Ergebnisse liegen zu nah beieinander.';
+
+  @override
+  String get predictionNoTopTryAgainHint =>
+      'Mach ein neues Foto für ein besseres Ergebnis.';
+
+  @override
+  String get predictionLoadingHint1 => 'Lass mal sehen, was wir hier haben…';
+
+  @override
+  String get predictionLoadingHint2 => 'Die Tonnen werden abgeglichen…';
+
+  @override
+  String get predictionLoadingHint3 => 'Das nehme ich sehr ernst…';
+
+  @override
+  String get predictionLoadingHint4 => 'Mal alle Optionen abwägen…';
+
+  @override
+  String get predictionLoadingHint5 =>
+      'Fast fertig, kurz nochmal drüberschauen…';
+
+  @override
+  String get predictionLoadingHint6 => 'Das könnte knifflig werden…';
+
+  @override
+  String get predictionLoadingHint7 => 'Ooh, sehr spannend…';
+
+  @override
+  String get predictionLoadingHint8 => 'Das Kleingedruckte lesen…';
+
+  @override
+  String get predictionLoadingHint9 => 'Den Sortierhut aufsetzen…';
+
+  @override
+  String get predictionLoadingHint10 => 'Da hol ich mal eine Zweitmeinung ein…';
+
+  @override
+  String get predictionLoadingHint11 => 'Nochmal genau hingeschaut…';
+
+  @override
+  String get predictionLoadingHint12 => 'Hmm, welche Tonne bloß…';
+
+  @override
+  String get predictionLoadingHint13 => 'Das Recycling-Komitee wird befragt…';
+
+  @override
+  String get predictionLoadingHint14 => 'Laut nachdenken…';
+
+  @override
+  String get predictionLoadingHint15 => 'Volle Konzentration jetzt…';
+
+  @override
+  String get predictionLoadingHint16 =>
+      'Algorithmus denkt gerade intensiv nach…';
+
+  @override
+  String get predictionLoadingHint17 => 'Mit Zahlen jonglieren…';
+
+  @override
+  String get predictionLoadingHint18 =>
+      'Fast überzeugt, noch ein letzter Blick…';
+
+  @override
+  String get predictionLoadingHint19 => 'Die Tonnen verlassen sich auf mich…';
+
+  @override
+  String get predictionLoadingHint20 => 'Das findet seinen Platz…';
+
+  @override
+  String get predictionLoadingHint21 => 'Den Planeten stolz machen…';
+
+  @override
+  String get predictionTypeOrganicTitle => 'Bioabfall';
 
   @override
   String get predictionTypeOrganicDescription =>
-      'Biologisch abbaubarer Abfall, der von Pflanzen oder Tieren stammt.';
+      'Biologisch abbaubare Küchen- und Gartenabfälle, die getrennt zu Kompost oder Biogas verarbeitet werden.';
 
   @override
-  String get predictionTypeOrganicExamples =>
-      'Essensreste, Gartenabfälle, Kaffeesatz';
+  String get predictionTypeOrganicShortDescription =>
+      'Küchen- und Gartenabfälle, die biologisch abbaubar sind.';
+
+  @override
+  String get predictionTypeOrganicPositiveExamples =>
+      'Obst- und Ge­mü­se­scha­len, Kaf­fee­satz, Tee­blät­ter, Eier­scha­len, verwelkte Blumen, Ra­sen­schnitt';
 
   @override
   String get predictionTypeOrganicNegativeExamples =>
-      'andere Lebensmittel, in Plastik verpackte Gegenstände, Metalle';
+      'Ver­pa­ckun­gen, Plas­tik­beu­tel, Flüss­ig­kei­ten, Windeln, Kat­zen­streu, Glas';
+
+  @override
+  String get predictionTypeOrganicNote =>
+      'Für gekochte Speisereste, Fleisch, Knochen und kompostierbare Beutel gelten örtlich unterschiedliche Regeln.';
 
   @override
   String get predictionTypeHazardousWasteTitle => 'Sondermüll';
 
   @override
   String get predictionTypeHazardousWasteDescription =>
-      'Abfall, der gefährliche Materialien enthält, die eine spezielle Handhabung und Entsorgung erfordern.';
+      'Gegenstände, die nicht in normale Haushaltstonnen gehören und separat abgegeben oder gesondert entsorgt werden müssen.';
 
   @override
-  String get predictionTypeHazardousWasteExamples =>
-      'gebrauchte Batterien, Farbdosen, Leuchtstoffröhren';
+  String get predictionTypeHazardousWasteShortDescription =>
+      'Schadstoffe und Problemabfälle mit gesonderter Entsorgungspflicht.';
+
+  @override
+  String get predictionTypeHazardousWastePositiveExamples =>
+      'Batterien, Akkus, Lackreste, Lö­sungs­mit­tel, Pflan­zen­schutz­mit­tel, Ener­gie­spar­lam­pen';
 
   @override
   String get predictionTypeHazardousWasteNegativeExamples =>
-      'Lebensmittelreste, Papierprodukte, Plastikbehälter';
+      'Plas­tik­spiel­zeug, Zahn­bürs­ten, Eimer, Ba­na­nen­scha­len, Zeitungen, Jog­hurt­be­cher';
 
   @override
-  String get predictionTypePlasticTitle => 'Gelber Sack';
+  String get predictionTypeHazardousWasteNote => '';
+
+  @override
+  String get predictionTypePlasticTitle => 'Gelbe Tonne';
 
   @override
   String get predictionTypePlasticDescription =>
-      'Verpackungsmaterialien aus Plastik.';
+      'Verpackungen aus Kunststoff, Metall oder Verbundmaterial, die über die Gelbe Tonne getrennt erfasst werden.';
 
   @override
-  String get predictionTypePlasticExamples =>
-      'Plastikflaschen, Verpackungen, Behälter';
+  String get predictionTypePlasticShortDescription =>
+      'Verpackungen aus Kunststoff, Metall oder Verbundmaterial.';
+
+  @override
+  String get predictionTypePlasticPositiveExamples =>
+      'Jog­hurt­be­cher, Kunst­stoff­scha­len, Ge­trän­ke­kar­tons, Aludeckel, Kon­ser­ven­do­sen, Fo­li­en­ver­pa­ckun­gen';
 
   @override
   String get predictionTypePlasticNegativeExamples =>
-      'Glasgegenstände, Metalldosen, Papierprodukte';
+      'Plas­tik­spiel­zeug, Zahn­bürs­ten, Elek­tro­ge­rä­te, Papier, Glas­fla­schen, sperrige Kunst­stoff­tei­le';
 
   @override
-  String get predictionTypePaperTitle => 'Papier';
+  String get predictionTypePlasticNote =>
+      'Hier gehören nur Verpackungen hinein; sie sollten restentleert sein, müssen aber nicht blitzsauber gespült werden.';
+
+  @override
+  String get predictionTypePaperTitle => 'Papier & Pappe';
 
   @override
   String get predictionTypePaperDescription =>
-      'Materialien aus Zellstoff, wie Zeitungen und Pappe.';
+      'Sauberes, trockenes Papier und Pappe, die zu neuen Papierprodukten recycelt werden können.';
 
   @override
-  String get predictionTypePaperExamples =>
-      'Zeitungen, Pappkartons, Zeitschriften';
+  String get predictionTypePaperShortDescription =>
+      'Sauberes, trockenes Papier und Pappe zum Recyceln.';
+
+  @override
+  String get predictionTypePaperPositiveExamples =>
+      'Zeitungen, Prospekte, Ver­sand­kar­tons, Pa­pier­tü­ten, Hefte, Eier­kar­tons';
 
   @override
   String get predictionTypePaperNegativeExamples =>
-      'kunststoffbeschichtete Gegenstände, verunreinigtes Papier, Taschentücher';
+      'Ta­schen­tü­cher, fettige Piz­za­kar­tons, be­schich­te­te Papp­be­cher, Ge­trän­ke­kar­tons, Tapeten, Kas­sen­bons';
+
+  @override
+  String get predictionTypePaperNote =>
+      'Nasses oder fettiges Papier gehört in den Restmüll.';
 
   @override
   String get predictionTypeResidualWasteTitle => 'Restmüll';
 
   @override
   String get predictionTypeResidualWasteDescription =>
-      'Nicht recycelbarer Abfall, der nicht kompostiert oder wiederverwertet werden kann.';
+      'Gemischte Haushaltsabfälle, die sich nicht recyceln oder kompostieren lassen, darunter auch Kunststoffgegenstände, die keine Verpackungen sind.';
 
   @override
-  String get predictionTypeResidualWasteExamples =>
-      'verunreinigte Verpackungen, Keramik, Windeln';
+  String get predictionTypeResidualWasteShortDescription =>
+      'Gemischter Abfall ohne passende Recyclingkategorie.';
+
+  @override
+  String get predictionTypeResidualWastePositiveExamples =>
+      'Windeln, Kat­zen­streu, Hy­gie­ne­ar­ti­kel, zer­bro­che­ne Keramik, Plas­tik­spiel­zeug, Zahn­bürs­ten';
 
   @override
   String get predictionTypeResidualWasteNegativeExamples =>
-      'recycelbare Materialien, Bioabfall, Sondermüll';
+      'Batterien, Elek­tro­ge­rä­te, Glas­fla­schen, Papier, Ver­pa­ckun­gen, Bio­ab­fäl­le';
 
   @override
-  String get predictionExampleSearchSuffix => 'korrekte Entsorgung';
+  String get predictionTypeResidualWasteNote => '';
 }

@@ -7,15 +7,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../api.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
-import '../widgets/radio_dialog.dart';
-import '../widgets/status_modal.dart';
 import 'terms.dart';
 
 @RoutePage()
@@ -26,17 +22,25 @@ class UploadPage extends StatefulWidget {
   State<UploadPage> createState() => _UploadPageState();
 }
 
-class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
+class _UploadPageState extends State<UploadPage>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   int cameraIndex = 0;
   CameraController? controller;
 
   bool error = false;
   bool noCamera = false;
 
+  late final AnimationController flipAnimationController;
+
   @override
   void initState() {
     super.initState();
     camerasInitialize().then((_) => loadStoredCamera());
+
+    flipAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.medium1,
+    );
   }
 
   @override
@@ -101,126 +105,36 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
     if (!error && mounted) setState(() {});
   }
 
-  void switchCamera() async {
+  void flipCamera() async {
     final availableCameras = await cameras.future;
+    if (availableCameras.length < 2 ||
+        controller?.value.isInitialized == false ||
+        !mounted) {
+      return;
+    }
 
-    if (!mounted) return;
-    final selection = await showRadioDialog(
-      context: context,
-      title: AppLocalizations.of(context).selectCamera,
-      initialValue: availableCameras[cameraIndex],
-      items: availableCameras,
-      titleGenerator: (item) => switch (item.lensDirection) {
-        CameraLensDirection.back => AppLocalizations.of(
-          context,
-        ).selectCameraDescriptionBack,
-        CameraLensDirection.front => AppLocalizations.of(
-          context,
-        ).selectCameraDescriptionFront,
-        CameraLensDirection.external => AppLocalizations.of(
-          context,
-        ).selectCameraDescriptionExternal,
-      },
-      subtitleGenerator: (item) => item.name,
-      iconGenerator: (item) => Icon(switch (item.lensDirection) {
-        CameraLensDirection.back => Icons.camera_rear,
-        CameraLensDirection.front => Icons.camera_front,
-        CameraLensDirection.external => Icons.outbond_outlined,
-      }),
-      extraButtonLabel: AppLocalizations.of(context).selectCameraMissing,
-      onExtraButtonPressed: () async {
-        await showMarkdownDialog(
-          context: context,
-          source: MarkdownDialogStringSource(
-            AppLocalizations.of(context).cameraErrorUnavailableDescription,
-          ),
-        );
-        await Future.delayed(Durations.short1);
-        switchCamera();
-      },
-    );
-    if (selection == null) return;
-
-    final tmpIndex = availableCameras.indexOf(selection);
-    if (tmpIndex == cameraIndex) return;
-
-    cameraIndex = tmpIndex;
+    cameraIndex = (cameraIndex + 1) % availableCameras.length;
     prefs.setInt("camera", cameraIndex);
-    controller?.dispose();
     controller = null;
-
     if (mounted) setState(() {});
-    await _initializeCameraController(selection);
+
+    controller?.dispose();
+    flipAnimationController.forward(from: 0);
+    await _initializeCameraController(availableCameras[cameraIndex]);
   }
 
   void submit() async {
-    final completer = Completer<void>();
-    http.Response? response;
-    showStatusModal(
-      context: context,
-      completer: completer,
-      barrierDismissible: false,
-      failureDetailsGenerator: () {
-        try {
-          if (jsonDecode(response!.body) case {"error": String errorMessage}) {
-            return errorMessage;
-          }
-        } catch (_) {}
-        return "Status code: ${response?.statusCode ?? "<unavailable>"}\n${response?.body}"
-            .trim();
-      },
-    );
-
     final imageRaw = await controller!.takePicture();
-    await controller!.pausePreview();
-    var image = img.decodeImage(await imageRaw.readAsBytes())!;
-    if (!mounted) return;
-
-    response = await AuthManager.instance.fetch(
-      http.MultipartRequest("POST", Uri.parse("${ApiManager.baseUri}/predict"))
-        ..files.add(
-          http.MultipartFile.fromBytes(
-            "",
-            img.encodePng(image),
-            contentType: http.MediaType.parse("image/png"),
-          ),
-        ),
-    );
-    if (response == null || response.statusCode != 200) {
-      completer.completeError("Prediction failed");
-      controller!.resumePreview();
-      return;
+    if (mounted) {
+      context.pushRoute(PredictionRoute(image: imageRaw.readAsBytes()));
     }
-    completer.complete();
-    await controller!.resumePreview();
-    await Future.delayed(
-      Duration(milliseconds: 750),
-    ); // wait for modal to close
-
-    if (!mounted) return;
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      builder: (_) => UploadResultModal(
-        prediction: Map<String, double>.from(
-          jsonDecode(response!.body)["prediction"],
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget previewWidget() => Card.outlined(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: AspectRatio(
-          aspectRatio: 1 / 1,
-          child: CameraPreview(controller!),
-        ),
-      ),
-    );
+    final colorScheme = Theme.of(context).colorScheme;
+    final bottomUpload = WindowSizeClass.of(context) < WindowSizeClass.medium;
+
     Widget errorWidget() => ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: MediaQuery.sizeOf(context).width * 0.7,
@@ -228,17 +142,21 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.device_unknown, size: 48),
-          SizedBox(height: 8),
+          Icon(Icons.question_mark_rounded, size: 48),
+          SizedBox(height: 12),
           Text(
             AppLocalizations.of(context).cameraNotFound,
+            style: TextTheme.of(
+              context,
+            ).titleLarge!.copyWith(height: 1).stylizedInterface,
             textAlign: TextAlign.center,
-            style: TextTheme.of(context).headlineSmall!.copyWith(height: 1),
           ),
+          SizedBox(height: 2),
           Text(
             camerasPermissionDenied
                 ? AppLocalizations.of(context).cameraErrorPermission
                 : AppLocalizations.of(context).cameraErrorUnavailable,
+            style: DefaultTextStyle.of(context).style.stylizedInterface,
             textAlign: TextAlign.center,
             maxLines: 3,
           ),
@@ -253,8 +171,13 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
                   ).cameraErrorUnavailableDescription,
                 ),
               ),
-              icon: Icon(Icons.troubleshoot_outlined),
-              label: Text(AppLocalizations.of(context).cameraErrorTroubleshoot),
+              icon: Icon(Icons.troubleshoot_rounded),
+              label: Builder(
+                builder: (context) => Text(
+                  AppLocalizations.of(context).cameraErrorTroubleshoot,
+                  style: DefaultTextStyle.of(context).style.stylizedInterface,
+                ),
+              ),
             ),
             SizedBox(height: 4),
           ],
@@ -269,82 +192,187 @@ class _UploadPageState extends State<UploadPage> with WidgetsBindingObserver {
                   await camerasInitialize();
                   await loadStoredCamera();
                 },
-                label: Text(AppLocalizations.of(context).retry),
-                icon: Icon(Icons.refresh),
+                label: Builder(
+                  builder: (context) => Text(
+                    AppLocalizations.of(context).retry,
+                    style: DefaultTextStyle.of(context).style.stylizedInterface,
+                  ),
+                ),
+                icon: Icon(Icons.refresh_rounded),
               ),
         ],
       ),
     );
 
-    final widget = Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SizedBox.expand(
+    final content = SizedBox.expand(
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
         child: AnimatedSwitcher(
           duration: Durations.medium1,
-          switchInCurve: Curves.easeInOutCubicEmphasized,
-          switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
+          switchInCurve: Curves.easeInOutCubic,
+          switchOutCurve: Curves.easeInOutCubic.flipped,
           child: !error
               ? controller != null && controller!.value.isInitialized
-                    ? Align(
-                        alignment: Alignment.topCenter,
-                        child: Center(
-                          key: ValueKey("preview"),
-                          heightFactor: 1.2,
-                          child: previewWidget(),
+                    ? GestureDetector(
+                        onDoubleTap: flipCamera,
+                        child: SizedBox.expand(
+                          child: CameraPreview(controller!),
                         ),
                       )
-                    : Center(
+                    : ColoredBox(
                         key: ValueKey("loading"),
-                        child: CircularProgressIndicator(),
+                        color: colorScheme.surfaceContainer,
                       )
               : noCamera
-              ? Center(key: ValueKey("errorCamera"), child: errorWidget())
-              : Center(
+              ? ColoredBox(
+                  key: ValueKey("errorCamera"),
+                  color: colorScheme.surfaceContainer,
+                  child: Center(child: errorWidget()),
+                )
+              : ColoredBox(
                   key: ValueKey("errorUnspecified"),
-                  child: Icon(Icons.error_outline, size: 48),
+                  color: colorScheme.surfaceContainer,
+                  child: Center(
+                    child: Icon(Icons.error_outline_rounded, size: 48),
+                  ),
                 ),
         ),
       ),
-      floatingActionButton: AnimatedSwitcher(
-        duration: Durations.medium1,
-        switchInCurve: Curves.easeInOutCubicEmphasized,
-        switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
-        transitionBuilder: (child, animation) => SlideTransition(
-          position: (Tween<Offset>(
-            begin: Offset(0, 1.1),
-            end: Offset(0, 0),
-          )).animate(animation),
-          child: child,
+    );
+
+    final flipCameraButton = FloatingActionButton(
+      onPressed: flipCamera,
+      heroTag: null,
+      shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: bottomUpload ? colorScheme.surfaceContainer : null,
+      elevation: bottomUpload ? 0 : null,
+      hoverElevation: bottomUpload ? 0 : null,
+      child: RotationTransition(
+        turns: Tween<double>(begin: 0, end: -0.5).animate(
+          CurvedAnimation(
+            parent: flipAnimationController,
+            curve: Curves.easeInOutCubic,
+          ),
         ),
-        child: controller != null
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    onPressed: switchCamera,
-                    child: AnimatedSwitcher(
-                      duration: Durations.medium1,
-                      switchInCurve: Curves.easeInOutCubicEmphasized,
-                      switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
-                      child: Icon(
-                        switch (controller!.description.lensDirection) {
-                          CameraLensDirection.back => Icons.camera_rear,
-                          CameraLensDirection.front => Icons.camera_front,
-                          CameraLensDirection.external => Icons.cameraswitch,
-                        },
+        child: Icon(Icons.cached_rounded),
+      ),
+    );
+
+    final widget = Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          content,
+          IgnorePointer(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: bottomUpload ? 0 : 72,
+                  bottom: 72,
+                ),
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Padding(
+                    padding: EdgeInsets.all(32),
+                    child: SizedBox.expand(
+                      child: CustomPaint(
+                        painter: _UploadGuideCornersPainter(
+                          color: colorScheme.surfaceContainer,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
-                  FloatingActionButton.large(
-                    onPressed: submit,
-                    child: Icon(Icons.camera),
+                ),
+              ),
+            ),
+          ),
+          if (bottomUpload) ...[
+            IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.black.withValues(alpha: 0),
+                      Colors.black.withValues(alpha: 0.75),
+                    ],
+                    stops: [0.75, 1],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                ],
-              )
-            : null,
+                ),
+                child: SizedBox.expand(),
+              ),
+            ),
+            Align(
+              alignment: AlignmentGeometry.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24, left: 48, right: 48),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Flexible(
+                      child: IgnorePointer(
+                        child: Visibility.maintain(
+                          visible: false,
+                          child: flipCameraButton,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: FloatingActionButton.large(
+                        onPressed: submit,
+                        heroTag: null,
+                        shape: CircleBorder(
+                          side: BorderSide(
+                            color: colorScheme.surface,
+                            width: 8,
+                          ),
+                        ),
+                        elevation: 0,
+                        child: Icon(Icons.location_searching_rounded),
+                      ),
+                    ),
+                    Flexible(child: flipCameraButton),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
+      floatingActionButton: !bottomUpload
+          ? AnimatedSwitcher(
+              duration: Durations.medium1,
+              switchInCurve: Curves.easeInOutCubicEmphasized,
+              switchOutCurve: Curves.easeInOutCubicEmphasized.flipped,
+              transitionBuilder: (child, animation) => SlideTransition(
+                position: (Tween<Offset>(
+                  begin: Offset(0, 1.1),
+                  end: Offset(0, 0),
+                )).animate(animation),
+                child: child,
+              ),
+              child: controller != null
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        flipCameraButton,
+                        SizedBox(height: 8),
+                        FloatingActionButton.large(
+                          onPressed: submit,
+                          heroTag: null,
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+                          child: Icon(Icons.camera),
+                        ),
+                      ],
+                    )
+                  : null,
+            )
+          : null,
     );
     return Shortcuts(
       shortcuts: {
@@ -368,390 +396,935 @@ class UploadTriggerAction extends Action<UploadTriggerIntent> {
   void invoke(_) => onUpdate();
 }
 
-class UploadResultModal extends StatefulWidget {
-  final Map<String, double> prediction;
-  const UploadResultModal({super.key, required this.prediction});
+class _UploadGuideCornersPainter extends CustomPainter {
+  final Color color;
+  const _UploadGuideCornersPainter({required this.color});
 
   @override
-  State<UploadResultModal> createState() => _UploadResultModalState();
-}
+  void paint(Canvas canvas, Size size) {
+    const double strokeWidth = 8;
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
 
-class _UploadResultModalState extends State<UploadResultModal> {
-  @override
-  Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-    Widget divider = Center(
-      child: SizedBox(
-        width: 128,
-        child: Padding(
-          padding: EdgeInsets.only(top: 24, bottom: 4),
-          child: Divider(),
-        ),
+    final inset = strokeWidth / 2;
+    final maxRadius = math.min(
+      (size.width - strokeWidth) / 2,
+      (size.height - strokeWidth) / 2,
+    );
+    final radius = math.min(20.0, maxRadius);
+    final armLength = math.min(36.0, maxRadius);
+
+    if (radius <= 0 || armLength <= 0) return;
+
+    final left = inset;
+    final top = inset;
+    final right = size.width - inset;
+    final bottom = size.height - inset;
+
+    canvas.drawLine(
+      Offset(left + radius, top),
+      Offset(left + armLength, top),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(left, top + radius),
+      Offset(left, top + armLength),
+      paint,
+    );
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(left + radius, top + radius),
+        radius: radius,
       ),
+      math.pi,
+      math.pi / 2,
+      false,
+      paint,
     );
 
-    var entries = widget.prediction.entries.toList();
-    if (entries.isEmpty) entries = widget.prediction.entries.toList();
-    entries.sort((a, b) => b.value.compareTo(a.value));
-
-    // https://en.wikipedia.org/wiki/Entropy_(information_theory)
-    final n = entries.length;
-    final entropy =
-        -entries.fold(0.0, (sum, x) {
-          final val = x.value > 0 ? (x.value * math.log(x.value)) : 0.0;
-          return sum + val;
-        }) /
-        math.log(n);
-
-    entries.removeWhere((e) => e.value < 0.01);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      child: DraggableScrollableSheet(
-        minChildSize: 0.575,
-        maxChildSize: 0.94,
-        initialChildSize: 0.575,
-        expand: false,
-        builder: (_, controller) => ListView(
-          controller: controller,
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          children: [
-            SizedBox(height: 16),
-            ListTile(
-              title: Text(
-                appLocalizations.resultTitle,
-                style: TextTheme.of(context).headlineSmall,
-              ),
-            ),
-            SizedBox(height: 4),
-            ...entries
-                .map((e) {
-                  final p1 = entries.first.value;
-                  final p2 = entries.length > 1 ? entries[1].value : 0.0;
-                  final confidenceRatio = p2 > 0
-                      ? ((p1 * 100) / (p2 * 100))
-                      : double.infinity;
-
-                  final isTop =
-                      e == entries.first &&
-                      confidenceRatio >= 2.0 &&
-                      entropy <= 0.85;
-                  final isUnlikely =
-                      !isTop && (e.value <= 0.06 || e.value <= p1 * 0.33);
-
-                  return [
-                    UploadResultWidget(
-                      prediction: e.key,
-                      probability: e.value,
-                      isTop: isTop,
-                      isUnlikely: isUnlikely,
-                    ),
-                    if (isTop && entries.length > 1) divider,
-                  ];
-                })
-                .expand((e) => e),
-            SizedBox(height: 16),
-          ],
-        ),
+    canvas.drawLine(
+      Offset(right - radius, top),
+      Offset(right - armLength, top),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(right, top + radius),
+      Offset(right, top + armLength),
+      paint,
+    );
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(right - radius, top + radius),
+        radius: radius,
       ),
+      -math.pi / 2,
+      math.pi / 2,
+      false,
+      paint,
+    );
+
+    canvas.drawLine(
+      Offset(right, bottom - radius),
+      Offset(right, bottom - armLength),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(right - radius, bottom),
+      Offset(right - armLength, bottom),
+      paint,
+    );
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(right - radius, bottom - radius),
+        radius: radius,
+      ),
+      0,
+      math.pi / 2,
+      false,
+      paint,
+    );
+
+    canvas.drawLine(
+      Offset(left, bottom - radius),
+      Offset(left, bottom - armLength),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(left + radius, bottom),
+      Offset(left + armLength, bottom),
+      paint,
+    );
+    canvas.drawArc(
+      Rect.fromCircle(
+        center: Offset(left + radius, bottom - radius),
+        radius: radius,
+      ),
+      math.pi / 2,
+      math.pi / 2,
+      false,
+      paint,
     );
   }
+
+  @override
+  bool shouldRepaint(_UploadGuideCornersPainter oldDelegate) =>
+      color != oldDelegate.color;
 }
 
-class UploadResultWidget extends StatefulWidget {
-  final String prediction;
-  final double probability;
+// MARK: Prediction screen
 
-  final bool isTop;
-  final bool isUnlikely;
+@RoutePage()
+class PredictionScreen extends StatefulWidget {
+  final Future<Uint8List>? image;
+  final String? prediction;
 
-  const UploadResultWidget({
+  const PredictionScreen({
     super.key,
-    required this.prediction,
-    required this.probability,
-    required this.isTop,
-    required this.isUnlikely,
+    this.image,
+    @QueryParam("p") this.prediction,
   });
 
   @override
-  State<UploadResultWidget> createState() => _UploadResultWidgetState();
+  State<PredictionScreen> createState() => _PredictionScreenState();
 }
 
-class _UploadResultWidgetState extends State<UploadResultWidget>
-    with SingleTickerProviderStateMixin {
-  late final PredictionType _predictionType;
-  late final AnimationController _expandController;
+class _PredictionScreenState extends State<PredictionScreen>
+    with TickerProviderStateMixin {
+  List<MapEntry<String, double>>? _entries;
+  bool? _hasTop;
+
+  bool _noTopReasonEntropy = false;
+  bool _noTopReasonConfidence = false;
+
+  AnimationController? _animationImageExtend;
+  AnimationController? _animationControllerOthers;
 
   @override
   void initState() {
     super.initState();
-    _predictionType = PredictionType.values.firstWhere(
-      (type) => type.name == widget.prediction,
-      orElse: () => PredictionType.residual,
-    );
-    _expandController = AnimationController(
+    List<MapEntry<String, double>>? entries;
+
+    if (widget.image == null) {
+      if (widget.prediction != null) {
+        try {
+          final prediction = utf8.decode(base64.decode(widget.prediction!));
+          final map = Map<String, Object>.from(jsonDecode(prediction));
+          entries = Map<String, double>.from(
+            map["prediction"] as Map,
+          ).entries.toList();
+          if ((entries.fold(0.0, (p, e) => p + e.value) * 100).round() != 100) {
+            throw "Invalid prediction values";
+          }
+        } catch (_) {
+          context.replaceRoute(UploadRoute());
+        }
+      } else {
+        context.replaceRoute(UploadRoute());
+      }
+    }
+
+    _animationImageExtend = AnimationController(
       vsync: this,
       duration: Durations.medium1,
-      value: widget.isTop ? 1.0 : 0.0,
+    );
+    _animationControllerOthers = AnimationController(
+      vsync: this,
+      duration: Durations.medium1,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!widget.isUnlikely &&
-          WindowSizeClass.of(context) >= WindowSizeClass.expanded) {
-        _expandController.forward();
+    () async {
+      late final bool hasTop;
+      Uint8List? queryData;
+
+      await Future.wait([
+        entries != null
+            ? Future.delayed(Durations.long1)
+            : Future.delayed(
+                // random two to three seconds
+                Duration(seconds: 1) * (math.Random().nextDouble() + 2),
+              ),
+        () async {
+          if (entries == null) {
+            final response = await AuthManager.instance.fetch(
+              http.MultipartRequest(
+                  "POST",
+                  Uri.parse("${ApiManager.baseUri}/predict"),
+                )
+                ..files.add(
+                  http.MultipartFile.fromBytes(
+                    "",
+                    await widget.image!,
+                    contentType: http.MediaType.parse("image/png"),
+                  ),
+                ),
+            );
+            if (response == null || response.statusCode != 200) {
+              throw "Unable to interpret server response";
+            }
+
+            queryData = response.bodyBytes;
+            entries = Map<String, double>.from(
+              jsonDecode(response.body)["prediction"],
+            ).entries.toList();
+          }
+
+          entries!.sort((a, b) => b.value.compareTo(a.value));
+
+          // https://en.wikipedia.org/wiki/Entropy_(information_theory)
+          final n = entries!.length;
+          final entropy =
+              -entries!.fold(0.0, (sum, x) {
+                final val = x.value > 0 ? (x.value * math.log(x.value)) : 0.0;
+                return sum + val;
+              }) /
+              math.log(n);
+
+          entries!.removeWhere((e) => e.value < 0.01);
+
+          final p1 = entries!.first.value;
+          final p2 = entries!.length > 1 ? entries![1].value : 0.0;
+          final confidenceRatio = p2 > 0
+              ? ((p1 * 100) / (p2 * 100))
+              : double.infinity;
+
+          hasTop = confidenceRatio >= 2.0 && entropy <= 0.85;
+          _noTopReasonEntropy = entropy > 0.85;
+          _noTopReasonConfidence = confidenceRatio < 2.0;
+
+          final unlikely = entries!
+              .where((e) => e.value <= 0.06 || e.value <= p1 * 0.33)
+              .map((e) => e.key)
+              .toSet();
+          entries!.removeWhere((e) => unlikely.contains(e.key) && hasTop);
+        }(),
+      ]);
+
+      if (mounted && queryData != null) {
+        context.router.navigate(
+          PredictionRoute(prediction: base64.encode(queryData!)),
+        );
+      }
+
+      _entries = entries;
+      _hasTop = hasTop;
+      if (mounted) setState(() {});
+
+      await Future.delayed(Durations.short3);
+      if (hasTop) {
+        _animationImageExtend!.forward();
+      } else {
+        _animationControllerOthers!.forward();
+      }
+    }().onError((e, _) {
+      if (mounted) {
+        context.replaceRoute(UploadRoute());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Prediction failed: ${e.toString()}"),
+            behavior: SnackBarBehavior.floating,
+            width: WindowSizeClass.of(context) > WindowSizeClass.compact
+                ? 360
+                : null,
+            showCloseIcon: true,
+          ),
+        );
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final appLocalizations = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
-    final animation = CurvedAnimation(
-      parent: _expandController,
+    final appLocalizations = AppLocalizations.of(context);
+    final windowSizeClass = WindowSizeClass.of(context);
+
+    final loading = _entries == null;
+    final top = _hasTop == true
+        ? PredictionType.values.byName(_entries!.first.key)
+        : null;
+
+    final animationImageExtend = CurvedAnimation(
+      parent: _animationImageExtend!,
       curve: Curves.easeInOutCubicEmphasized,
-      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
+    );
+    final animationOthers = CurvedAnimation(
+      parent: _animationControllerOthers!,
+      curve: Curves.easeInOutCubic,
+      reverseCurve: Curves.easeInOutCubic.flipped,
     );
 
-    final positiveExamples = _predictionType
-        .examples(appLocalizations)
-        .split(",")
-        .map((e) => e.trim().toHalfTitleCase())
-        .toList();
-    final negativeExamples = _predictionType
-        .negativeExamples(appLocalizations)
-        .split(",")
-        .map((e) => e.trim().toHalfTitleCase())
-        .toList();
-
-    final details = () {
-      final positiveColorScheme = ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-          brightness: theme.brightness,
+    Widget viewLoading() => Center(
+      key: ValueKey("loading"),
+      child: LoadingTextFlipThrough(
+        texts: [
+          appLocalizations.predictionLoadingHint1,
+          appLocalizations.predictionLoadingHint2,
+          appLocalizations.predictionLoadingHint3,
+          appLocalizations.predictionLoadingHint4,
+          appLocalizations.predictionLoadingHint5,
+          appLocalizations.predictionLoadingHint6,
+          appLocalizations.predictionLoadingHint7,
+          appLocalizations.predictionLoadingHint8,
+          appLocalizations.predictionLoadingHint9,
+          appLocalizations.predictionLoadingHint10,
+          appLocalizations.predictionLoadingHint11,
+          appLocalizations.predictionLoadingHint12,
+          appLocalizations.predictionLoadingHint13,
+          appLocalizations.predictionLoadingHint14,
+          appLocalizations.predictionLoadingHint15,
+          appLocalizations.predictionLoadingHint16,
+          appLocalizations.predictionLoadingHint17,
+          appLocalizations.predictionLoadingHint18,
+          appLocalizations.predictionLoadingHint19,
+          appLocalizations.predictionLoadingHint20,
+          appLocalizations.predictionLoadingHint21,
+        ]..shuffle(),
+        style: textTheme.titleMedium!.stylizedDialog.copyWith(
+          color: colorScheme.outline,
         ),
-      ).modified();
-      final negativeColorScheme = ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.red,
-          brightness: theme.brightness,
-        ),
-      ).modified();
-      Widget chip(String example) => Builder(
-        builder: (context) {
-          final colorScheme = ColorScheme.of(context);
-          final label = Text(
-            example,
-            style: DefaultTextStyle.of(
-              context,
-            ).style.copyWith(color: colorScheme.onSecondaryContainer),
-          );
-          return widget.isTop
-              ? ActionChip(
-                  onPressed: () => launchUrl(
-                    Uri.parse(
-                      "https://google.com/search?q=${Uri.encodeComponent("$example ${appLocalizations.predictionExampleSearchSuffix}")}",
-                    ),
-                  ),
-                  label: label,
-                  backgroundColor: colorScheme.secondaryContainer,
-                )
-              : Chip(
-                  label: label,
-                  backgroundColor: colorScheme.secondaryContainer,
-                );
-        },
-      );
-      return ListTile(
-        dense: true,
-        contentPadding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
-        title: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!widget.isTop)
-              Container(
-                width: 16,
-                height: 16,
-                margin: EdgeInsets.only(right: 8, top: 2),
-                child: CustomPaint(
-                  painter: _UploadResultWidgetHierarchy(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: positiveExamples
-                          .map(
-                            (example) => Theme(
-                              data: positiveColorScheme,
-                              child: chip(example),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Flexible(
-                    child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: negativeExamples
-                          .map(
-                            (e) => Theme(
-                              data: negativeColorScheme,
-                              child: chip(e),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }();
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: widget.isTop
-            ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
-            : null,
-        borderRadius: BorderRadius.circular(12),
+        duration: Durations.extralong4,
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        splashFactory: NoSplash.splashFactory,
-        onTap: !widget.isTop && !widget.isUnlikely
-            ? () {
-                if (_expandController.isCompleted) {
-                  _expandController.reverse();
-                } else {
-                  _expandController.forward();
-                }
-              }
-            : null,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              selected: widget.isTop,
-              dense: widget.isUnlikely,
-              textColor: widget.isUnlikely ? theme.disabledColor : null,
-              contentPadding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 2,
-                top: 2,
-              ),
-              title: Transform.translate(
-                offset: widget.isUnlikely ? Offset(0, 0) : Offset(-4, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (!widget.isUnlikely) ...[
-                      Icon(
-                        Icons.delete,
-                        color: _predictionType.color(theme.brightness),
+    );
+    Widget viewResult() => ListView(
+      padding: windowSizeClass.contentPadding(
+        context,
+        verticalExcludeTop: true,
+      ),
+      children: [
+        IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Card.filled(
+                  margin: EdgeInsets.zero,
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(44),
+                  ),
+                  color: colorScheme.primary,
+                  child: Padding(
+                    padding: EdgeInsets.all(24),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _hasTop == true
+                                      ? appLocalizations
+                                            .predictionCategoryPrefix
+                                      : appLocalizations
+                                            .predictionUnknownPrefix,
+                                  style: textTheme.titleSmall!.stylizedDialog
+                                      .copyWith(color: colorScheme.onPrimary),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  top?.title(appLocalizations) ??
+                                      appLocalizations.predictionUnknownSuffix,
+                                  style: textTheme.displaySmall!.stylizedDialog
+                                      .copyWith(
+                                        height: 0.9,
+                                        color: colorScheme.onPrimary,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4),
-                    ],
-                    Expanded(
-                      child: Text(_predictionType.title(appLocalizations)),
-                    ),
-                  ],
-                ),
-              ),
-              subtitle: Text(_predictionType.description(appLocalizations)),
-              trailing: Builder(
-                builder: (context) => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    widget.isUnlikely
-                        ? SizedBox(width: 48)
-                        : CircularProgressIndicator(value: widget.probability),
-                    Text(
-                      NumberFormat.percentPattern(appLocalizations.localeName)
-                          .format(widget.probability)
-                          .replaceAll(RegExp(r"\s+"), ""),
-                      style: DefaultTextStyle.of(context).style.copyWith(
-                        color: widget.isUnlikely
-                            ? theme.disabledColor
-                            : colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizeTransition(
-              sizeFactor: animation,
-              axisAlignment: -1,
-              child: details,
-            ),
-            if (widget.isTop)
-              Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: Card.outlined(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: SizedBox(
-                      height: 199.8,
-                      width: 300,
-                      child: _predictionType.image(),
                     ),
                   ),
                 ),
               ),
-          ],
+              if (windowSizeClass > WindowSizeClass.compact ||
+                  _hasTop == false) ...[
+                SizedBox(width: 8),
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Card.filled(
+                    margin: EdgeInsets.zero,
+                    shape: RoundedSuperellipseBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    color: colorScheme.primaryContainer,
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: SizedBox(
+                        height: double.infinity,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Icon(
+                            _hasTop == true
+                                ? Icons.delete_rounded
+                                : Icons.question_mark_rounded,
+                            color:
+                                top?.color(colorScheme.brightness) ??
+                                colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              if (_hasTop == true) ...[
+                SizedBox(width: 8),
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Card.filled(
+                    margin: EdgeInsets.zero,
+                    shape: RoundedSuperellipseBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    color: colorScheme.primaryContainer,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox.expand(
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: CircularProgressIndicator(
+                              value: _hasTop == true
+                                  ? _entries?.first.value
+                                  : 0,
+                              backgroundColor: colorScheme.onPrimaryContainer
+                                  .withValues(alpha: 0.25),
+                              color: colorScheme.onPrimaryContainer,
+                              strokeWidth: 8,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          NumberFormat.percentPattern(
+                                appLocalizations.localeName,
+                              )
+                              .format(
+                                _hasTop == true ? _entries!.first.value : 0,
+                              )
+                              .replaceAll(RegExp(r"\s+"), ""),
+                          style: textTheme.titleLarge!.stylizedDialog.copyWith(
+                            color: colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
+        if (top != null) ...[
+          SizedBox(height: 8),
+          SizeTransition(
+            sizeFactor: animationImageExtend,
+            axis: Axis.vertical,
+            axisAlignment: 0,
+            child: Card.outlined(
+              margin: EdgeInsets.zero,
+              shape: RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(32),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: top.image(),
+            ),
+          ),
+          SizedBox(height: 8),
+          Card.filled(
+            margin: EdgeInsets.zero,
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(32),
+            ),
+            color: colorScheme.secondaryContainer,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Text(
+                top.description(appLocalizations),
+                style: textTheme.bodyMedium!.stylizedDialog.copyWith(
+                  color: colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Builder(
+            builder: (context) {
+              final children =
+                  [
+                        Card.filled(
+                          margin: EdgeInsets.zero,
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 20,
+                            ),
+                            child: Text.rich(
+                              TextSpan(
+                                children: List.generate(
+                                  top
+                                          .positiveExamples(appLocalizations)
+                                          .split(",")
+                                          .length *
+                                      2,
+                                  (index) {
+                                    if (index.isEven) {
+                                      return WidgetSpan(
+                                        child: Transform.translate(
+                                          offset: Offset(-4, 0),
+                                          child: Icon(
+                                            Icons.check_rounded,
+                                            color: colorScheme.onSurfaceVariant,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      final examples = top
+                                          .positiveExamples(appLocalizations)
+                                          .split(",");
+                                      final example = examples[(index - 1) ~/ 2]
+                                          .trim()
+                                          .toHalfTitleCase();
+                                      return TextSpan(
+                                        text:
+                                            "$example${index == top.positiveExamples(appLocalizations).split(",").length * 2 - 1 ? "" : "\n"}",
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                              style: textTheme.bodyMedium!.stylizedDialog
+                                  .copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8, width: 8),
+                        Card.filled(
+                          margin: EdgeInsets.zero,
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 20,
+                            ),
+                            child: Text.rich(
+                              TextSpan(
+                                children: List.generate(
+                                  top
+                                          .negativeExamples(appLocalizations)
+                                          .split(",")
+                                          .length *
+                                      2,
+                                  (index) {
+                                    if (index.isEven) {
+                                      return WidgetSpan(
+                                        child: Transform.translate(
+                                          offset: Offset(-4, 0),
+                                          child: Icon(
+                                            Icons.close_rounded,
+                                            color: colorScheme.onSurfaceVariant,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      final examples = top
+                                          .negativeExamples(appLocalizations)
+                                          .split(",");
+                                      final example = examples[(index - 1) ~/ 2]
+                                          .trim()
+                                          .toHalfTitleCase();
+                                      return TextSpan(
+                                        text:
+                                            "$example${index == top.positiveExamples(appLocalizations).split(",").length * 2 - 1 ? "" : "\n"}",
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                              style: textTheme.bodyMedium!.stylizedDialog
+                                  .copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ]
+                      .map(
+                        (e) => e is SizedBox
+                            ? e
+                            : windowSizeClass > WindowSizeClass.compact
+                            ? Expanded(child: e)
+                            : SizedBox(width: double.infinity, child: e),
+                      )
+                      .toList();
+              return (windowSizeClass > WindowSizeClass.compact
+                  ? Row.new
+                  : Column.new)(children: children);
+            },
+          ),
+          if (top.note(appLocalizations) != null) ...[
+            SizedBox(height: 8),
+            Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Card.filled(
+                  margin: EdgeInsets.zero,
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  color: colorScheme.secondaryContainer,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 24 * 2 - 16 + 12,
+                      right: 24,
+                      top: 20,
+                      bottom: 20,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        top.note(appLocalizations)!,
+                        style: textTheme.bodyMedium!.stylizedDialog.copyWith(
+                          color: colorScheme.onSecondaryContainer,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset(-16, 0),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colorScheme.surface,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.info_outline_rounded,
+                        color: colorScheme.onSecondaryContainer,
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+        if (_hasTop == false) ...[
+          SizedBox(height: 8),
+          Card.filled(
+            margin: EdgeInsets.zero,
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(32),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Builder(
+                builder: (context) {
+                  final reason = _noTopReasonConfidence && _noTopReasonEntropy
+                      ? appLocalizations.predictionNoTopReasonBoth
+                      : (_noTopReasonConfidence
+                            ? appLocalizations.predictionNoTopReasonTied
+                            : appLocalizations.predictionNoTopReasonSpread);
+                  return Text(
+                    "$reason ${appLocalizations.predictionNoTopTryAgainHint}",
+                    style: textTheme.bodyMedium!.stylizedDialog.copyWith(
+                      color: colorScheme.onPrimaryContainer,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+        if (_entries!.length > (_hasTop! ? 1 : 0)) ...[
+          Padding(
+            padding: EdgeInsets.only(top: 12),
+            child: Transform.translate(
+              offset: const Offset(0, 4),
+              child: InkWell(
+                onTap: () {
+                  if (_animationControllerOthers!.isCompleted) {
+                    _animationControllerOthers!.reverse();
+                  } else {
+                    _animationControllerOthers!.forward();
+                  }
+                },
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                splashFactory: NoSplash.splashFactory,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal:
+                        (Theme.of(
+                              context,
+                            ).listTileTheme.contentPadding?.horizontal ??
+                            8) /
+                        2,
+                  ),
+                  title: Builder(
+                    builder: (context) => Text(
+                      _hasTop == true
+                          ? appLocalizations.predictionOthersPrefix
+                          : appLocalizations.predictionOthersNoTopPrefix,
+                      style: DefaultTextStyle.of(context)
+                          .style
+                          .stylizedInterface
+                          .copyWith(fontWeight: FontWeight(550)),
+                    ),
+                  ),
+                  dense: true,
+
+                  trailing: RotationTransition(
+                    turns: Tween<double>(
+                      begin: 0.25,
+                      end: 0,
+                    ).animate(animationOthers),
+                    child: Icon(Icons.expand_more_rounded),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizeTransition(
+            sizeFactor: animationOthers,
+            axis: Axis.vertical,
+            axisAlignment: -1,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(_entries!.length - 1, (index) {
+                final entry = _entries![_hasTop! ? index + 1 : index];
+                final category = PredictionType.values.byName(entry.key);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Card.outlined(
+                    margin: EdgeInsets.zero,
+                    shape: RoundedSuperellipseBorder(
+                      side: BorderSide(color: colorScheme.outline),
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 20 - 12.8,
+                        bottom: 20 - 10.2,
+                      ),
+                      title: Builder(
+                        builder: (context) => Text(
+                          category.title(appLocalizations),
+                          style: DefaultTextStyle.of(
+                            context,
+                          ).style.stylizedDialog,
+                        ),
+                      ),
+                      subtitle: Builder(
+                        builder: (context) => Text(
+                          category.shortDescription(appLocalizations),
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .stylizedDialog
+                              .copyWith(
+                                fontSize:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium!.fontSize! -
+                                    2,
+                              ),
+                        ),
+                      ),
+                      trailing: Builder(
+                        builder: (context) => Transform.translate(
+                          offset: Offset(0, 12.8 - 10.2),
+                          child: Text(
+                            NumberFormat.percentPattern(
+                                  appLocalizations.localeName,
+                                )
+                                .format(entry.value)
+                                .replaceAll(RegExp(r"\s+"), ""),
+                            style: DefaultTextStyle.of(
+                              context,
+                            ).style.stylizedDialog,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
+      ],
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton.filled(
+          style: IconButton.styleFrom(
+            backgroundColor: colorScheme.surfaceContainerHighest,
+          ),
+          onPressed: () {
+            if (context.router.canPop()) {
+              context.pop();
+            } else {
+              context.replaceRoute(UploadRoute());
+            }
+          },
+          icon: Icon(Icons.arrow_back_rounded),
+        ),
+        title: Text(
+          appLocalizations.predictionTitle,
+          style: TextTheme.of(context).headlineSmall!.stylizedInterface
+              .copyWith(fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
+      ),
+      body: AnimatedSwitcher(
+        duration: Durations.medium4,
+        transitionBuilder: (child, animation) {
+          Widget widget = child;
+
+          if (child.key != const ValueKey("loading")) {
+            final curved = CurveTween(curve: Curves.easeInOutCubicEmphasized);
+            widget = SlideTransition(
+              position: Tween(
+                begin: Offset(0.0, 0.06),
+                end: Offset.zero,
+              ).chain(curved).animate(animation),
+              child: Material(child: widget),
+            );
+          }
+
+          return FadeTransition(opacity: animation, child: widget);
+        },
+        child: loading ? viewLoading() : viewResult(),
       ),
     );
   }
 }
 
-class _UploadResultWidgetHierarchy extends CustomPainter {
-  final Color color;
-  _UploadResultWidgetHierarchy({required this.color});
+class LoadingTextFlipThrough extends StatefulWidget {
+  final List<String> texts;
+  final TextStyle? style;
+  final Duration duration;
+  const LoadingTextFlipThrough({
+    super.key,
+    required this.texts,
+    this.style,
+    this.duration = const Duration(seconds: 2),
+  }) : assert(texts.length > 0, "At least one text must be provided");
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
+  State<LoadingTextFlipThrough> createState() => _LoadingTextFlipThroughState();
+}
 
-    const double offset = 0.5;
-    const double radius = 8.0;
+class _LoadingTextFlipThroughState extends State<LoadingTextFlipThrough> {
+  int index = 0;
+  late final Timer _timer;
 
-    final path = Path()
-      ..moveTo(offset, 0)
-      ..lineTo(offset, size.height - radius)
-      ..quadraticBezierTo(
-        offset,
-        size.height - offset,
-        radius,
-        size.height - offset,
-      )
-      ..lineTo(size.width, size.height - offset);
-
-    canvas.drawPath(path, paint);
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(widget.duration, (_) {
+      index = (index + 1) % widget.texts.length;
+      if (mounted) setState(() {});
+    });
   }
 
   @override
-  bool shouldRepaint(_UploadResultWidgetHierarchy oldDelegate) =>
-      color != oldDelegate.color;
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final current = widget.texts[index];
+    return AnimatedSwitcher(
+      duration: Durations.medium1,
+      switchInCurve: Curves.easeInOutSine,
+      switchOutCurve: Curves.easeInOutSine.flipped,
+      transitionBuilder: (child, animation) {
+        final isCurrent = child.key == ValueKey(index);
+        return SlideTransition(
+          position: Tween(
+            begin: isCurrent ? Offset(0, -0.75) : Offset(0, 0.75),
+            end: Offset.zero,
+          ).animate(animation),
+          child: FadeTransition(opacity: animation, child: child),
+        );
+      },
+      child: Text(
+        key: ValueKey(index),
+        current,
+        style: widget.style,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
 }

@@ -19,7 +19,6 @@ dependencies:
   web: ^1.1.1
   shared_preferences: ^2.5.3
   http: ^1.6.0
-  image: ^4.5.4
   camera: ^0.11.3+1
   url_launcher: ^6.3.2
   markdown_widget: ^2.3.2+8
@@ -33,12 +32,12 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - family: Poppins
+    - family: GoogleSansFlex
       fonts:
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-    - family: GoogleSansCode
+        - asset: assets/fonts/GoogleSansFlex.ttf
+    - family: StrichpunktSans
       fonts:
-        - asset: assets/fonts/GoogleSansCode-Bold.ttf
+        - asset: assets/fonts/StrichpunktSans.ttf
   assets:
     - assets/icon.png
     - assets/banner.png

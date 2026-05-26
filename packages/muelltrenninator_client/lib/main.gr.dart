@@ -9,7 +9,11 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i8;
+import 'dart:typed_data' as _i9;
+
 import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:flutter/material.dart' as _i7;
 import 'package:muelltrenninator_client/main.dart' as _i3;
 import 'package:muelltrenninator_client/screens/error.dart' as _i1;
 import 'package:muelltrenninator_client/screens/login.dart' as _i2;
@@ -110,6 +114,71 @@ class MarkdownDialogTermsOfServiceRoute extends _i6.PageRouteInfo<void> {
       return const _i4.MarkdownDialogTermsOfServicePage();
     },
   );
+}
+
+/// generated route for
+/// [_i5.PredictionScreen]
+class PredictionRoute extends _i6.PageRouteInfo<PredictionRouteArgs> {
+  PredictionRoute({
+    _i7.Key? key,
+    _i8.Future<_i9.Uint8List>? image,
+    String? prediction,
+    List<_i6.PageRouteInfo>? children,
+  }) : super(
+         PredictionRoute.name,
+         args: PredictionRouteArgs(
+           key: key,
+           image: image,
+           prediction: prediction,
+         ),
+         rawQueryParams: {'p': prediction},
+         initialChildren: children,
+       );
+
+  static const String name = 'PredictionRoute';
+
+  static _i6.PageInfo page = _i6.PageInfo(
+    name,
+    builder: (data) {
+      final queryParams = data.queryParams;
+      final args = data.argsAs<PredictionRouteArgs>(
+        orElse: () =>
+            PredictionRouteArgs(prediction: queryParams.optString('p')),
+      );
+      return _i5.PredictionScreen(
+        key: args.key,
+        image: args.image,
+        prediction: args.prediction,
+      );
+    },
+  );
+}
+
+class PredictionRouteArgs {
+  const PredictionRouteArgs({this.key, this.image, this.prediction});
+
+  final _i7.Key? key;
+
+  final _i8.Future<_i9.Uint8List>? image;
+
+  final String? prediction;
+
+  @override
+  String toString() {
+    return 'PredictionRouteArgs{key: $key, image: $image, prediction: $prediction}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! PredictionRouteArgs) return false;
+    return key == other.key &&
+        image == other.image &&
+        prediction == other.prediction;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ image.hashCode ^ prediction.hashCode;
 }
 
 /// generated route for

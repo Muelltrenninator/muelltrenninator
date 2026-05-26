@@ -75,7 +75,7 @@
         "description": "Shown when the camera is unavailable on the device, for example because it is being used by another application or there is a hardware issue.",
         "context": "upload:error"
     },
-    "cameraErrorUnavailableDescription": "# Camera Troubleshoot\n\nDatly right now is unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.",
+    "cameraErrorUnavailableDescription": "# Camera Troubleshoot\n\nDatly is currently unable to access your camera. This can have a variety of causes. The most commons are listed below.\n\n- Another application is using the camera\n\n  - Please close all other applications that might be using the camera and try again.\n\n  - Sometimes other browser tabs can also block the camera, so please also try closing other tabs that might be using the camera.\n\n- Hardware issue or temporary glitch\n\n  - Please check your camera settings to ensure it is properly configured and recognized by your device.\n  - Try restarting your device, as this can often resolve temporary hardware glitches.\n  - If the problem persists, please consult your device documentation or support for further troubleshooting steps.",
     "@cameraErrorUnavailableDescription": {
         "description": "Additional explanation for the camera unavailable error, providing possible causes and troubleshooting steps.",
         "context": "upload:error"
@@ -85,60 +85,9 @@
         "description": "Button text to open the troubleshooting information for camera errors.",
         "context": "upload:error"
     },
-    "selectCamera": "Select camera",
-    "@selectCamera": {
-        "description": "Title for the camera selection dialog.",
-        "context": "upload:cameraSelection"
-    },
-    "selectCameraDescriptionBack": "Back Camera",
-    "@selectCameraDescriptionBack": {
-        "description": "The word 'Back' used to describe a camera facing away from the user. This string is formatted in MLA title case.",
-        "context": "upload:cameraSelection"
-    },
-    "selectCameraDescriptionFront": "Front Camera",
-    "@selectCameraDescriptionFront": {
-        "description": "The word 'Front' used to describe a camera facing towards the user. This string is formatted in MLA title case.",
-        "context": "upload:cameraSelection"
-    },
-    "selectCameraDescriptionExternal": "External Camera",
-    "@selectCameraDescriptionExternal": {
-        "description": "The word 'External' used to describe an external camera. This string is formatted in MLA title case.",
-        "context": "upload:cameraSelection"
-    },
-    "selectCameraMissing": "One missing?",
-    "@selectCameraMissing": {
-        "description": "Text shown when the expected camera is not listed in the camera selection dialog.",
-        "context": "upload:cameraSelection"
-    },
-    "resultTitle": "Image Analysis",
-    "@resultTitle": {
-        "description": "Title for the image analysis result screen.",
-        "context": "upload:result"
-    },
-    "accountOverview": "Account overview",
-    "@accountOverview": {
-        "description": "Accessibility label for the account overview section.",
-        "context": "about"
-    },
-    "accountOverviewFor": "for {username}",
-    "@accountOverviewFor": {
-        "description": "Accessibility label for the account overview section including the username. This must match the `accountOverview` string.",
-        "context": "about",
-        "placeholders": {
-            "username": {
-                "type": "String",
-                "example": "johndoe"
-            }
-        }
-    },
     "aboutAppLearnMore": "Learn more",
     "@aboutAppLearnMore": {
         "description": "Label for a button that leads to more information about the app.",
-        "context": "about"
-    },
-    "aboutAppLogout": "Logout",
-    "@aboutAppLogout": {
-        "description": "Label for a button that logs the user out of the app.",
         "context": "about"
     },
     "aboutThankYou": "Many thanks to Kitan for helping design the app icon!",
@@ -146,84 +95,279 @@
         "description": "A thank you note in the about section of the app.",
         "context": "about"
     },
-    "predictionTypeOrganicTitle": "Organic",
+    "predictionTitle": "Sorting Result",
+    "@predictionTitle": {
+        "description": "Title for the waste category prediction result screen.",
+        "context": "upload:result"
+    },
+    "predictionCategoryPrefix": "I think this is",
+    "@predictionCategoryPrefix": {
+        "description": "Prefix for the predicted waste category.",
+        "context": "upload:result"
+    },
+    "predictionUnknownPrefix": "I’m afraid I’m",
+    "@predictionUnknownPrefix": {
+        "description": "Prefix shown when the prediction result is unknown.",
+        "context": "upload:result"
+    },
+    "predictionUnknownSuffix": "Not sure",
+    "@predictionUnknownSuffix": {
+        "description": "Suffix shown when the prediction result is unknown.",
+        "context": "upload:result"
+    },
+    "predictionOthersPrefix": "Other categories that might fit",
+    "@predictionOthersPrefix": {
+        "description": "Prefix for the list of other possible waste categories that are not the top prediction.",
+        "context": "upload:result"
+    },
+    "predictionOthersNoTopPrefix": "Categories that might fit",
+    "@predictionOthersNoTopPrefix": {
+        "description": "Prefix for the list of possible waste categories when no top prediction was found.",
+        "context": "upload:result"
+    },
+    "predictionNoTopReasonSpread": "The scores are spread too evenly across categories to pick a clear winner.",
+    "@predictionNoTopReasonSpread": {
+        "description": "Explanation shown when no top prediction exists because the probability scores are distributed too evenly (high entropy). Follows the unknown prefix/suffix.",
+        "context": "upload:result"
+    },
+    "predictionNoTopReasonTied": "A few results are too close to call.",
+    "@predictionNoTopReasonTied": {
+        "description": "Explanation shown when no top prediction exists because the first result is not significantly more confident than the second (confidence ratio below 2×). Follows the unknown prefix/suffix.",
+        "context": "upload:result"
+    },
+    "predictionNoTopReasonBoth": "The scores are too spread out, and a few results are nearly tied.",
+    "@predictionNoTopReasonBoth": {
+        "description": "Explanation shown when no top prediction exists because both the entropy is too high and the confidence ratio is too low simultaneously. Follows the unknown prefix/suffix.",
+        "context": "upload:result"
+    },
+    "predictionNoTopTryAgainHint": "Try taking another photo for a better result.",
+    "@predictionNoTopTryAgainHint": {
+        "description": "Hint shown when no top prediction is found, suggesting the user try again with a clearer photo.",
+        "context": "upload:result"
+    },
+    "predictionLoadingHint1": "Hmm, let me take a good look at that…",
+    "@predictionLoadingHint1": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (1 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint2": "Cross-referencing all the bins…",
+    "@predictionLoadingHint2": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (2 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint3": "Taking this one very seriously…",
+    "@predictionLoadingHint3": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (3 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint4": "Weighing up the options…",
+    "@predictionLoadingHint4": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (4 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint5": "Almost there, just double-checking…",
+    "@predictionLoadingHint5": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (5 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint6": "This might be a tricky one…",
+    "@predictionLoadingHint6": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (6 of 7).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint7": "Ooh, interesting one…",
+    "@predictionLoadingHint7": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (7 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint8": "Checking the fine print…",
+    "@predictionLoadingHint8": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (8 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint9": "Putting on my sorting hat…",
+    "@predictionLoadingHint9": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (9 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint10": "Getting a second opinion…",
+    "@predictionLoadingHint10": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (10 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint11": "Squinting just to make sure…",
+    "@predictionLoadingHint11": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (11 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint12": "Hmm, which bin though…",
+    "@predictionLoadingHint12": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (12 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint13": "Let me ask the recycling committee…",
+    "@predictionLoadingHint13": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (13 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint14": "Thinking out loud…",
+    "@predictionLoadingHint14": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (14 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint15": "Giving this my full attention…",
+    "@predictionLoadingHint15": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (15 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint16": "Algorithm is deep in thought…",
+    "@predictionLoadingHint16": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (16 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint17": "Running the numbers…",
+    "@predictionLoadingHint17": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (17 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint18": "Almost convinced, just one more look…",
+    "@predictionLoadingHint18": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (18 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint19": "The bins are counting on me…",
+    "@predictionLoadingHint19": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (19 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint20": "Finding its forever home…",
+    "@predictionLoadingHint20": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (20 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionLoadingHint21": "Making the planet proud…",
+    "@predictionLoadingHint21": {
+        "description": "Cheerful loading hint shown while the AI prediction is being processed (21 of 21).",
+        "context": "upload:loading"
+    },
+    "predictionTypeOrganicTitle": "Organic Waste",
     "@predictionTypeOrganicTitle": {
         "description": "Title for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeOrganicDescription": "Biodegradable waste that comes from plants or animals.",
+    "predictionTypeOrganicDescription": "Biodegradable kitchen and garden waste collected separately for composting or biogas production.",
     "@predictionTypeOrganicDescription": {
         "description": "Description for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeOrganicExamples": "vegetable scraps, garden waste, coffee grounds",
-    "@predictionTypeOrganicExamples": {
+    "predictionTypeOrganicShortDescription": "Food and garden waste that decomposes naturally.",
+    "@predictionTypeOrganicShortDescription": {
+        "description": "Short tagline (max 10 words) for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeOrganicPositiveExamples": "fruit and vegetable peels, coffee grounds, tea leaves, eggshells, wilted flowers, grass clippings",
+    "@predictionTypeOrganicPositiveExamples": {
         "description": "Examples for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeOrganicNegativeExamples": "other food, plastic wrapped items, metals",
+    "predictionTypeOrganicNegativeExamples": "packaging, plastic bags, liquids, diapers, cat litter, glass",
     "@predictionTypeOrganicNegativeExamples": {
         "description": "Negative examples for the organic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeHazardousWasteTitle": "Hazardous Waste",
+    "predictionTypeOrganicNote": "Rules for cooked food, meat, bones, and compostable bags vary locally.",
+    "@predictionTypeOrganicNote": {
+        "description": "Important caveats for the organic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeHazardousWasteTitle": "Special Waste",
     "@predictionTypeHazardousWasteTitle": {
         "description": "Title for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeHazardousWasteDescription": "Waste that contains hazardous materials that require special handling and disposal.",
+    "predictionTypeHazardousWasteDescription": "Items that don’t fit standard household bins and require separate drop-off or special handling.",
     "@predictionTypeHazardousWasteDescription": {
         "description": "Description for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeHazardousWasteExamples": "used batteries, paint cans, fluorescent tubes",
-    "@predictionTypeHazardousWasteExamples": {
+    "predictionTypeHazardousWasteShortDescription": "Harmful items needing special disposal or drop-off.",
+    "@predictionTypeHazardousWasteShortDescription": {
+        "description": "Short tagline (max 10 words) for the hazardous waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeHazardousWastePositiveExamples": "batteries, re­charge­able batteries, leftover paint, solvents, pes­ti­cides, flu­o­res­cent tubes",
+    "@predictionTypeHazardousWastePositiveExamples": {
         "description": "Examples for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeHazardousWasteNegativeExamples": "food scraps, paper products, plastic containers",
+    "predictionTypeHazardousWasteNegativeExamples": "plastic toys, tooth­brush­es, buckets, banana peels, news­pa­pers, yogurt cups",
     "@predictionTypeHazardousWasteNegativeExamples": {
         "description": "Negative examples for the hazardous waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePlasticTitle": "Plastic",
+    "predictionTypeHazardousWasteNote": "",
+    "@predictionTypeHazardousWasteNote": {
+        "description": "Important caveats for the hazardous waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticTitle": "Yellow Bin Packaging",
     "@predictionTypePlasticTitle": {
         "description": "Title for the plastic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePlasticDescription": "Packaging materials made from plastic polymers.",
+    "predictionTypePlasticDescription": "Everyday sales packaging made of plastic, metal, or composite materials, sorted through Germany’s yellow bin system.",
     "@predictionTypePlasticDescription": {
         "description": "Description for the plastic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePlasticExamples": "plastic bottles, wrappers, containers",
-    "@predictionTypePlasticExamples": {
+    "predictionTypePlasticShortDescription": "Packaging made of plastic, metal, or composites.",
+    "@predictionTypePlasticShortDescription": {
+        "description": "Short tagline (max 10 words) for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePlasticPositiveExamples": "yogurt cups, plastic tubs, drink cartons, aluminum lids, tin cans, plastic wrappers",
+    "@predictionTypePlasticPositiveExamples": {
         "description": "Examples for the plastic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePlasticNegativeExamples": "glass items, metal cans, paper products",
+    "predictionTypePlasticNegativeExamples": "plastic toys, tooth­brush­es, elec­tron­ic devices, paper, glass bottles, bulky plastic items",
     "@predictionTypePlasticNegativeExamples": {
         "description": "Negative examples for the plastic prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePaperTitle": "Paper",
+    "predictionTypePlasticNote": "Only packaging belongs here; it should be emptied, not washed spotless.",
+    "@predictionTypePlasticNote": {
+        "description": "Important caveats for the plastic prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperTitle": "Paper & Cardboard",
     "@predictionTypePaperTitle": {
         "description": "Title for the paper prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePaperDescription": "Materials made from wood pulp, such as newspapers and cardboard.",
+    "predictionTypePaperDescription": "Clean, dry paper and cardboard that can be recycled into new paper products.",
     "@predictionTypePaperDescription": {
         "description": "Description for the paper prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePaperExamples": "newspapers, cardboard boxes, magazines",
-    "@predictionTypePaperExamples": {
+    "predictionTypePaperShortDescription": "Clean, dry paper and cardboard for recycling.",
+    "@predictionTypePaperShortDescription": {
+        "description": "Short tagline (max 10 words) for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperPositiveExamples": "news­pa­pers, flyers, shipping boxes, paper bags, notebooks, egg cartons",
+    "@predictionTypePaperPositiveExamples": {
         "description": "Examples for the paper prediction type.",
         "context": "upload:result"
     },
-    "predictionTypePaperNegativeExamples": "plastic-coated items, contaminated paper, tissues",
+    "predictionTypePaperNegativeExamples": "tissues, greasy pizza boxes, coated paper cups, drink cartons, wallpaper, receipts",
     "@predictionTypePaperNegativeExamples": {
         "description": "Negative examples for the paper prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypePaperNote": "Wet or greasy paper goes to residual waste.",
+    "@predictionTypePaperNote": {
+        "description": "Important caveats for the paper prediction type.",
         "context": "upload:result"
     },
     "predictionTypeResidualWasteTitle": "Residual Waste",
@@ -231,24 +375,29 @@
         "description": "Title for the residual waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeResidualWasteDescription": "Non-recyclable waste that cannot be composted or recycled.",
+    "predictionTypeResidualWasteDescription": "Mixed household waste that cannot be recycled or composted, including everyday non-packaging plastic items.",
     "@predictionTypeResidualWasteDescription": {
         "description": "Description for the residual waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeResidualWasteExamples": "contaminated packaging, ceramics, diapers",
-    "@predictionTypeResidualWasteExamples": {
+    "predictionTypeResidualWasteShortDescription": "Mixed waste that doesn’t fit any other bin.",
+    "@predictionTypeResidualWasteShortDescription": {
+        "description": "Short tagline (max 10 words) for the residual waste prediction type.",
+        "context": "upload:result"
+    },
+    "predictionTypeResidualWastePositiveExamples": "diapers, cat litter, sanitary products, broken ceramics, plastic toys, tooth­brush­es",
+    "@predictionTypeResidualWastePositiveExamples": {
         "description": "Examples for the residual waste prediction type.",
         "context": "upload:result"
     },
-    "predictionTypeResidualWasteNegativeExamples": "recyclable materials, organic waste, hazardous waste",
+    "predictionTypeResidualWasteNegativeExamples": "batteries, elec­tron­ic devices, glass bottles, paper, packaging, food scraps",
     "@predictionTypeResidualWasteNegativeExamples": {
         "description": "Negative examples for the residual waste prediction type.",
         "context": "upload:result"
     },
-    "predictionExampleSearchSuffix": "correct disposal",
-    "@predictionExampleSearchSuffix": {
-        "description": "Suffix appended to example search queries to find recycling information.",
+    "predictionTypeResidualWasteNote": "",
+    "@predictionTypeResidualWasteNote": {
+        "description": "Important caveats for the residual waste prediction type.",
         "context": "upload:result"
     }
 }

@@ -107,16 +107,16 @@ enum PredictionType {
             : Colors.deepOrange[400]!;
       case PredictionType.plastic:
         return brightness == Brightness.light
-            ? Colors.amber
+            ? Colors.yellow[800]!
             : Colors.amber[400]!;
       case PredictionType.paper:
         return brightness == Brightness.light
             ? Colors.blueAccent
-            : Colors.blue[600]!;
+            : Colors.lightBlue[400]!;
       case PredictionType.residual:
         return brightness == Brightness.light
             ? Colors.grey[800]!
-            : Colors.blueGrey[600]!;
+            : Colors.blueGrey[400]!;
     }
   }
 
@@ -150,18 +150,33 @@ enum PredictionType {
     }
   }
 
-  String examples(AppLocalizations appLocalizations) {
+  String shortDescription(AppLocalizations appLocalizations) {
     switch (this) {
       case PredictionType.organic:
-        return appLocalizations.predictionTypeOrganicExamples;
+        return appLocalizations.predictionTypeOrganicShortDescription;
       case PredictionType.hazardous:
-        return appLocalizations.predictionTypeHazardousWasteExamples;
+        return appLocalizations.predictionTypeHazardousWasteShortDescription;
       case PredictionType.plastic:
-        return appLocalizations.predictionTypePlasticExamples;
+        return appLocalizations.predictionTypePlasticShortDescription;
       case PredictionType.paper:
-        return appLocalizations.predictionTypePaperExamples;
+        return appLocalizations.predictionTypePaperShortDescription;
       case PredictionType.residual:
-        return appLocalizations.predictionTypeResidualWasteExamples;
+        return appLocalizations.predictionTypeResidualWasteShortDescription;
+    }
+  }
+
+  String positiveExamples(AppLocalizations appLocalizations) {
+    switch (this) {
+      case PredictionType.organic:
+        return appLocalizations.predictionTypeOrganicPositiveExamples;
+      case PredictionType.hazardous:
+        return appLocalizations.predictionTypeHazardousWastePositiveExamples;
+      case PredictionType.plastic:
+        return appLocalizations.predictionTypePlasticPositiveExamples;
+      case PredictionType.paper:
+        return appLocalizations.predictionTypePaperPositiveExamples;
+      case PredictionType.residual:
+        return appLocalizations.predictionTypeResidualWastePositiveExamples;
     }
   }
 
@@ -180,5 +195,25 @@ enum PredictionType {
     }
   }
 
-  Image image() => Image.asset("assets/images/$name.jpg", isAntiAlias: true);
+  String? note(AppLocalizations appLocalizations) {
+    final v = switch (this) {
+      PredictionType.organic => appLocalizations.predictionTypeOrganicNote,
+      PredictionType.hazardous =>
+        appLocalizations.predictionTypeHazardousWasteNote,
+      PredictionType.plastic => appLocalizations.predictionTypePlasticNote,
+      PredictionType.paper => appLocalizations.predictionTypePaperNote,
+      PredictionType.residual =>
+        appLocalizations.predictionTypeResidualWasteNote,
+    };
+
+    if (v.isEmpty) return null;
+    return v;
+  }
+
+  Image image() => Image.asset(
+    "assets/images/$name.jpg",
+    fit: BoxFit.cover,
+    isAntiAlias: true,
+    filterQuality: FilterQuality.medium,
+  );
 }

@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:muelltrenninator/generated/gitbaker.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../api.dart';
 import '../l10n/app_localizations.dart';
-import '../main.gr.dart';
+import '../main.dart';
 
 class TitleBarTitle extends StatelessWidget {
   final GestureTapCallback? onTap;
@@ -19,33 +18,27 @@ class TitleBarTitle extends StatelessWidget {
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
       hoverColor: Colors.transparent,
-      child: Hero(
-        tag: "TitleBarTitle",
-        child: Material(
-          color: Colors.transparent,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                "assets/icon.png",
-                scale: devicePixelRatio,
-                width: theme.iconTheme.size ?? 24,
-                height: theme.iconTheme.size ?? 24,
-                isAntiAlias: true,
-                filterQuality: FilterQuality.high,
+      child: Material(
+        color: Colors.transparent,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              "assets/icon.png",
+              scale: devicePixelRatio,
+              height: theme.iconTheme.size ?? 32,
+              isAntiAlias: true,
+              filterQuality: FilterQuality.high,
+            ),
+            SizedBox(width: 8),
+            Builder(
+              builder: (context) => Text(
+                "Mülltrenninator",
+                style: TextTheme.of(context).headlineMedium!.stylizedInterface
+                    .copyWith(fontWeight: FontWeight.w600),
               ),
-              SizedBox(width: 4),
-              Builder(
-                builder: (context) => Text(
-                  "Mülltrenninator",
-                  style: DefaultTextStyle.of(context).style.copyWith(
-                    fontFamily: "Poppins",
-                    fontSize: TextTheme.of(context).titleLarge?.fontSize,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -59,105 +52,81 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     precacheImage(AssetImage("assets/icon.png"), context);
-    final username = AuthManager.instance.username;
-    final avatar = username != null
-        ? () {
-            final colorScheme = ColorScheme.fromSeed(
-              seedColor: HSVColor.fromAHSV(
-                1.0,
-                (username.hashCode % 360).toDouble(),
-                0.75 + (((username.hashCode >> 3) % 25) / 100.0),
-                0.85 + (((username.hashCode >> 7) % 15) / 100.0),
-              ).toColor(),
-              dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
-              brightness: Theme.brightnessOf(context),
-            );
-            return CircleAvatar(
-              backgroundColor: colorScheme.secondaryContainer,
-              child: Text(
-                initialsFromUsername(username),
-                style: TextStyle(color: colorScheme.onSecondaryContainer),
-              ),
-            );
-          }()
-        : null;
-
     return AppBar(
       automaticallyImplyLeading: false,
-      title: TitleBarTitle(onTap: () => context.navigateTo(MainRoute())),
+      title: TitleBarTitle(
+        // onTap: () => context.navigateTo(MainRoute())
+      ),
+      centerTitle: true,
       backgroundColor: backgroundColor,
       actions: [
-        if (avatar != null)
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: Semantics(
-              button: true,
-              label:
-                  "${AppLocalizations.of(context).accountOverview}${username != null ? " ${AppLocalizations.of(context).accountOverviewFor(username)}" : ""}",
-              child: Tooltip(
-                message: username ?? "Account",
-                child: InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse(
-                      "https://datly.con.bz/submissions?user=${Uri.encodeComponent(username!)}",
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(100),
-                  child: Padding(
-                    padding: EdgeInsetsGeometry.all(1),
-                    child: avatar,
-                  ),
+        Theme(
+          data: Theme.of(context).copyWith(
+            textTheme: TextTheme.of(context)
+                .apply(fontFamily: "GoogleSansFlex")
+                .copyWith(
+                  bodyMedium: TextTheme.of(context).bodyMedium!.stylizedDialog,
+                  bodySmall: TextTheme.of(context).bodySmall!.stylizedDialog,
+                  bodyLarge: TextTheme.of(context).bodyLarge!.stylizedDialog,
+                  headlineSmall: TextTheme.of(context)
+                      .headlineSmall!
+                      .stylizedInterface
+                      .copyWith(fontWeight: FontWeight.w600),
+                  labelLarge: TextTheme.of(
+                    context,
+                  ).labelLarge!.stylizedInterface,
                 ),
+          ),
+          child: Builder(
+            builder: (context) => IconButton(
+              onPressed: () => showAboutDialog(
+                context: context,
+                applicationName: "Mülltrenninator",
+                applicationVersion:
+                    "${GitBaker.currentBranch.name}"
+                            "@${GitBaker.currentBranch.commits.last.hashAbbreviated} "
+                            "${GitBaker.workspace.isNotEmpty ? "(${gitBakerWorkspaceFormat(GitBaker.workspace)})" : ""}"
+                        .trim(),
+                applicationIcon: Image.asset(
+                  "assets/icon.png",
+                  height: 84,
+                  isAntiAlias: true,
+                  filterQuality: FilterQuality.high,
+                ),
+                applicationLegalese: "© 2025–2026 JHubi1. All rights reserved.",
+                children: [
+                  SizedBox(height: 24),
+                  ListTile(
+                    onTap: () => launchUrl(
+                      Uri.parse("https://github.com/Muelltrenninator"),
+                    ),
+                    leading: Icon(Icons.call_made_rounded),
+                    title: Text(AppLocalizations.of(context).aboutAppLearnMore),
+                  ),
+                  SizedBox(height: 12),
+                  ListTile(
+                    onTap: () =>
+                        context.pushRoute(MarkdownDialogTermsOfServiceRoute()),
+                    leading: Icon(Icons.description_rounded),
+                    title: Text(AppLocalizations.of(context).termsOfService),
+                  ),
+                  ListTile(
+                    onTap: () =>
+                        context.pushRoute(MarkdownDialogPrivacyPolicyRoute()),
+                    leading: Icon(Icons.privacy_tip_rounded),
+                    title: Text(AppLocalizations.of(context).privacyPolicy),
+                  ),
+                  ListTile(
+                    onTap: () =>
+                        context.pushRoute(MarkdownDialogImprintRoute()),
+                    leading: Icon(Icons.gavel_rounded),
+                    title: Text(AppLocalizations.of(context).imprint),
+                  ),
+                ],
               ),
+              icon: Icon(Icons.question_mark_rounded),
             ),
           ),
-        IconButton(
-          onPressed: () => showAboutDialog(
-            context: context,
-            applicationName: "Mülltrenninator",
-            applicationVersion:
-                "${GitBaker.currentBranch.name}"
-                        "@${GitBaker.currentBranch.commits.last.hashAbbreviated} "
-                        "${GitBaker.workspace.isNotEmpty ? "(${gitBakerWorkspaceFormat(GitBaker.workspace)})" : ""}"
-                    .trim(),
-            applicationIcon: Image.asset(
-              "assets/icon.png",
-              width: 72,
-              height: 72,
-              isAntiAlias: true,
-              filterQuality: FilterQuality.high,
-            ),
-            applicationLegalese: "© 2025–2026 JHubi1. All rights reserved.",
-            children: [
-              SizedBox(height: 24),
-              ListTile(
-                onTap: () =>
-                    launchUrl(Uri.parse("https://github.com/Muelltrenninator")),
-                leading: Icon(Icons.open_in_new),
-                title: Text(AppLocalizations.of(context).aboutAppLearnMore),
-              ),
-              SizedBox(height: 12),
-              ListTile(
-                onTap: () =>
-                    context.pushRoute(MarkdownDialogTermsOfServiceRoute()),
-                leading: Icon(Icons.description_outlined),
-                title: Text(AppLocalizations.of(context).termsOfService),
-              ),
-              ListTile(
-                onTap: () =>
-                    context.pushRoute(MarkdownDialogPrivacyPolicyRoute()),
-                leading: Icon(Icons.privacy_tip_outlined),
-                title: Text(AppLocalizations.of(context).privacyPolicy),
-              ),
-              ListTile(
-                onTap: () => context.pushRoute(MarkdownDialogImprintRoute()),
-                leading: Icon(Icons.gavel_outlined),
-                title: Text(AppLocalizations.of(context).imprint),
-              ),
-            ],
-          ),
-          icon: Icon(Icons.info_outline),
-          tooltip: "About",
         ),
         SizedBox(width: 8),
       ],

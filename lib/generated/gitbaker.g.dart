@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-04-11T22:41:30
+/// Last generated: 2026-04-11T22:48:53
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -427,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 21,
+      revision: 22,
       ahead: 0,
       behind: 0,
       commits: [
@@ -452,6 +452,7 @@ final class GitBaker {
         "98bf90c3f7e55cece51925199e9ce86e7c3dcfee",
         "448356a46e856dc2f9f01e35cd638b5a8a7d684f",
         "a8ac2e5aab4cad54cdae3fe11e5016bb23f7e56c",
+        "229cd34a27523c47766d7165c26ee498fdaea743",
       ],
     ),
   ];
@@ -651,6 +652,15 @@ final class GitBaker {
       hashAbbreviated: "a8ac2e5",
       message: "Improved error handling",
       date: DateTime.parse("2026-04-11T20:40:40.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "229cd34a27523c47766d7165c26ee498fdaea743",
+      hashAbbreviated: "229cd34",
+      message: "Status modal fix",
+      date: DateTime.parse("2026-04-11T20:48:37.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

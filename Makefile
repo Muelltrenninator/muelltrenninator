@@ -14,7 +14,7 @@ FLUTTER := flutter
 DOCKER := docker
 
 ifeq ($(IS_WINDOWS),Windows_NT)
-	COPY_CMD := xcopy /E /I /Y
+	COPY_CMD := xcopy //E //I //Y
 # xcopy expects backslashes; convert when used
 	CLIENT_BUILD_WIN := $(subst /,\\,$(CLIENT_BUILD))
 	SERVER_PUBLIC_WIN := $(subst /,\\,$(SERVER_PUBLIC))

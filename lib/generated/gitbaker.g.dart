@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-04-11T22:48:53
+/// Last generated: 2026-08-19T17:26:00
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -409,7 +409,25 @@ final class GitBaker {
   /// List of uncommitted changes in the working tree of the repository.
   static final List<WorkspaceEntry> workspace = List.unmodifiable([
     WorkspaceEntryChange._(
+      "Makefile",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
       "lib/generated/gitbaker.g.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/lib/screens/upload.dart",
       status: WorkspaceEntryStatus._fromLetters(".", "M"),
       submoduleState: WorkspaceEntrySubmoduleState._(
         commitChanged: false,
@@ -427,7 +445,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 22,
+      revision: 23,
       ahead: 0,
       behind: 0,
       commits: [
@@ -453,6 +471,7 @@ final class GitBaker {
         "448356a46e856dc2f9f01e35cd638b5a8a7d684f",
         "a8ac2e5aab4cad54cdae3fe11e5016bb23f7e56c",
         "229cd34a27523c47766d7165c26ee498fdaea743",
+        "aff2fde320b4122a3ef98ae626cf386de6c59e18",
       ],
     ),
   ];
@@ -661,6 +680,15 @@ final class GitBaker {
       hashAbbreviated: "229cd34",
       message: "Status modal fix",
       date: DateTime.parse("2026-04-11T20:48:37.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "aff2fde320b4122a3ef98ae626cf386de6c59e18",
+      hashAbbreviated: "aff2fde",
+      message: "Massive design overhaul",
+      date: DateTime.parse("2026-05-26T22:13:33.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

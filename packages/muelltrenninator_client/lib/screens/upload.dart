@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:js_interop';
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:web/web.dart' as web;
 
 import '../api.dart';
 import '../l10n/app_localizations.dart';
@@ -23,13 +26,18 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage>
-    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   int cameraIndex = 0;
   CameraController? controller;
+
+  bool flashAvailable = false;
+  FlashMode flashMode = FlashMode.off;
 
   bool error = false;
   bool noCamera = false;
 
+  late final AnimationController flashAnimationController;
+  late final AnimationController flashColorAnimationController;
   late final AnimationController flipAnimationController;
 
   @override
@@ -37,6 +45,14 @@ class _UploadPageState extends State<UploadPage>
     super.initState();
     camerasInitialize().then((_) => loadStoredCamera());
 
+    flashAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.medium1,
+    );
+    flashColorAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.medium1,
+    );
     flipAnimationController = AnimationController(
       vsync: this,
       duration: Durations.medium1,
@@ -98,11 +114,62 @@ class _UploadPageState extends State<UploadPage>
       enableAudio: false,
     );
 
-    await controller!.initialize().onError((_, _) {
+    await controller!.initialize().catchError((_, _) {
       error = true;
       if (mounted) setState(() {});
     });
+
+    try {
+      await controller!.setFlashMode(flashMode);
+      flashAvailable = true;
+    } on CameraException catch (_) {
+      flashAvailable = false;
+    } on Error catch (e) {
+      if (kIsWeb) {
+        // workaround for unhandled error in `camera_web` package
+        flashAvailable = false;
+        web.console.error("Flash error: $e (${e.runtimeType})".jsify());
+        web.console.error(e.stackTrace.toString().jsify());
+      } else {
+        rethrow;
+      }
+    }
+
     if (!error && mounted) setState(() {});
+  }
+
+  void flashCamera() async {
+    final oldFlashMode = flashMode;
+    final nextFlash = switch (oldFlashMode) {
+      FlashMode.off => FlashMode.torch,
+      FlashMode.torch => FlashMode.off,
+      _ => FlashMode.off,
+    };
+
+    try {
+      flashMode = nextFlash;
+      await controller?.setFlashMode(flashMode);
+      flashAvailable = true;
+    } on CameraException catch (_) {
+      flashMode = oldFlashMode;
+      flashAvailable = false;
+    } on Error catch (e) {
+      if (kIsWeb) {
+        // workaround for unhandled error in `camera_web` package
+        flashMode = oldFlashMode;
+        flashAvailable = false;
+        web.console.error("Flash error: $e (${e.runtimeType})".jsify());
+        web.console.error(e.stackTrace.toString().jsify());
+      } else {
+        rethrow;
+      }
+    }
+
+    flashAnimationController.forward(from: 0);
+    nextFlash == FlashMode.torch
+        ? flashColorAnimationController.forward(from: 0)
+        : flashColorAnimationController.reverse(from: 1);
+    if (mounted) setState(() {});
   }
 
   void flipCamera() async {
@@ -240,6 +307,86 @@ class _UploadPageState extends State<UploadPage>
       ),
     );
 
+    Widget flashButton = RotationTransition(
+      turns:
+          TweenSequence([
+            TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.04), weight: 1),
+            TweenSequenceItem(tween: Tween(begin: -0.04, end: 0.04), weight: 2),
+            TweenSequenceItem(tween: Tween(begin: 0.04, end: 0.0), weight: 1),
+          ]).animate(
+            CurvedAnimation(
+              parent: flashAnimationController,
+              curve: Curves.bounceInOut,
+            ),
+          ),
+      child: AnimatedBuilder(
+        animation: flashColorAnimationController,
+        builder: (context, _) => FloatingActionButton(
+          onPressed: flashAvailable ? flashCamera : null,
+          heroTag: null,
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          foregroundColor: bottomUpload
+              ? ColorTween(
+                  begin: colorScheme.onSurface,
+                  end: colorScheme.onPrimary,
+                ).evaluate(
+                  CurvedAnimation(
+                    parent: flashColorAnimationController,
+                    curve: Interval(
+                      0.25,
+                      1,
+                      curve: Curves.easeInOutCubicEmphasized,
+                    ),
+                    reverseCurve: Interval(
+                      0,
+                      0.75,
+                      curve: Curves.easeInOutCubicEmphasized.flipped,
+                    ),
+                  ),
+                )
+              : null,
+          backgroundColor: bottomUpload
+              ? ColorTween(
+                  begin: colorScheme.surfaceContainer,
+                  end: colorScheme.primary,
+                ).evaluate(
+                  CurvedAnimation(
+                    parent: flashColorAnimationController,
+                    curve: Interval(
+                      0.25,
+                      1,
+                      curve: Curves.easeInOutCubicEmphasized,
+                    ),
+                    reverseCurve: Interval(
+                      0,
+                      0.75,
+                      curve: Curves.easeInOutCubicEmphasized.flipped,
+                    ),
+                  ),
+                )
+              : null,
+          elevation: bottomUpload ? 0 : null,
+          hoverElevation: bottomUpload ? 0 : null,
+          child: Icon(
+            flashAvailable
+                ? Icons.flashlight_on_rounded
+                : Icons.no_flash_outlined,
+          ),
+        ),
+      ),
+    );
+    if (!flashAvailable && !kDebugMode) {
+      flashButton = IgnorePointer(
+        child: Focus(
+          descendantsAreFocusable: false,
+          canRequestFocus: false,
+          child: Visibility.maintain(visible: false, child: flashButton),
+        ),
+      );
+    }
+
     final flipCameraButton = FloatingActionButton(
       onPressed: flipCamera,
       heroTag: null,
@@ -311,14 +458,7 @@ class _UploadPageState extends State<UploadPage>
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Flexible(
-                      child: IgnorePointer(
-                        child: Visibility.maintain(
-                          visible: false,
-                          child: flipCameraButton,
-                        ),
-                      ),
-                    ),
+                    Flexible(child: flashButton),
                     Expanded(
                       child: FloatingActionButton.large(
                         onPressed: submit,

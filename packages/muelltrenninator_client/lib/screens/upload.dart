@@ -124,15 +124,6 @@ class _UploadPageState extends State<UploadPage>
       flashAvailable = true;
     } on CameraException catch (_) {
       flashAvailable = false;
-    } on Error catch (e) {
-      if (kIsWeb) {
-        // workaround for unhandled error in `camera_web` package
-        flashAvailable = false;
-        web.console.error("Flash error: $e (${e.runtimeType})".jsify());
-        web.console.error(e.stackTrace.toString().jsify());
-      } else {
-        rethrow;
-      }
     }
 
     if (!error && mounted) setState(() {});
@@ -153,16 +144,6 @@ class _UploadPageState extends State<UploadPage>
     } on CameraException catch (_) {
       flashMode = oldFlashMode;
       flashAvailable = false;
-    } on Error catch (e) {
-      if (kIsWeb) {
-        // workaround for unhandled error in `camera_web` package
-        flashMode = oldFlashMode;
-        flashAvailable = false;
-        web.console.error("Flash error: $e (${e.runtimeType})".jsify());
-        web.console.error(e.stackTrace.toString().jsify());
-      } else {
-        rethrow;
-      }
     }
 
     flashAnimationController.forward(from: 0);

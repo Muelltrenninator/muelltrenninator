@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-08-19T17:26:00
+/// Last generated: 2026-09-10T21:19:25
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -409,15 +409,6 @@ final class GitBaker {
   /// List of uncommitted changes in the working tree of the repository.
   static final List<WorkspaceEntry> workspace = List.unmodifiable([
     WorkspaceEntryChange._(
-      "Makefile",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
       "lib/generated/gitbaker.g.dart",
       status: WorkspaceEntryStatus._fromLetters(".", "M"),
       submoduleState: WorkspaceEntrySubmoduleState._(
@@ -427,7 +418,25 @@ final class GitBaker {
       ),
     ),
     WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/analysis_options.yaml",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
       "packages/muelltrenninator_client/lib/screens/upload.dart",
+      status: WorkspaceEntryStatus._fromLetters(".", "M"),
+      submoduleState: WorkspaceEntrySubmoduleState._(
+        commitChanged: false,
+        hasTrackedChanges: false,
+        hasUntrackedChanges: false,
+      ),
+    ),
+    WorkspaceEntryChange._(
+      "packages/muelltrenninator_client/pubspec.yaml",
       status: WorkspaceEntryStatus._fromLetters(".", "M"),
       submoduleState: WorkspaceEntrySubmoduleState._(
         commitChanged: false,
@@ -445,8 +454,8 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 23,
-      ahead: 0,
+      revision: 24,
+      ahead: 1,
       behind: 0,
       commits: [
         "22f43fc620924e6cef9c6a214251d942e6f0747d",
@@ -472,6 +481,7 @@ final class GitBaker {
         "a8ac2e5aab4cad54cdae3fe11e5016bb23f7e56c",
         "229cd34a27523c47766d7165c26ee498fdaea743",
         "aff2fde320b4122a3ef98ae626cf386de6c59e18",
+        "061bb70d6ca4e32cb264d7b12713ef0b403432d1",
       ],
     ),
   ];
@@ -689,6 +699,15 @@ final class GitBaker {
       hashAbbreviated: "aff2fde",
       message: "Massive design overhaul",
       date: DateTime.parse("2026-05-26T22:13:33.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "061bb70d6ca4e32cb264d7b12713ef0b403432d1",
+      hashAbbreviated: "061bb70",
+      message: "Flash button 1",
+      date: DateTime.parse("2026-09-10T19:06:39.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",

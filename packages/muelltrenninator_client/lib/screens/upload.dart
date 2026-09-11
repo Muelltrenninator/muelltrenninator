@@ -156,17 +156,23 @@ class _UploadPageState extends State<UploadPage>
   void flipCamera() async {
     final availableCameras = await cameras.future;
     if (availableCameras.length < 2 ||
-        controller?.value.isInitialized == false ||
+        !(controller?.value.isInitialized ?? false) ||
         !mounted) {
       return;
     }
+
+    final controllerTmp = controller;
 
     cameraIndex = (cameraIndex + 1) % availableCameras.length;
     prefs.setInt("camera", cameraIndex);
     controller = null;
     if (mounted) setState(() {});
 
-    controller?.dispose();
+    try {
+      if (flashAvailable) await controllerTmp?.setFlashMode(.off);
+    } finally {
+      await controllerTmp?.dispose();
+    }
     flipAnimationController.forward(from: 0);
     await _initializeCameraController(availableCameras[cameraIndex]);
   }

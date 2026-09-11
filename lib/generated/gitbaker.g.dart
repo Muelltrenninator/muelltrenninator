@@ -8,7 +8,7 @@
 /// See <https://pub.dev/packages/gitbaker> for more information. To update or
 /// regenerate this file, run `dart run gitbaker` somewhere in this repository.
 ///
-/// Last generated: 2026-09-10T21:19:25
+/// Last generated: 2026-09-11T14:12:56
 library;
 
 enum RemoteType { fetch, push, unknown }
@@ -417,33 +417,6 @@ final class GitBaker {
         hasUntrackedChanges: false,
       ),
     ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/analysis_options.yaml",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/lib/screens/upload.dart",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
-    WorkspaceEntryChange._(
-      "packages/muelltrenninator_client/pubspec.yaml",
-      status: WorkspaceEntryStatus._fromLetters(".", "M"),
-      submoduleState: WorkspaceEntrySubmoduleState._(
-        commitChanged: false,
-        hasTrackedChanges: false,
-        hasUntrackedChanges: false,
-      ),
-    ),
   ]);
 
   /// All branches in the repository.
@@ -454,7 +427,7 @@ final class GitBaker {
   static const List<Branch> branches = [
     Branch._(
       name: "main",
-      revision: 24,
+      revision: 26,
       ahead: 1,
       behind: 0,
       commits: [
@@ -482,6 +455,8 @@ final class GitBaker {
         "229cd34a27523c47766d7165c26ee498fdaea743",
         "aff2fde320b4122a3ef98ae626cf386de6c59e18",
         "061bb70d6ca4e32cb264d7b12713ef0b403432d1",
+        "449d22e8903db50a48e01d116c8c6b195f09cafc",
+        "b0a745fa1da12b068b157b22cabc802358abfd08",
       ],
     ),
   ];
@@ -708,6 +683,24 @@ final class GitBaker {
       hashAbbreviated: "061bb70",
       message: "Flash button 1",
       date: DateTime.parse("2026-09-10T19:06:39.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "449d22e8903db50a48e01d116c8c6b195f09cafc",
+      hashAbbreviated: "449d22e",
+      message: "Flash button 2",
+      date: DateTime.parse("2026-09-10T19:29:17.000Z"),
+      signed: true,
+      author: "me@jhubi1.com",
+      committer: "me@jhubi1.com",
+    ),
+    Commit._(
+      "b0a745fa1da12b068b157b22cabc802358abfd08",
+      hashAbbreviated: "b0a745f",
+      message: "Turns flash off on camera flip",
+      date: DateTime.parse("2026-09-11T12:12:00.000Z"),
       signed: true,
       author: "me@jhubi1.com",
       committer: "me@jhubi1.com",
